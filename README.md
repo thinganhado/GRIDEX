@@ -3,4 +3,4 @@
 This is the official repository of our work  
 **“GRIDEX: Grid-Grounded Forensic Explanations for Deepfake Spectrogram Analysis”**.
 
-The data and code will be released upon acceptance of the paper.
+The code will be released upon acceptance of the paper.
