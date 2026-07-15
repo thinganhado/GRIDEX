@@ -1,0 +1,242 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_common.sh"
+require_swift
+
+# ===== User-settable =====
+# Base model is the SFT-2 merged checkpoint.
+# GRPO-2 trains a new LoRA adapter on top of this fixed base model.
+BASE_MODEL_ID="${BASE_MODEL_ID:-${OUTPUT_ROOT}/sft2_merged}"
+GRPO2_GT_JSON_IN="${GRPO2_GT_JSON_IN:-${DATA_ROOT}/processed/grpo2_gt_swift.json}"
+GRPO2_PRED_JSON_IN="${GRPO2_PRED_JSON_IN:-${DATA_ROOT}/processed/grpo2_pred_aligned.json}"
+GRPO2_GT_JSON_SWIFT="${GRPO2_GT_JSON_SWIFT:-${DATA_ROOT}/processed/grpo2_gt_swift.json}"
+GRPO2_PRED_JSON_SWIFT="${GRPO2_PRED_JSON_SWIFT:-${DATA_ROOT}/processed/grpo2_pred_aligned_swift.json}"
+GRPO2_GT_PREBUILT="${GRPO2_GT_PREBUILT:-1}"
+GRPO2_PRED_PREBUILT="${GRPO2_PRED_PREBUILT:-1}"
+GRPO2_RESUME_CHECKPOINT="${GRPO2_RESUME_CHECKPOINT:-}"
+OUTPUT_DIR_BASE="${OUTPUT_DIR_BASE:-${OUTPUT_ROOT}/grpo2_curriculum}"
+RUN_TAG="${RUN_TAG:-v0-$(date +%Y%m%d-%H%M%S)}"
+OUTPUT_DIR="${OUTPUT_DIR:-${OUTPUT_DIR_BASE%/}/${RUN_TAG}}"
+SYSTEM_PROMPT="${SYSTEM_PROMPT:-You are an expert in deepfake speech spectrogram forensics.
+
+You are given a spectrogram and transcript. You have already selected exactly 3 region IDs, in order: ID1, ID2, ID3.
+For each ID, infer timing information (T), frequency band (F), phonetic category (P), and a visual description of the artifact and the likely audio impact implied by the artificial signs (En).
+
+OUTPUT FORMAT (must follow exactly):
+(T1=..., F1=..., P1=..., En1=\"...\"); (T2=..., F2=..., P2=..., En2=\"...\"); (T3=..., F3=..., P3=..., En3=\"...\")
+
+Field definitions:
+- Fields ending in 1, 2, and 3 correspond to ID1, ID2, and ID3 respectively.
+- T: one of {speech, non-speech\}
+- F: one of {low, mid, high\}
+- P: one of {consonant, vowel, none\}. Use none when the region is outside aligned speech and no phone can be assigned.
+- En: textual description, must be enclosed in double quotes.
+
+Do not output any other text outside the three tuples.}"
+
+WARMUP_EPOCHS="${WARMUP_EPOCHS:-1}"
+PHASE_B_EPOCHS="${PHASE_B_EPOCHS:-5}"
+WARMUP_MAX_STEPS="${WARMUP_MAX_STEPS:--1}"
+TOTAL_MAX_STEPS="${TOTAL_MAX_STEPS:--1}"
+USE_PRED_PHASE="${USE_PRED_PHASE:-1}"
+PRED_ONLY="${PRED_ONLY:-0}"
+
+NPROC_PER_NODE="${NPROC_PER_NODE:-4}"
+CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3}"
+USE_VLLM="${USE_VLLM:-true}"
+VLLM_MODE="${VLLM_MODE:-colocate}"
+VLLM_TP="${VLLM_TP:-1}"
+VLLM_GPU_MEMORY_UTILIZATION="${VLLM_GPU_MEMORY_UTILIZATION:-0.85}"
+SLEEP_LEVEL="${SLEEP_LEVEL:-1}"
+NUM_GENERATIONS="${NUM_GENERATIONS:-8}"
+INTERSPEECH_DEBUG_REWARD="${INTERSPEECH_DEBUG_REWARD:-0}"
+INTERSPEECH_DEBUG_SAMPLES="${INTERSPEECH_DEBUG_SAMPLES:-8}"
+INTERSPEECH_LOG_EVERY_STEPS="${INTERSPEECH_LOG_EVERY_STEPS:-1}"
+INTERSPEECH_GROUP_SIZE="${INTERSPEECH_GROUP_SIZE:-8}"
+GRPO_P2_RETRY_MISSING_FIELDS="${GRPO_P2_RETRY_MISSING_FIELDS:-0}"
+GRPO_P2_MAX_RETRIES="${GRPO_P2_MAX_RETRIES:-0}"
+TMPDIR_BASE="${TMPDIR_BASE:-/tmp/${USER:-user}_mswift_q2}"
+
+mkdir -p "${CACHE_ROOT}/triton" "${CACHE_ROOT}/torch_extensions" "${CACHE_ROOT}/hf" \
+  "${CACHE_ROOT}/xdg_cache" "${CACHE_ROOT}/modelscope" "${CACHE_ROOT}/datasets" \
+  "${CACHE_ROOT}/vllm" "${CACHE_ROOT}/flashinfer" "${TMPDIR_BASE}"
+export TRITON_CACHE_DIR="${CACHE_ROOT}/triton"
+export TORCH_EXTENSIONS_DIR="${CACHE_ROOT}/torch_extensions"
+export HF_HOME="${CACHE_ROOT}/hf"
+export TRANSFORMERS_CACHE="${HF_HOME}/transformers"
+export HUGGINGFACE_HUB_CACHE="${HF_HOME}/hub"
+export HF_DATASETS_CACHE="${CACHE_ROOT}/datasets"
+export DATASETS_CACHE="${CACHE_ROOT}/datasets"
+export MODELSCOPE_CACHE="${CACHE_ROOT}/modelscope"
+export XDG_CACHE_HOME="${CACHE_ROOT}/xdg_cache"
+export VLLM_CONFIG_ROOT="${CACHE_ROOT}/vllm"
+export VLLM_NO_USAGE_STATS="${VLLM_NO_USAGE_STATS:-1}"
+export FLASHINFER_WORKSPACE_BASE="${CACHE_ROOT}"
+export FLASHINFER_WORKSPACE_DIR="${CACHE_ROOT}/flashinfer"
+export FLASHINFER_JIT_CACHE_DIR="${FLASHINFER_WORKSPACE_DIR}"
+export TMPDIR="${TMPDIR_BASE}"
+
+mkdir -p "${OUTPUT_DIR}"
+echo "[run] BASE_MODEL_ID=${BASE_MODEL_ID}"
+echo "[run] OUTPUT_DIR=${OUTPUT_DIR}"
+echo "[run] RUN_TAG=${RUN_TAG}"
+echo "[run] USE_PRED_PHASE=${USE_PRED_PHASE}"
+echo "[run] PRED_ONLY=${PRED_ONLY}"
+echo "[run] VLLM_GPU_MEMORY_UTILIZATION=${VLLM_GPU_MEMORY_UTILIZATION}"
+echo "[run] GRPO2_GT_PREBUILT=${GRPO2_GT_PREBUILT}"
+echo "[run] GRPO2_PRED_PREBUILT=${GRPO2_PRED_PREBUILT}"
+echo "[run] GRPO2_RESUME_CHECKPOINT=${GRPO2_RESUME_CHECKPOINT:-<none>}"
+
+get_latest_output_checkpoint() {
+  local checkpoint_dir
+  checkpoint_dir="$(
+    find "${OUTPUT_DIR}" -type d -name 'checkpoint-*' 2>/dev/null \
+      | sort -V \
+      | tail -n 1
+  )"
+  if [[ -n "${checkpoint_dir}" ]]; then
+    printf '%s\n' "${checkpoint_dir}"
+  fi
+}
+
+COMMON_ARGS=(
+  --rlhf_type grpo
+  --model "${BASE_MODEL_ID}"
+  --system "${SYSTEM_PROMPT}"
+  --external_plugins "${TRAINING_ROOT}/plugins/interspeech_rewards.py"
+  --reward_funcs external_interspeech_p2
+  --use_vllm "${USE_VLLM}"
+  --vllm_mode "${VLLM_MODE}"
+  --vllm_tensor_parallel_size "${VLLM_TP}"
+  --vllm_gpu_memory_utilization "${VLLM_GPU_MEMORY_UTILIZATION}"
+  --sleep_level "${SLEEP_LEVEL}"
+  --beta 0.1
+  --num_generations "${NUM_GENERATIONS}"
+  --temperature 0.9
+  --tuner_type lora
+  --lora_rank 8
+  --lora_alpha 32
+  --target_modules all-linear
+  --freeze_llm true
+  --freeze_vit true
+  --freeze_aligner false
+  --torch_dtype bfloat16
+  --max_completion_length 768
+  --max_length 512
+  --per_device_train_batch_size 8
+  --gradient_accumulation_steps 1
+  --learning_rate 1e-5
+  --weight_decay 0.1
+  --warmup_ratio 0.05
+  --lr_scheduler_type cosine
+  --logging_steps 20
+  --save_steps 100
+  --save_total_limit 10
+  --dataloader_num_workers 4
+  --dataset_num_proc 4
+  --deepspeed zero2
+  --output_dir "${OUTPUT_DIR}"
+  --report_to tensorboard
+  --log_completions true
+)
+
+# ===== Build GRPO2 datasets =====
+if [[ "${USE_PRED_PHASE}" == "1" ]]; then
+  if [[ "${GRPO2_PRED_PREBUILT}" == "1" ]]; then
+    mkdir -p "$(dirname "${GRPO2_PRED_JSON_SWIFT}")"
+    if [[ "${GRPO2_PRED_JSON_IN}" != "${GRPO2_PRED_JSON_SWIFT}" ]]; then
+      cp -f "${GRPO2_PRED_JSON_IN}" "${GRPO2_PRED_JSON_SWIFT}"
+    fi
+  else
+    python "${TRAINING_ROOT}/tools/build_swift_grpo_prompt2_dataset.py" \
+      --input-json "${GRPO2_PRED_JSON_IN}" \
+      --output-json "${GRPO2_PRED_JSON_SWIFT}"
+  fi
+fi
+
+if [[ "${GRPO2_GT_PREBUILT}" == "1" ]]; then
+  mkdir -p "$(dirname "${GRPO2_GT_JSON_SWIFT}")"
+  if [[ "${GRPO2_GT_JSON_IN}" != "${GRPO2_GT_JSON_SWIFT}" ]]; then
+    cp -f "${GRPO2_GT_JSON_IN}" "${GRPO2_GT_JSON_SWIFT}"
+  fi
+else
+  python "${TRAINING_ROOT}/tools/build_swift_grpo_prompt2_dataset.py" \
+    --input-json "${GRPO2_GT_JSON_IN}" \
+    --output-json "${GRPO2_GT_JSON_SWIFT}"
+fi
+
+if [[ "${USE_PRED_PHASE}" == "1" ]]; then
+  PRED_PHASE_RESUME_ARGS=()
+  if [[ -n "${GRPO2_RESUME_CHECKPOINT}" ]]; then
+    PRED_PHASE_RESUME_ARGS=(
+      --resume_from_checkpoint "${GRPO2_RESUME_CHECKPOINT}"
+    )
+  fi
+  # ===== Phase 1: warmup on pred =====
+  NPROC_PER_NODE="${NPROC_PER_NODE}" \
+  CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
+  INTERSPEECH_DEBUG_REWARD="${INTERSPEECH_DEBUG_REWARD}" \
+  INTERSPEECH_DEBUG_SAMPLES="${INTERSPEECH_DEBUG_SAMPLES}" \
+  INTERSPEECH_LOG_EVERY_STEPS="${INTERSPEECH_LOG_EVERY_STEPS}" \
+  INTERSPEECH_GROUP_SIZE="${INTERSPEECH_GROUP_SIZE}" \
+  GRPO_P2_RETRY_MISSING_FIELDS="${GRPO_P2_RETRY_MISSING_FIELDS}" \
+  GRPO_P2_MAX_RETRIES="${GRPO_P2_MAX_RETRIES}" \
+  swift rlhf \
+    "${COMMON_ARGS[@]}" \
+    --dataset "${GRPO2_PRED_JSON_SWIFT}" \
+    "${PRED_PHASE_RESUME_ARGS[@]}" \
+    --num_train_epochs "${WARMUP_EPOCHS}" \
+    --max_steps "${WARMUP_MAX_STEPS}"
+fi
+
+if [[ "${PRED_ONLY}" == "1" ]]; then
+  if [[ "${USE_PRED_PHASE}" != "1" ]]; then
+    echo "[error] PRED_ONLY=1 requires USE_PRED_PHASE=1" >&2
+    exit 1
+  fi
+  echo "[run] PRED_ONLY=1; skipping GT phase after pred warmup."
+  exit 0
+fi
+
+if [[ "${USE_PRED_PHASE}" == "1" ]]; then
+  # ===== Phase 2: continue on GT =====
+  GT_PHASE_RESUME_CHECKPOINT="$(get_latest_output_checkpoint)"
+  if [[ -z "${GT_PHASE_RESUME_CHECKPOINT}" ]]; then
+    echo "[error] No checkpoint-* directory found in OUTPUT_DIR after pred warmup: ${OUTPUT_DIR}" >&2
+    exit 1
+  fi
+  echo "[run] GT phase resume checkpoint: ${GT_PHASE_RESUME_CHECKPOINT}"
+  GT_PHASE_EXTRA_ARGS=(
+    --resume_from_checkpoint "${GT_PHASE_RESUME_CHECKPOINT}"
+    --num_train_epochs "$((WARMUP_EPOCHS + PHASE_B_EPOCHS))"
+    --max_steps "${TOTAL_MAX_STEPS}"
+  )
+else
+  # ===== GT-only mode =====
+  if [[ -n "${GRPO2_RESUME_CHECKPOINT}" ]]; then
+    GT_PHASE_EXTRA_ARGS=(
+      --resume_from_checkpoint "${GRPO2_RESUME_CHECKPOINT}"
+      --num_train_epochs "${PHASE_B_EPOCHS}"
+      --max_steps "${TOTAL_MAX_STEPS}"
+    )
+  else
+    GT_PHASE_EXTRA_ARGS=(
+      --num_train_epochs "${PHASE_B_EPOCHS}"
+      --max_steps "${TOTAL_MAX_STEPS}"
+    )
+  fi
+fi
+
+NPROC_PER_NODE="${NPROC_PER_NODE}" \
+CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
+INTERSPEECH_DEBUG_REWARD="${INTERSPEECH_DEBUG_REWARD}" \
+INTERSPEECH_DEBUG_SAMPLES="${INTERSPEECH_DEBUG_SAMPLES}" \
+INTERSPEECH_LOG_EVERY_STEPS="${INTERSPEECH_LOG_EVERY_STEPS}" \
+INTERSPEECH_GROUP_SIZE="${INTERSPEECH_GROUP_SIZE}" \
+GRPO_P2_RETRY_MISSING_FIELDS="${GRPO_P2_RETRY_MISSING_FIELDS}" \
+GRPO_P2_MAX_RETRIES="${GRPO_P2_MAX_RETRIES}" \
+swift rlhf \
+  "${COMMON_ARGS[@]}" \
+  --dataset "${GRPO2_GT_JSON_SWIFT}" \
+  "${GT_PHASE_EXTRA_ARGS[@]}"

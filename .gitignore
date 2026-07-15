@@ -1,0 +1,18 @@
+# Generated datasets and local media
+data/processed/
+data/spectrograms/
+data/transcripts/
+
+# Training artifacts
+outputs/
+.cache/
+*.out
+*.err
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Local configuration
+.env
+local.env
