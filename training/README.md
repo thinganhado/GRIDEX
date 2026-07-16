@@ -99,7 +99,7 @@ export CACHE_ROOT=/path/to/cache
 
 ## 3. Build Query-1 SFT data
 
-The builder requires `ORDER_CSV`, creates both training and development JSON, verifies every constructed JSON-array target against descending `overlap_pixels`, and checks that every grid spectrogram exists. Missing scores, order mismatches, or missing images stop the build.
+The builder requires `ORDER_CSV`, creates both training and development JSON, and uses the three region IDs supplied for each sample in the input CSV. `overlap_pixels` orders those three IDs from most to least prominent; it is not used to score or select all 16 cells. The builder verifies the persisted three-ID target ordering and checks that every grid spectrogram exists.
 
 ```bash
 CSV_IN=/path/to/GRIDEX/dataset.csv \
@@ -176,7 +176,9 @@ MFA_ROOT=/path/to/mfa_json \
 bash training/scripts/02b_build_grpo2_datasets.sh
 ```
 
-For each valid predicted triplet `[p1, p2, p3]`, the builder looks up `(sample_id, region_id)` and writes factual tuples in exactly that order. A predicted ID is retained even when it is not in the GT top three. If a factual row is genuinely unavailable, `factual_mask` disables factual accuracy for only that slot; format and internal-consistency rewards remain active. Only malformed outputs that do not contain three distinct IDs in the valid grid range are excluded.
+The GT builder writes separate `_LA_T_` and `_LA_D_` files and fails on partition leakage or PDF count mismatches. It accepts the factual column `P` (with `P_type` retained only as a compatibility fallback), normalizes `T=non_speech` to the model vocabulary `non-speech`, and accepts either `image` or `sample_id` as the score-file key.
+
+For each valid predicted triplet `[p1, p2, p3]`, the Phase-A builder looks up `(sample_id, region_id)` and writes factual tuples in exactly that order. Q2 does not output or receive a reward for detecting IDs; ID1/ID2/ID3 are conditioning inputs, and tuple slots 1/2/3 must stay aligned with those inputs. A predicted ID is retained even when it is not in the GT top three. If a factual row is genuinely unavailable, `factual_mask` disables factual accuracy for only that slot; format and internal-consistency rewards remain active.
 
 ## 7. SFT-2 and merge
 
@@ -189,11 +191,11 @@ MODEL_ID=Qwen/Qwen2.5-VL-3B-Instruct \
 bash training/scripts/03b_merge_sft2_lora.sh
 ```
 
-SFT-2 is initialized independently from the same base model as SFT-1, matching the reported setup. Defaults are bf16, LoRA 32/64, batch/accumulation 4/8, 2 epochs, learning rate `5e-5`, warmup ratio `0.03`, maximum length 768, and maximum pixels 524288. Query 2 defines `P` as `{consonant, vowel, none}`; `none` is used when no phone is aligned.
+SFT-2 is initialized independently from the same base model as SFT-1, matching the reported setup. Defaults are bf16, LLM LoRA 32/64, batch/accumulation 4/8, 2 epochs, learning rate `5e-5`, warmup ratio `0.03`, maximum length 768, and maximum pixels 524288. The vision tower and aligner remain frozen while the LLM adapter learns the position-aligned structured tuple schema. Query 2 defines `P` as `{consonant, vowel, none}`; `none` is used when no phone is aligned. SFT-2 trains only on `_LA_T_` and evaluates on the separate `_LA_D_` file.
 
 ## 8. GRPO-2 curriculum
 
-Phase A trains on the unfiltered predicted-ID dataset. Phase B resumes the Phase-A GRPO checkpoint and trains on the GT-ID dataset.
+Phase A trains for one epoch on the raw predicted-ID training dataset from the SFT-2 merged model. Its final LoRA checkpoint is merged. Phase B is then launched as a fresh five-epoch GRPO run from that Phase-A merged model, matching Table 6; it does not restore Phase-A optimizer, scheduler, or trainer state. Phase B trains only on `_LA_T_` and uses `_LA_D_` for validation.
 
 ```bash
 BASE_MODEL_ID=/path/to/sft2_merged \
@@ -202,13 +204,13 @@ bash training/scripts/04_stage3_grpo2_curriculum.sh
 
 The default is again raw rollout sampling: `GRPO_P2_RETRY_MISSING_FIELDS=0` and `GRPO_P2_MAX_RETRIES=0`. Phase A does not retry incomplete completions and does not filter predicted IDs based on Query-1 correctness.
 
-To resume an interrupted GRPO-2 run, set `GRPO2_RESUME_CHECKPOINT` to a GRPO-2 `checkpoint-*` directory. An SFT-2 checkpoint must not be passed as a trainer resume checkpoint; merge SFT-2 first and supply it through `BASE_MODEL_ID`.
+To resume an interrupted phase, set `PHASE_A_RESUME_CHECKPOINT` or `PHASE_B_RESUME_CHECKPOINT` to a checkpoint from that same phase. To resume Phase B without rerunning Phase A, set `USE_PRED_PHASE=0` and `BASE_MODEL_ID` to the existing Phase-A merged model. An SFT-2 adapter checkpoint must not be passed as a trainer resume checkpoint; merge SFT-2 first and supply it through `BASE_MODEL_ID`.
 
 Merge the final adapter:
 
 ```bash
-BASE_MODEL_ID=/path/to/sft2_merged \
-ADAPTER_PATH=/path/to/grpo2_curriculum/checkpoint-N \
+BASE_MODEL_ID=/path/to/grpo2_curriculum/<run>/phase_a_merged \
+ADAPTER_PATH=/path/to/grpo2_curriculum/<run>/phase_b/checkpoint-N \
 bash training/scripts/05_merge_grpo2_lora.sh
 ```
 

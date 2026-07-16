@@ -171,7 +171,6 @@ def _build_records_from_img_rows(
     image_col: str,
     regions_col: str,
     sample_ids: set[str],
-    top3_by_sample: Dict[str, str],
     image_suffix: str,
     user_prompt: str,
     json_array_target: bool,
@@ -183,10 +182,6 @@ def _build_records_from_img_rows(
     for idx, row in enumerate(reader):
         image_path = str(row.get(image_col, "")).strip()
         target_raw = _extract_target(row, regions_col)
-        if image_path and not target_raw:
-            sample_id = _infer_sample_id_from_image_path(image_path, image_suffix, sample_ids)
-            if sample_id:
-                target_raw = top3_by_sample.get(sample_id)
         if not image_path or not target_raw:
             skipped += 1
             continue
@@ -242,19 +237,6 @@ def _infer_sample_id_from_image_path(
         if candidate in sample_ids:
             return candidate
     return None
-
-
-def _build_top3_by_sample(order_scores: Dict[Tuple[str, str], float]) -> Dict[str, str]:
-    grouped: Dict[str, List[Tuple[str, float]]] = {}
-    for (sample_id, region_id), score in order_scores.items():
-        grouped.setdefault(sample_id, []).append((region_id, score))
-
-    out: Dict[str, str] = {}
-    for sample_id, pairs in grouped.items():
-        ranked = sorted(pairs, key=lambda x: (-x[1], _region_sort_key(x[0])))
-        if len(ranked) >= 3:
-            out[sample_id] = ",".join(region_id for region_id, _ in ranked[:3])
-    return out
 
 
 def _build_records_from_sample_rows(
@@ -498,7 +480,6 @@ def main() -> None:
     if args.require_order_scores and not order_scores:
         raise ValueError("--require-order-scores was set, but no valid ordering scores were loaded.")
     sample_ids = {sample_id for sample_id, _ in order_scores.keys()}
-    top3_by_sample = _build_top3_by_sample(order_scores)
 
     with csv_path.open("r", newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
@@ -512,7 +493,6 @@ def main() -> None:
                 image_col=args.image_col,
                 regions_col=args.regions_col,
                 sample_ids=sample_ids,
-                top3_by_sample=top3_by_sample,
                 image_suffix=args.image_suffix,
                 user_prompt=args.user_prompt,
                 json_array_target=args.json_array_target,

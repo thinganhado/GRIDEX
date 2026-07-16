@@ -167,7 +167,9 @@ def _load_overlap_map(diff_csv: Path) -> Dict[tuple, float]:
 
     with diff_csv.open("r", encoding="utf-8", newline="") as f:
         for r in csv.DictReader(f):
-            sid = _norm(r.get("sample_id"))
+            sid = Path(_norm(r.get("sample_id") or r.get("image"))).stem
+            if _norm(r.get("method")) and _norm(r.get("method")) != "grid":
+                continue
             try:
                 rid = int(_norm(r.get("region_id")))
             except Exception:
@@ -200,8 +202,7 @@ def _load_gt_regions_map(gt_csv: Path, overlap_map: Dict[tuple, float]) -> Dict[
     for sid, ids in seen.items():
         if len(ids) < 3:
             continue
-        ids_sorted = sorted(ids, key=lambda rid: (-overlap_map.get((sid, rid), -1.0), rid))
-        out[sid] = ids_sorted[:3]
+        out[sid] = sorted(ids, key=lambda rid: (-overlap_map.get((sid, rid), -1.0), rid))[:3]
     return out
 
 
@@ -220,7 +221,7 @@ def _load_factual_rows(csv_path: Path) -> Dict[tuple, Dict[str, str]]:
             if not sid:
                 continue
             out[(sid, rid)] = {
-                "T": _norm(row.get("T")),
+                "T": _norm(row.get("T")).lower().replace("non_speech", "non-speech").replace("non speech", "non-speech"),
                 "F": _norm(row.get("F")),
                 "P": _norm(row.get("P")),
                 "En": _norm(row.get("En")),
@@ -386,6 +387,7 @@ def main() -> None:
     dropped_no_sid = 0
     dropped_filter = 0
     dropped_no_ids = 0
+    missing_transcripts: List[str] = []
 
     for item in data:
         if not isinstance(item, dict):
@@ -410,6 +412,9 @@ def main() -> None:
             continue
 
         transcript = _extract_transcript(item, mfa_root, sample_id)
+        if not _to_one_line(transcript):
+            missing_transcripts.append(sample_id)
+            continue
         image_path = gt_image_map.get(sample_id) or _extract_image(item)
         rec = _build_row(
             sample_id=sample_id,
@@ -429,6 +434,13 @@ def main() -> None:
         kept += 1
 
     dst.parent.mkdir(parents=True, exist_ok=True)
+    if missing_transcripts:
+        raise ValueError(
+            f"Missing Q2 transcripts; examples={missing_transcripts[:20]} "
+            f"(missing={len(missing_transcripts)})"
+        )
+    if not out:
+        raise ValueError("Predicted-ID Q2 construction produced zero records.")
     dst.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"saved: {dst}")
     print(f"total_in: {len(data)}")

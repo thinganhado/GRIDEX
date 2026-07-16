@@ -7,8 +7,10 @@ require_swift
 # ===== User-settable =====
 # SFT-2 is initialized independently from the same base model as SFT-1.
 MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-VL-3B-Instruct}"
-Q2_JSON_IN="${Q2_JSON_IN:-${DATA_ROOT}/processed/grpo2_gt_swift.json}"
+Q2_JSON_IN="${Q2_JSON_IN:-${DATA_ROOT}/processed/grpo2_gt_train_swift.json}"
+Q2_VAL_JSON_IN="${Q2_VAL_JSON_IN:-${DATA_ROOT}/processed/grpo2_gt_val_swift.json}"
 Q2_JSON_SWIFT="${Q2_JSON_SWIFT:-${DATA_ROOT}/processed/grpo2_train_sft_q2_swift.json}"
+Q2_VAL_JSON_SWIFT="${Q2_VAL_JSON_SWIFT:-${DATA_ROOT}/processed/grpo2_val_sft_q2_swift.json}"
 OUTPUT_DIR="${OUTPUT_DIR:-${OUTPUT_ROOT}/sft2_query2}"
 SYSTEM_PROMPT="${SYSTEM_PROMPT:-You are an expert in deepfake speech spectrogram forensics.
 
@@ -46,6 +48,8 @@ DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-1}"
 DATASET_NUM_PROC="${DATASET_NUM_PROC:-4}"
 MAX_PIXELS="${MAX_PIXELS:-524288}"
 DEEPSPEED="${DEEPSPEED:-zero2}"
+EXPECTED_TRAIN_SAMPLES="${EXPECTED_TRAIN_SAMPLES:-10320}"
+EXPECTED_VAL_SAMPLES="${EXPECTED_VAL_SAMPLES:-10192}"
 
 NPROC_PER_NODE="${NPROC_PER_NODE:-2}"
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
@@ -69,18 +73,26 @@ if [[ ! -f "${Q2_JSON_IN}" ]]; then
   echo "ERROR: Q2 dataset not found: ${Q2_JSON_IN}"
   exit 1
 fi
+if [[ ! -f "${Q2_VAL_JSON_IN}" ]]; then
+  echo "ERROR: Q2 validation dataset not found: ${Q2_VAL_JSON_IN}"
+  exit 1
+fi
 
 # ===== Convert Q2-only GT data into a 2-turn SFT dataset =====
 if [[ "${SKIP_CONVERT}" != "1" ]]; then
-python - "${Q2_JSON_IN}" "${Q2_JSON_SWIFT}" "${SYSTEM_PROMPT}" <<'PY'
+python - "${Q2_JSON_IN}" "${Q2_JSON_SWIFT}" "${Q2_VAL_JSON_IN}" "${Q2_VAL_JSON_SWIFT}" \
+  "${SYSTEM_PROMPT}" "${EXPECTED_TRAIN_SAMPLES}" "${EXPECTED_VAL_SAMPLES}" <<'PY'
 import json
 import sys
 from pathlib import Path
 
-src = Path(sys.argv[1]).expanduser().resolve()
-dst = Path(sys.argv[2]).expanduser().resolve()
-system_prompt = str(sys.argv[3] or "").strip()
-data = json.loads(src.read_text(encoding="utf-8"))
+train_src = Path(sys.argv[1]).expanduser().resolve()
+train_dst = Path(sys.argv[2]).expanduser().resolve()
+val_src = Path(sys.argv[3]).expanduser().resolve()
+val_dst = Path(sys.argv[4]).expanduser().resolve()
+system_prompt = str(sys.argv[5] or "").strip()
+expected_train = int(sys.argv[6])
+expected_val = int(sys.argv[7])
 
 def text_blocks_from_content(content):
     if isinstance(content, str):
@@ -103,34 +115,53 @@ def normalize_user_message(msg):
     blocks = text_blocks_from_content(content)
     return {"role": "user", "content": blocks}
 
-out = []
-for row in data:
-    msgs = row.get("messages") or row.get("conversations") or []
-    if not isinstance(msgs, list) or not msgs:
-        continue
-    gt = str(row.get("gt_prompt2", "")).strip()
-    if not gt:
-        continue
-    user = normalize_user_message(msgs[0] if isinstance(msgs[0], dict) else {"role": "user", "content": []})
-    assistant = {"role": "assistant", "content": [{"type": "text", "text": gt}]}
-    messages = [user, assistant]
-    rec = {
-        "messages": messages,
-        "sample_id": str(row.get("sample_id", "")).strip(),
-        "prompt1_output": str(row.get("prompt1_output", "")).strip(),
-        "gt_prompt2": gt,
-    }
-    if "transcript" in row:
-        rec["transcript"] = row["transcript"]
-    out.append(rec)
+def convert(src, dst, required_split, expected):
+    data = json.loads(src.read_text(encoding="utf-8"))
+    out = []
+    wrong_split = []
+    invalid = []
+    for row in data:
+        sid = str(row.get("sample_id", "")).strip()
+        if required_split not in sid:
+            wrong_split.append(sid)
+            continue
+        msgs = row.get("messages") or row.get("conversations") or []
+        gt = str(row.get("gt_prompt2", "")).strip()
+        transcript = str(row.get("transcript", "")).strip()
+        if not isinstance(msgs, list) or not msgs or not gt or not transcript:
+            invalid.append(sid)
+            continue
+        user = normalize_user_message(msgs[0] if isinstance(msgs[0], dict) else {"role": "user", "content": []})
+        assistant = {"role": "assistant", "content": [{"type": "text", "text": gt}]}
+        out.append({
+            "messages": [user, assistant],
+            "sample_id": sid,
+            "prompt1_output": str(row.get("prompt1_output", "")).strip(),
+            "gt_prompt2": gt,
+            "transcript": transcript,
+        })
+    if wrong_split:
+        raise ValueError(f"{src}: records outside {required_split}: {wrong_split[:20]}")
+    if invalid:
+        raise ValueError(f"{src}: records missing messages, transcript, or gt_prompt2: {invalid[:20]}")
+    if not out:
+        raise ValueError(f"{src}: conversion produced zero records")
+    if expected > 0 and len(out) != expected:
+        raise ValueError(f"{src}: got {len(out)} records, expected {expected}")
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    dst.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"saved: {dst} (n={len(out)}, split={required_split})")
 
-dst.parent.mkdir(parents=True, exist_ok=True)
-dst.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
-print(f"saved: {dst} (n={len(out)})")
+convert(train_src, train_dst, "_LA_T_", expected_train)
+convert(val_src, val_dst, "_LA_D_", expected_val)
 PY
 else
   if [[ ! -f "${Q2_JSON_SWIFT}" ]]; then
     echo "ERROR: SKIP_CONVERT=1 but Q2_JSON_SWIFT not found: ${Q2_JSON_SWIFT}" >&2
+    exit 1
+  fi
+  if [[ ! -f "${Q2_VAL_JSON_SWIFT}" ]]; then
+    echo "ERROR: SKIP_CONVERT=1 but Q2_VAL_JSON_SWIFT not found: ${Q2_VAL_JSON_SWIFT}" >&2
     exit 1
   fi
   echo "[done] SKIP_CONVERT=1; using existing dataset: ${Q2_JSON_SWIFT}"
@@ -190,6 +221,7 @@ CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
 swift sft \
   --model "${MODEL_ID}" \
   --dataset "${Q2_JSON_SWIFT}" \
+  --val_dataset "${Q2_VAL_JSON_SWIFT}" \
   --system "${SYSTEM_PROMPT}" \
   --tuner_type lora \
   --torch_dtype "${TORCH_DTYPE}" \
@@ -197,18 +229,21 @@ swift sft \
   --lora_alpha 64 \
   --lora_dropout 0.05 \
   --target_modules all-linear \
-  --freeze_llm true \
+  --freeze_llm false \
   --freeze_vit true \
-  --freeze_aligner false \
+  --freeze_aligner true \
   --num_train_epochs "${NUM_TRAIN_EPOCHS}" \
   --per_device_train_batch_size "${PER_DEVICE_TRAIN_BATCH_SIZE}" \
   --gradient_accumulation_steps "${GRADIENT_ACCUMULATION_STEPS}" \
+  --max_length 768 \
   --learning_rate "${LEARNING_RATE}" \
   --weight_decay "${WEIGHT_DECAY}" \
   --warmup_ratio "${WARMUP_RATIO}" \
   --lr_scheduler_type cosine \
   --max_pixels "${MAX_PIXELS}" \
   "${DEEPSPEED_ARGS[@]}" \
+  --eval_strategy steps \
+  --eval_steps "${SAVE_STEPS}" \
   --logging_steps "${LOGGING_STEPS}" \
   --save_steps "${SAVE_STEPS}" \
   --save_total_limit "${SAVE_TOTAL_LIMIT}" \

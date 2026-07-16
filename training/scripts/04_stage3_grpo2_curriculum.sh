@@ -8,16 +8,24 @@ require_swift
 # Base model is the SFT-2 merged checkpoint.
 # GRPO-2 trains a new LoRA adapter on top of this fixed base model.
 BASE_MODEL_ID="${BASE_MODEL_ID:-${OUTPUT_ROOT}/sft2_merged}"
-GRPO2_GT_JSON_IN="${GRPO2_GT_JSON_IN:-${DATA_ROOT}/processed/grpo2_gt_swift.json}"
+GRPO2_GT_JSON_IN="${GRPO2_GT_JSON_IN:-${DATA_ROOT}/processed/grpo2_gt_train_swift.json}"
+GRPO2_GT_VAL_JSON_IN="${GRPO2_GT_VAL_JSON_IN:-${DATA_ROOT}/processed/grpo2_gt_val_swift.json}"
 GRPO2_PRED_JSON_IN="${GRPO2_PRED_JSON_IN:-${DATA_ROOT}/processed/grpo2_pred_aligned.json}"
-GRPO2_GT_JSON_SWIFT="${GRPO2_GT_JSON_SWIFT:-${DATA_ROOT}/processed/grpo2_gt_swift.json}"
+GRPO2_GT_JSON_SWIFT="${GRPO2_GT_JSON_SWIFT:-${DATA_ROOT}/processed/grpo2_gt_train_swift.json}"
+GRPO2_GT_VAL_JSON_SWIFT="${GRPO2_GT_VAL_JSON_SWIFT:-${DATA_ROOT}/processed/grpo2_gt_val_swift.json}"
 GRPO2_PRED_JSON_SWIFT="${GRPO2_PRED_JSON_SWIFT:-${DATA_ROOT}/processed/grpo2_pred_aligned_swift.json}"
 GRPO2_GT_PREBUILT="${GRPO2_GT_PREBUILT:-1}"
 GRPO2_PRED_PREBUILT="${GRPO2_PRED_PREBUILT:-1}"
-GRPO2_RESUME_CHECKPOINT="${GRPO2_RESUME_CHECKPOINT:-}"
+PHASE_A_RESUME_CHECKPOINT="${PHASE_A_RESUME_CHECKPOINT:-}"
+PHASE_B_RESUME_CHECKPOINT="${PHASE_B_RESUME_CHECKPOINT:-}"
 OUTPUT_DIR_BASE="${OUTPUT_DIR_BASE:-${OUTPUT_ROOT}/grpo2_curriculum}"
 RUN_TAG="${RUN_TAG:-v0-$(date +%Y%m%d-%H%M%S)}"
 OUTPUT_DIR="${OUTPUT_DIR:-${OUTPUT_DIR_BASE%/}/${RUN_TAG}}"
+PHASE_A_OUTPUT_DIR="${PHASE_A_OUTPUT_DIR:-${OUTPUT_DIR}/phase_a}"
+PHASE_A_MERGED_MODEL="${PHASE_A_MERGED_MODEL:-${OUTPUT_DIR}/phase_a_merged}"
+PHASE_B_OUTPUT_DIR="${PHASE_B_OUTPUT_DIR:-${OUTPUT_DIR}/phase_b}"
+EXPECTED_TRAIN_SAMPLES="${EXPECTED_TRAIN_SAMPLES:-10320}"
+EXPECTED_VAL_SAMPLES="${EXPECTED_VAL_SAMPLES:-10192}"
 SYSTEM_PROMPT="${SYSTEM_PROMPT:-You are an expert in deepfake speech spectrogram forensics.
 
 You are given a spectrogram and transcript. You have already selected exactly 3 region IDs, in order: ID1, ID2, ID3.
@@ -92,12 +100,14 @@ echo "[run] PRED_ONLY=${PRED_ONLY}"
 echo "[run] VLLM_GPU_MEMORY_UTILIZATION=${VLLM_GPU_MEMORY_UTILIZATION}"
 echo "[run] GRPO2_GT_PREBUILT=${GRPO2_GT_PREBUILT}"
 echo "[run] GRPO2_PRED_PREBUILT=${GRPO2_PRED_PREBUILT}"
-echo "[run] GRPO2_RESUME_CHECKPOINT=${GRPO2_RESUME_CHECKPOINT:-<none>}"
+echo "[run] PHASE_A_RESUME_CHECKPOINT=${PHASE_A_RESUME_CHECKPOINT:-<none>}"
+echo "[run] PHASE_B_RESUME_CHECKPOINT=${PHASE_B_RESUME_CHECKPOINT:-<none>}"
 
 get_latest_output_checkpoint() {
+  local search_root="$1"
   local checkpoint_dir
   checkpoint_dir="$(
-    find "${OUTPUT_DIR}" -type d -name 'checkpoint-*' 2>/dev/null \
+    find "${search_root}" -type d -name 'checkpoint-*' 2>/dev/null \
       | sort -V \
       | tail -n 1
   )"
@@ -113,7 +123,6 @@ fi
 
 COMMON_ARGS=(
   --rlhf_type grpo
-  --model "${BASE_MODEL_ID}"
   --system "${SYSTEM_PROMPT}"
   --external_plugins "${TRAINING_ROOT}/plugins/interspeech_rewards.py"
   --reward_funcs external_interspeech_p2
@@ -129,9 +138,9 @@ COMMON_ARGS=(
   --lora_rank 8
   --lora_alpha 32
   --target_modules all-linear
-  --freeze_llm true
+  --freeze_llm false
   --freeze_vit true
-  --freeze_aligner false
+  --freeze_aligner true
   --torch_dtype bfloat16
   --max_completion_length "${MAX_COMPLETION_LENGTH}"
   --max_length "${MAX_LENGTH}"
@@ -147,7 +156,6 @@ COMMON_ARGS=(
   --dataloader_num_workers 4
   --dataset_num_proc 4
   "${DEEPSPEED_ARGS[@]}"
-  --output_dir "${OUTPUT_DIR}"
   --report_to tensorboard
   --log_completions true
 )
@@ -167,24 +175,66 @@ if [[ "${USE_PRED_PHASE}" == "1" ]]; then
 fi
 
 if [[ "${GRPO2_GT_PREBUILT}" == "1" ]]; then
-  mkdir -p "$(dirname "${GRPO2_GT_JSON_SWIFT}")"
+  mkdir -p "$(dirname "${GRPO2_GT_JSON_SWIFT}")" "$(dirname "${GRPO2_GT_VAL_JSON_SWIFT}")"
   if [[ "${GRPO2_GT_JSON_IN}" != "${GRPO2_GT_JSON_SWIFT}" ]]; then
     cp -f "${GRPO2_GT_JSON_IN}" "${GRPO2_GT_JSON_SWIFT}"
+  fi
+  if [[ "${GRPO2_GT_VAL_JSON_IN}" != "${GRPO2_GT_VAL_JSON_SWIFT}" ]]; then
+    cp -f "${GRPO2_GT_VAL_JSON_IN}" "${GRPO2_GT_VAL_JSON_SWIFT}"
   fi
 else
   python "${TRAINING_ROOT}/tools/build_swift_grpo_prompt2_dataset.py" \
     --input-json "${GRPO2_GT_JSON_IN}" \
     --output-json "${GRPO2_GT_JSON_SWIFT}"
+  python "${TRAINING_ROOT}/tools/build_swift_grpo_prompt2_dataset.py" \
+    --input-json "${GRPO2_GT_VAL_JSON_IN}" \
+    --output-json "${GRPO2_GT_VAL_JSON_SWIFT}"
 fi
 
+python - "${GRPO2_GT_JSON_SWIFT}" "${GRPO2_GT_VAL_JSON_SWIFT}" "${GRPO2_PRED_JSON_SWIFT}" \
+  "${USE_PRED_PHASE}" "${EXPECTED_TRAIN_SAMPLES}" "${EXPECTED_VAL_SAMPLES}" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+train_path, val_path, pred_path = map(Path, sys.argv[1:4])
+use_pred = sys.argv[4] == "1"
+expected_train, expected_val = map(int, sys.argv[5:7])
+
+def load_and_check(path, split, expected=0):
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, list) or not data:
+        raise ValueError(f"{path}: expected a non-empty JSON list")
+    bad_split = [str(r.get("sample_id", "")) for r in data if split not in str(r.get("sample_id", ""))]
+    missing_transcript = [str(r.get("sample_id", "")) for r in data if not str(r.get("transcript", "")).strip()]
+    if bad_split:
+        raise ValueError(f"{path}: records outside {split}: {bad_split[:20]}")
+    if missing_transcript:
+        raise ValueError(f"{path}: records missing transcript: {missing_transcript[:20]}")
+    if expected > 0 and len(data) != expected:
+        raise ValueError(f"{path}: got {len(data)} records, expected {expected}")
+    return data
+
+train = load_and_check(train_path, "_LA_T_", expected_train)
+val = load_and_check(val_path, "_LA_D_", expected_val)
+train_ids = {r["sample_id"] for r in train}
+val_ids = {r["sample_id"] for r in val}
+if train_ids & val_ids:
+    raise ValueError("Q2 train/development sample overlap detected")
+if use_pred:
+    load_and_check(pred_path, "_LA_T_")
+print(f"[q2_audit] train={len(train)} val={len(val)} split_leakage=0")
+PY
+
+PHASE_B_MODEL="${BASE_MODEL_ID}"
+
 if [[ "${USE_PRED_PHASE}" == "1" ]]; then
-  PRED_PHASE_RESUME_ARGS=()
-  if [[ -n "${GRPO2_RESUME_CHECKPOINT}" ]]; then
-    PRED_PHASE_RESUME_ARGS=(
-      --resume_from_checkpoint "${GRPO2_RESUME_CHECKPOINT}"
-    )
+  PHASE_A_RESUME_ARGS=()
+  if [[ -n "${PHASE_A_RESUME_CHECKPOINT}" ]]; then
+    PHASE_A_RESUME_ARGS=(--resume_from_checkpoint "${PHASE_A_RESUME_CHECKPOINT}")
   fi
-  # ===== Phase 1: warmup on pred =====
+
+  # ===== Phase A: one epoch with raw Query-1 predicted IDs =====
   NPROC_PER_NODE="${NPROC_PER_NODE}" \
   CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
   INTERSPEECH_DEBUG_REWARD="${INTERSPEECH_DEBUG_REWARD}" \
@@ -195,10 +245,25 @@ if [[ "${USE_PRED_PHASE}" == "1" ]]; then
   GRPO_P2_MAX_RETRIES="${GRPO_P2_MAX_RETRIES}" \
   swift rlhf \
     "${COMMON_ARGS[@]}" \
+    --model "${BASE_MODEL_ID}" \
     --dataset "${GRPO2_PRED_JSON_SWIFT}" \
-    "${PRED_PHASE_RESUME_ARGS[@]}" \
+    --output_dir "${PHASE_A_OUTPUT_DIR}" \
+    "${PHASE_A_RESUME_ARGS[@]}" \
     --num_train_epochs "${WARMUP_EPOCHS}" \
     --max_steps "${WARMUP_MAX_STEPS}"
+
+  PHASE_A_CHECKPOINT="$(get_latest_output_checkpoint "${PHASE_A_OUTPUT_DIR}")"
+  if [[ -z "${PHASE_A_CHECKPOINT}" ]]; then
+    echo "[error] No Phase-A checkpoint found under ${PHASE_A_OUTPUT_DIR}" >&2
+    exit 1
+  fi
+  echo "[merge] Phase-A checkpoint=${PHASE_A_CHECKPOINT}"
+  swift export \
+    --model "${BASE_MODEL_ID}" \
+    --adapters "${PHASE_A_CHECKPOINT}" \
+    --merge_lora true \
+    --output_dir "${PHASE_A_MERGED_MODEL}"
+  PHASE_B_MODEL="${PHASE_A_MERGED_MODEL}"
 fi
 
 if [[ "${PRED_ONLY}" == "1" ]]; then
@@ -206,39 +271,16 @@ if [[ "${PRED_ONLY}" == "1" ]]; then
     echo "[error] PRED_ONLY=1 requires USE_PRED_PHASE=1" >&2
     exit 1
   fi
-  echo "[run] PRED_ONLY=1; skipping GT phase after pred warmup."
+  echo "[run] PRED_ONLY=1; Phase A was merged at ${PHASE_A_MERGED_MODEL}."
   exit 0
 fi
 
-if [[ "${USE_PRED_PHASE}" == "1" ]]; then
-  # ===== Phase 2: continue on GT =====
-  GT_PHASE_RESUME_CHECKPOINT="$(get_latest_output_checkpoint)"
-  if [[ -z "${GT_PHASE_RESUME_CHECKPOINT}" ]]; then
-    echo "[error] No checkpoint-* directory found in OUTPUT_DIR after pred warmup: ${OUTPUT_DIR}" >&2
-    exit 1
-  fi
-  echo "[run] GT phase resume checkpoint: ${GT_PHASE_RESUME_CHECKPOINT}"
-  GT_PHASE_EXTRA_ARGS=(
-    --resume_from_checkpoint "${GT_PHASE_RESUME_CHECKPOINT}"
-    --num_train_epochs "$((WARMUP_EPOCHS + PHASE_B_EPOCHS))"
-    --max_steps "${TOTAL_MAX_STEPS}"
-  )
-else
-  # ===== GT-only mode =====
-  if [[ -n "${GRPO2_RESUME_CHECKPOINT}" ]]; then
-    GT_PHASE_EXTRA_ARGS=(
-      --resume_from_checkpoint "${GRPO2_RESUME_CHECKPOINT}"
-      --num_train_epochs "${PHASE_B_EPOCHS}"
-      --max_steps "${TOTAL_MAX_STEPS}"
-    )
-  else
-    GT_PHASE_EXTRA_ARGS=(
-      --num_train_epochs "${PHASE_B_EPOCHS}"
-      --max_steps "${TOTAL_MAX_STEPS}"
-    )
-  fi
+PHASE_B_RESUME_ARGS=()
+if [[ -n "${PHASE_B_RESUME_CHECKPOINT}" ]]; then
+  PHASE_B_RESUME_ARGS=(--resume_from_checkpoint "${PHASE_B_RESUME_CHECKPOINT}")
 fi
 
+# ===== Phase B: fresh GRPO run initialized from the merged Phase-A model =====
 NPROC_PER_NODE="${NPROC_PER_NODE}" \
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
 INTERSPEECH_DEBUG_REWARD="${INTERSPEECH_DEBUG_REWARD}" \
@@ -249,5 +291,12 @@ GRPO_P2_RETRY_MISSING_FIELDS="${GRPO_P2_RETRY_MISSING_FIELDS}" \
 GRPO_P2_MAX_RETRIES="${GRPO_P2_MAX_RETRIES}" \
 swift rlhf \
   "${COMMON_ARGS[@]}" \
+  --model "${PHASE_B_MODEL}" \
   --dataset "${GRPO2_GT_JSON_SWIFT}" \
-  "${GT_PHASE_EXTRA_ARGS[@]}"
+  --val_dataset "${GRPO2_GT_VAL_JSON_SWIFT}" \
+  --eval_strategy steps \
+  --eval_steps 100 \
+  --output_dir "${PHASE_B_OUTPUT_DIR}" \
+  "${PHASE_B_RESUME_ARGS[@]}" \
+  --num_train_epochs "${PHASE_B_EPOCHS}" \
+  --max_steps "${TOTAL_MAX_STEPS}"

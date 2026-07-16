@@ -239,7 +239,10 @@ def _build_from_csv(args: argparse.Namespace) -> List[Dict[str, Any]]:
         if diff_csv.exists():
             with diff_csv.open("r", encoding="utf-8", newline="") as f:
                 for r in csv.DictReader(f):
-                    sid = _norm(r.get("sample_id"))
+                    sid = _norm(r.get("sample_id") or r.get("image"))
+                    sid = Path(sid).stem
+                    if _norm(r.get("method")) and _norm(r.get("method")) != "grid":
+                        continue
                     try:
                         rid = int(_norm(r.get("region_id")))
                     except Exception:
@@ -269,9 +272,8 @@ def _build_from_csv(args: argparse.Namespace) -> List[Dict[str, Any]]:
             if t and sid not in transcript_by_sid:
                 transcript_by_sid[sid] = t
 
-    # ID source:
-    # - default: input csv rows
-    # - if --gt-csv provided: use GT csv IDs/order source, and still pull fields from input csv rows.
+    # The factual/GT CSV supplies the three selected IDs. overlap_pixels is
+    # used only to order those three; it does not select from all 16 cells.
     if gt_csv and gt_csv.exists():
         with gt_csv.open("r", encoding="utf-8", newline="") as f:
             for r in csv.DictReader(f):
@@ -292,6 +294,8 @@ def _build_from_csv(args: argparse.Namespace) -> List[Dict[str, Any]]:
                 ids_by_sid[sid].append(rid)
 
     out: List[Dict[str, Any]] = []
+    missing_factual: List[Tuple[str, int]] = []
+    missing_transcripts: List[str] = []
     for sid, ids in ids_by_sid.items():
         if len(ids) < 3:
             continue
@@ -302,6 +306,7 @@ def _build_from_csv(args: argparse.Namespace) -> List[Dict[str, Any]]:
             ids = ids[:3]
 
         if not all((sid, rid) in rows_by_pair for rid in ids):
+            missing_factual.extend((sid, rid) for rid in ids if (sid, rid) not in rows_by_pair)
             continue
         ordered_rows = [rows_by_pair[(sid, rid)] for rid in ids]
 
@@ -309,9 +314,9 @@ def _build_from_csv(args: argparse.Namespace) -> List[Dict[str, Any]]:
         ok = True
         for idx, r in enumerate(ordered_rows, start=1):
             rid = _norm(r.get("region_id"))
-            t = _norm(r.get("T"))
+            t = _norm(r.get("T")).lower().replace("non_speech", "non-speech").replace("non speech", "non-speech")
             fband = _norm(r.get("F"))
-            p = _norm(r.get("P_type"))
+            p = _norm(r.get("P")) or _norm(r.get("P_type"))
             en_raw = _norm(r.get("refined_explanation")) or _norm(r.get("output_explanation")) or _norm(r.get("En"))
             en = _normalize_explanation(en_raw)
             if not (rid and t and fband and p and en):
@@ -324,6 +329,9 @@ def _build_from_csv(args: argparse.Namespace) -> List[Dict[str, Any]]:
         prompt1_output = f"[{', '.join(map(str, ids))}]"
         transcript = transcript_by_sid.get(sid) or _extract_transcript_word_tier_like_qwen_region(mfa_root, sid)
         transcript = _to_one_line(transcript)
+        if not transcript:
+            missing_transcripts.append(sid)
+            continue
         user_text = HARDCODED_QUERY2_USER_TEMPLATE.format(
             prompt1_output=prompt1_output,
             transcript=transcript,
@@ -346,6 +354,18 @@ def _build_from_csv(args: argparse.Namespace) -> List[Dict[str, Any]]:
                 "gt_prompt2": "; ".join(tuples),
             }
         )
+    if missing_factual:
+        raise ValueError(
+            "Missing factual rows for supplied Q1 GT regions; examples="
+            f"{missing_factual[:20]} (missing={len(missing_factual)})"
+        )
+    if missing_transcripts:
+        raise ValueError(
+            f"Missing Q2 transcripts; examples={missing_transcripts[:20]} "
+            f"(missing={len(missing_transcripts)})"
+        )
+    if not out:
+        raise ValueError("Q2 GT construction produced zero records.")
     return out
 
 
@@ -398,6 +418,12 @@ def main():
         default="",
         help="When input is csv, keep only sample_ids containing this substring; default keeps all sample_ids.",
     )
+    ap.add_argument(
+        "--expected-samples",
+        type=int,
+        default=0,
+        help="If positive, fail unless the constructed partition has exactly this many samples.",
+    )
     args = ap.parse_args()
 
     dst = Path(args.output_json).expanduser().resolve()
@@ -411,6 +437,10 @@ def main():
     else:
         out = _build_from_json(args)
 
+    if args.expected_samples > 0 and len(out) != args.expected_samples:
+        raise ValueError(
+            f"Q2 partition count mismatch: got {len(out)}, expected {args.expected_samples}."
+        )
     dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"saved: {dst} (n={len(out)}, input_format={in_fmt})")

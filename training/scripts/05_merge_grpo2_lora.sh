@@ -4,9 +4,9 @@ set -euo pipefail
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_common.sh"
 require_swift
 
-# Merge the final GRPO-2 LoRA into the SFT-2 merged base model.
+# Merge the Phase-B LoRA into the Phase-A merged base model used by Phase B.
 
-BASE_MODEL_ID="${BASE_MODEL_ID:-${OUTPUT_ROOT}/sft2_merged}"
+BASE_MODEL_ID="${BASE_MODEL_ID:?Set BASE_MODEL_ID to the Phase-A merged checkpoint used to initialize Phase B}"
 ADAPTER_PATH="${ADAPTER_PATH:?Set ADAPTER_PATH to the final GRPO-2 LoRA checkpoint}"
 OUTPUT_DIR="${OUTPUT_DIR:-${OUTPUT_ROOT}/gridex_final_merged}"
 

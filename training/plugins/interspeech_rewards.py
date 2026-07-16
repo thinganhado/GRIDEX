@@ -276,7 +276,7 @@ def _norm_time(v: str) -> Optional[str]:
     x = _norm_space(v)
     if x in TIME_LABELS:
         return x
-    if x in {"nonspeech", "non speech"}:
+    if x in {"nonspeech", "non speech", "non_speech"}:
         return "non-speech"
     return None
 
@@ -409,14 +409,44 @@ def _parse_region_tuples(text: str, expected_ids: Optional[Sequence[int]] = None
 
 
 TIME_LEXICON = {
-    "speech": [r"\bspeech\b", r"\bvoiced\b", r"\bspoken\b"],
-    "non-speech": [r"\bsilence\b", r"\bpause\b", r"\bnon[- ]?speech\b", r"\bbackground\b", r"\bnoise[- ]?only\b"],
+    "speech": [
+        r"\bduring speech\b",
+        r"\bspeech (?:interval|timing|span|segment)\b",
+        r"\boverlaps? (?:an? )?aligned speech\b",
+        r"\boverlaps? speech activity\b",
+        r"\bspeech is present\b",
+        r"\bwithin (?:an? )?aligned speech\b",
+        r"\bvoiced\b",
+        r"\bspoken\b",
+    ],
+    "non-speech": [
+        r"\bsilence\b",
+        r"\bpause\b",
+        r"\bnon[- ]?speech\b",
+        r"\bbackground\b",
+        r"\bnoise[- ]?only\b",
+        r"\boutside (?:the )?aligned speech\b",
+        r"\bdoes not overlap aligned speech\b",
+        r"\bno (?:aligned )?speech (?:interval )?(?:is aligned|occurs)\b",
+        r"\balignment contains no speech\b",
+    ],
 }
 FREQ_LEXICON = {"low": [r"\blow\b"], "mid": [r"\bmid\b", r"\bmiddle\b"], "high": [r"\bhigh\b"]}
 PHON_LEXICON = {
     "vowel": [r"\bvowel\b", r"\bformant\b"],
     "consonant": [r"\bconsonant\b", r"\bstop\b", r"\bfricative\b"],
-    "none": [r"outside aligned speech", r"no phone (?:can be|is) assigned", r"does not align with (?:a )?phone"],
+    "none": [
+        r"\bno (?:specific |reliable |corresponding )?phone\b",
+        r"\bwithout (?:an? )?(?:associated |corresponding )?phone\b",
+        r"\bhas no phone correspondence\b",
+        r"\bphone (?:can(?:not|'t)|cannot) be (?:reliably )?(?:assigned|matched)\b",
+        r"\bno phone (?:can be|is) (?:reliably )?(?:assigned|matched|associated)\b",
+        r"\bno phone (?:is )?available\b",
+        r"\bno reliable phone alignment\b",
+        r"\bdoes not align with (?:a )?phone\b",
+        r"\balignment does not identify (?:a )?corresponding phone\b",
+        r"\bcannot be matched reliably to (?:a )?phone\b",
+    ],
 }
 
 
@@ -442,11 +472,14 @@ def _extract_label(en_text: str, lexicon: Dict[str, List[str]]) -> Optional[str]
 
 
 def _independent_extract_from_en(en_text: str) -> Dict[str, Optional[str]]:
-    return {
-        "T": _extract_label(en_text, TIME_LEXICON),
-        "F": _extract_label(en_text, FREQ_LEXICON),
-        "P": _extract_label(en_text, PHON_LEXICON),
-    }
+    p = _extract_label(en_text, PHON_LEXICON)
+    t = _extract_label(en_text, TIME_LEXICON)
+    # Vowels and consonants necessarily occur in aligned speech. This fallback
+    # captures semantically explicit explanations such as formant/harmonic or
+    # fricative/stop descriptions without requiring the literal label "speech".
+    if t is None and p in {"vowel", "consonant"}:
+        t = "speech"
+    return {"T": t, "F": _extract_label(en_text, FREQ_LEXICON), "P": p}
 
 
 def _tokenize_for_rouge(text: str) -> List[str]:
