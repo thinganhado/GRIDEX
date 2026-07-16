@@ -44,6 +44,8 @@ LOGGING_STEPS="${LOGGING_STEPS:-10}"
 SAVE_TOTAL_LIMIT="${SAVE_TOTAL_LIMIT:-5}"
 DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-1}"
 DATASET_NUM_PROC="${DATASET_NUM_PROC:-4}"
+MAX_PIXELS="${MAX_PIXELS:-524288}"
+DEEPSPEED="${DEEPSPEED:-zero2}"
 
 NPROC_PER_NODE="${NPROC_PER_NODE:-2}"
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
@@ -177,6 +179,11 @@ if [[ "${CONVERT_ONLY}" == "1" ]]; then
   exit 0
 fi
 
+DEEPSPEED_ARGS=()
+if [[ "${DEEPSPEED}" != "none" && -n "${DEEPSPEED}" ]]; then
+  DEEPSPEED_ARGS=(--deepspeed "${DEEPSPEED}")
+fi
+
 # ===== Train Q2-only SFT adapter =====
 NPROC_PER_NODE="${NPROC_PER_NODE}" \
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
@@ -200,8 +207,8 @@ swift sft \
   --weight_decay "${WEIGHT_DECAY}" \
   --warmup_ratio "${WARMUP_RATIO}" \
   --lr_scheduler_type cosine \
-  --max_pixels 524288 \
-  --deepspeed zero2 \
+  --max_pixels "${MAX_PIXELS}" \
+  "${DEEPSPEED_ARGS[@]}" \
   --logging_steps "${LOGGING_STEPS}" \
   --save_steps "${SAVE_STEPS}" \
   --save_total_limit "${SAVE_TOTAL_LIMIT}" \

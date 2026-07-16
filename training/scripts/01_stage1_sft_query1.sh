@@ -12,6 +12,7 @@ OUTPUT_DIR="${OUTPUT_DIR:-${OUTPUT_ROOT}/sft1_query1}"
 SYSTEM_PROMPT="As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs."
 SAVE_STEPS="${SAVE_STEPS:-200}"
 MAX_LENGTH="${MAX_LENGTH:-768}"
+MAX_PIXELS="${MAX_PIXELS:-524288}"
 DISABLE_EVAL="${DISABLE_EVAL:-0}"
 NUM_TRAIN_EPOCHS="${NUM_TRAIN_EPOCHS:-3}"
 PER_DEVICE_TRAIN_BATCH_SIZE="${PER_DEVICE_TRAIN_BATCH_SIZE:-10}"
@@ -22,6 +23,7 @@ WEIGHT_DECAY="${WEIGHT_DECAY:-0.1}"
 WARMUP_RATIO="${WARMUP_RATIO:-0.03}"
 DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-16}"
 DATASET_NUM_PROC="${DATASET_NUM_PROC:-8}"
+DEEPSPEED="${DEEPSPEED:-zero2}"
 TMPDIR_BASE="${TMPDIR_BASE:-/tmp/${USER:-user}_mswift_q1}"
 SFT_DEBUG_GT="${SFT_DEBUG_GT:-1}"
 SFT_DEBUG_SAMPLES="${SFT_DEBUG_SAMPLES:-8}"
@@ -232,6 +234,11 @@ if [ "${DISABLE_EVAL}" = "1" ]; then
   echo "Evaluation disabled (DISABLE_EVAL=1)."
 fi
 
+DEEPSPEED_ARGS=()
+if [[ "${DEEPSPEED}" != "none" && -n "${DEEPSPEED}" ]]; then
+  DEEPSPEED_ARGS=(--deepspeed "${DEEPSPEED}")
+fi
+
 NPROC_PER_NODE="${NPROC_PER_NODE}" \
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
 swift sft \
@@ -257,8 +264,8 @@ swift sft \
   --warmup_ratio "${WARMUP_RATIO}" \
   --lr_scheduler_type cosine \
   "${EVAL_ARGS[@]}" \
-  --max_pixels 524288 \
-  --deepspeed zero2 \
+  --max_pixels "${MAX_PIXELS}" \
+  "${DEEPSPEED_ARGS[@]}" \
   --logging_steps 100 \
   --save_steps "${SAVE_STEPS}" \
   --save_total_limit 5 \

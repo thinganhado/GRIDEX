@@ -105,6 +105,14 @@ def parse_args() -> argparse.Namespace:
         default="",
         help="CSV column containing region target text, e.g. '13,1,2'. Auto-detect if omitted.",
     )
+    parser.add_argument(
+        "--preserve-input-region-order",
+        action="store_true",
+        help=(
+            "In sample_id+region_id mode, use the first three distinct region rows for each sample "
+            "exactly as they appear in the input CSV."
+        ),
+    )
     parser.add_argument("--user-prompt", default=DEFAULT_PROMPT, help="Query1 user prompt.")
     parser.add_argument(
         "--json-array-target",
@@ -258,7 +266,8 @@ def _build_records_from_sample_rows(
     image_suffix: str,
     user_prompt: str,
     json_array_target: bool,
-) -> Tuple[List[Dict], List[Tuple[str, Dict]], int]:
+    preserve_input_region_order: bool,
+) -> Tuple[List[Dict], List[Tuple[str, Dict]], int, Dict[str, List[str]]]:
     sample_to_regions: "OrderedDict[str, List[str]]" = OrderedDict()
     skipped = 0
 
@@ -275,16 +284,21 @@ def _build_records_from_sample_rows(
 
     records: List[Dict] = []
     path_aware_rows: List[Tuple[str, Dict]] = []
+    expected_targets: Dict[str, List[str]] = {}
     idx = 0
     for sample_id, region_list in sample_to_regions.items():
         if len(region_list) < 3:
             skipped += 1
             continue
-        ranked_regions = sorted(
-            region_list,
-            key=lambda rid: (-order_scores.get((sample_id, rid), float("-inf")), _region_sort_key(rid)),
-        )
-        top3 = ranked_regions[:3]
+        if preserve_input_region_order:
+            top3 = region_list[:3]
+        else:
+            ranked_regions = sorted(
+                region_list,
+                key=lambda rid: (-order_scores.get((sample_id, rid), float("-inf")), _region_sort_key(rid)),
+            )
+            top3 = ranked_regions[:3]
+        expected_targets[sample_id] = list(top3)
         target_raw = ",".join(top3)
         target = _to_json_array_string(target_raw) if json_array_target else target_raw
         image_path = str(Path(image_dir) / f"{sample_id}{image_suffix}")
@@ -299,7 +313,7 @@ def _build_records_from_sample_rows(
         path_aware_rows.append((image_path, rec))
         idx += 1
 
-    return records, path_aware_rows, skipped
+    return records, path_aware_rows, skipped, expected_targets
 
 
 def _load_order_scores(
@@ -375,6 +389,29 @@ def _verify_records_against_order(
     print(f"verified target order against order CSV: {checked} records")
 
 
+def _verify_records_against_input_targets(
+    records: List[Dict], expected_targets: Dict[str, List[str]]
+) -> None:
+    errors: List[str] = []
+    checked = 0
+    for rec in records:
+        source_sample_id = str(rec.get("source_sample_id", "")).strip()
+        actual = _parse_target_ids(rec.get("gt_regions", ""))
+        expected = expected_targets.get(source_sample_id)
+        if expected is None:
+            errors.append(f"{source_sample_id}: missing authoritative input target")
+        elif actual != expected:
+            errors.append(f"{source_sample_id}: constructed={actual}, input_csv={expected}")
+        checked += 1
+        if len(errors) >= 20:
+            break
+    if errors:
+        raise ValueError("Q1 input-order verification failed:\n  " + "\n  ".join(errors))
+    if checked == 0:
+        raise ValueError("Q1 input-order verification had no records to check.")
+    print(f"verified target IDs and order against input CSV: {checked} records")
+
+
 def _verify_record_images(records: List[Dict]) -> None:
     missing: List[str] = []
     for rec in records:
@@ -427,15 +464,24 @@ def _write_json(path: Path, data: List[Dict]) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def _verify_written_json(paths: List[Path], order_scores: Dict[Tuple[str, str], float]) -> None:
+def _verify_written_json(
+    paths: List[Path],
+    order_scores: Dict[Tuple[str, str], float],
+    expected_targets: Optional[Dict[str, List[str]]] = None,
+) -> None:
     persisted: List[Dict] = []
     for path in paths:
         data = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(data, list):
             raise ValueError(f"Constructed dataset is not a JSON list: {path}")
         persisted.extend(data)
-    _verify_records_against_order(persisted, order_scores)
-    print(f"post-write order audit passed: {', '.join(str(p) for p in paths)}")
+    if expected_targets is not None:
+        _verify_records_against_input_targets(persisted, expected_targets)
+        label = "input-order"
+    else:
+        _verify_records_against_order(persisted, order_scores)
+        label = "order-CSV"
+    print(f"post-write {label} audit passed: {', '.join(str(p) for p in paths)}")
 
 
 def main() -> None:
@@ -459,6 +505,8 @@ def main() -> None:
         fieldnames = set(reader.fieldnames or [])
         use_img_mode = bool(args.image_col) and args.image_col in fieldnames
         if use_img_mode:
+            if args.preserve_input_region_order:
+                raise ValueError("--preserve-input-region-order requires sample_id+region_id input mode.")
             records, path_aware_rows, skipped = _build_records_from_img_rows(
                 reader=reader,
                 image_col=args.image_col,
@@ -469,9 +517,10 @@ def main() -> None:
                 user_prompt=args.user_prompt,
                 json_array_target=args.json_array_target,
             )
+            expected_targets: Dict[str, List[str]] = {}
             print(f"mode: img_path (image_col='{args.image_col}')")
         else:
-            records, path_aware_rows, skipped = _build_records_from_sample_rows(
+            records, path_aware_rows, skipped, expected_targets = _build_records_from_sample_rows(
                 reader=reader,
                 sample_id_col=args.sample_id_col,
                 region_id_col=args.region_id_col,
@@ -480,6 +529,7 @@ def main() -> None:
                 image_suffix=args.image_suffix,
                 user_prompt=args.user_prompt,
                 json_array_target=args.json_array_target,
+                preserve_input_region_order=args.preserve_input_region_order,
             )
             print(
                 "mode: sample_id+region_id "
@@ -500,7 +550,10 @@ def main() -> None:
         if missing:
             raise ValueError(f"Missing order scores for constructed Q1 targets; examples={missing}")
     if args.verify_order:
-        _verify_records_against_order(records, order_scores)
+        if args.preserve_input_region_order:
+            _verify_records_against_input_targets(records, expected_targets)
+        else:
+            _verify_records_against_order(records, order_scores)
     if args.require_images:
         _verify_record_images(records)
 
@@ -551,7 +604,11 @@ def main() -> None:
         _write_json(train_path, train_data)
         _write_json(val_path, val_data)
         if args.verify_order:
-            _verify_written_json([train_path, val_path], order_scores)
+            _verify_written_json(
+                [train_path, val_path],
+                order_scores,
+                expected_targets if args.preserve_input_region_order else None,
+            )
         print(f"saved train: {len(train_data)} -> {train_path}")
         print(f"saved val:   {len(val_data)} -> {val_path}")
         print(f"skipped rows: {skipped}")
@@ -563,7 +620,11 @@ def main() -> None:
     output_path = Path(args.output_json).expanduser()
     _write_json(output_path, records)
     if args.verify_order:
-        _verify_written_json([output_path], order_scores)
+        _verify_written_json(
+            [output_path],
+            order_scores,
+            expected_targets if args.preserve_input_region_order else None,
+        )
     print(f"saved: {output_path} (n={len(records)})")
     print(f"skipped rows: {skipped}")
 

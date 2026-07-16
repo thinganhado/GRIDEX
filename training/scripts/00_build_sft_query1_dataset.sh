@@ -13,6 +13,7 @@ EXPECTED_TRAIN_SAMPLES="${EXPECTED_TRAIN_SAMPLES:-10320}"
 EXPECTED_VAL_SAMPLES="${EXPECTED_VAL_SAMPLES:-10192}"
 USER_PROMPT="Select the top 3 regions that most likely contain spoof artifacts, ordered from most to least prominent spoof artifact evidence."
 REGIONS_COL="${REGIONS_COL:-}"
+PRESERVE_INPUT_REGION_ORDER="${PRESERVE_INPUT_REGION_ORDER:-0}"
 IMAGE_COL="${IMAGE_COL:-img_path}"
 SAMPLE_ID_COL="${SAMPLE_ID_COL:-sample_id}"
 REGION_ID_COL="${REGION_ID_COL:-region_id}"
@@ -28,6 +29,9 @@ IMAGE_SUFFIX="${IMAGE_SUFFIX:-_grid_img_edge_number_axes.png}"
 EXTRA_ARGS=()
 if [ -n "${REGIONS_COL}" ]; then
   EXTRA_ARGS+=(--regions-col "${REGIONS_COL}")
+fi
+if [[ "${PRESERVE_INPUT_REGION_ORDER}" == "1" ]]; then
+  EXTRA_ARGS+=(--preserve-input-region-order)
 fi
 if [[ "${SPLIT_BY_PATH}" == "1" ]]; then
   EXTRA_ARGS+=(--split-by-path)

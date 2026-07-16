@@ -33,6 +33,45 @@ If the repositories are not siblings, export the checkout path:
 export MS_SWIFT_ROOT=/path/to/ms-swift
 ```
 
+### Single RTX 5090 (32 GB, WSL2)
+
+Use the dedicated wrapper instead of invoking the stage scripts directly. It
+selects one GPU, uses bf16, disables single-GPU ZeRO-2 overhead, and preserves
+the original effective SFT/GRPO batch sizes through gradient accumulation.
+
+```bash
+MODEL_ID=/mnt/c/Users/Admin/models/Qwen2.5-VL-3B-Instruct \
+  bash training/scripts/run_rtx5090.sh sft1
+
+MODEL_ID=/mnt/c/Users/Admin/models/Qwen2.5-VL-3B-Instruct \
+POLICY_ADAPTERS=/path/to/sft1/checkpoint-N \
+REF_ADAPTERS=/path/to/sft1/checkpoint-N \
+  bash training/scripts/run_rtx5090.sh grpo1
+
+MODEL_ID=/mnt/c/Users/Admin/models/Qwen2.5-VL-3B-Instruct \
+  bash training/scripts/run_rtx5090.sh sft2
+
+BASE_MODEL_ID=/path/to/sft2_merged \
+  bash training/scripts/run_rtx5090.sh grpo2
+```
+
+The RTX 5090 GRPO profile uses two generations and reserves 30% of VRAM for
+colocated vLLM. GRPO-2 also caps completions at 384 tokens. These settings make
+the pipeline practical on one 32 GB card, but they do not exactly reproduce the
+reported four-GPU rollout groups of eight. All values remain overridable, for
+example:
+
+```bash
+VLLM_GPU_MEMORY_UTILIZATION=0.25 \
+MAX_COMPLETION_LENGTH=256 \
+bash training/scripts/run_rtx5090.sh grpo2
+```
+
+If a stage still runs out of memory, reduce settings in this order: vLLM memory
+utilization (GRPO only), `MAX_COMPLETION_LENGTH` (GRPO only), `MAX_PIXELS`, then
+`MAX_LENGTH`. Keep `PER_DEVICE_TRAIN_BATCH_SIZE` divisible by
+`NUM_GENERATIONS` for GRPO. Do not reduce `NUM_GENERATIONS` below two.
+
 ## 2. Required inputs
 
 The portable defaults expect:

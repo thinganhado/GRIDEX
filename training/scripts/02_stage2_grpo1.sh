@@ -23,6 +23,13 @@ VLLM_TP="${VLLM_TP:-1}"
 VLLM_GPU_MEMORY_UTILIZATION="${VLLM_GPU_MEMORY_UTILIZATION:-0.75}"
 TORCH_DTYPE="${TORCH_DTYPE:-bfloat16}"
 SLEEP_LEVEL="${SLEEP_LEVEL:-1}"
+GRPO_BETA="${GRPO_BETA:-0.01}"
+NUM_GENERATIONS="${NUM_GENERATIONS:-8}"
+MAX_COMPLETION_LENGTH="${MAX_COMPLETION_LENGTH:-128}"
+MAX_LENGTH="${MAX_LENGTH:-512}"
+PER_DEVICE_TRAIN_BATCH_SIZE="${PER_DEVICE_TRAIN_BATCH_SIZE:-8}"
+GRADIENT_ACCUMULATION_STEPS="${GRADIENT_ACCUMULATION_STEPS:-1}"
+DEEPSPEED="${DEEPSPEED:-zero2}"
 DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-16}"
 DATASET_NUM_PROC="${DATASET_NUM_PROC:-8}"
 LOGGING_STEPS="${LOGGING_STEPS:-100}"
@@ -142,6 +149,11 @@ export GRPO_RETRY_REQUIRE_IMPROVEMENT="${GRPO_RETRY_REQUIRE_IMPROVEMENT}"
 export GRPO_DEDUPE_STRICT="${GRPO_DEDUPE_STRICT}"
 export GRPO_DEDUPE_ONLY_WRONG_IDS="${GRPO_DEDUPE_ONLY_WRONG_IDS}"
 
+DEEPSPEED_ARGS=()
+if [[ "${DEEPSPEED}" != "none" && -n "${DEEPSPEED}" ]]; then
+  DEEPSPEED_ARGS=(--deepspeed "${DEEPSPEED}")
+fi
+
 # ===== Train GRPO-1 =====
 NPROC_PER_NODE="${NPROC_PER_NODE}" \
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
@@ -159,8 +171,8 @@ swift rlhf \
   --vllm_tensor_parallel_size "${VLLM_TP}" \
   --vllm_gpu_memory_utilization "${VLLM_GPU_MEMORY_UTILIZATION}" \
   --sleep_level "${SLEEP_LEVEL}" \
-  --beta 0.01 \
-  --num_generations 8 \
+  --beta "${GRPO_BETA}" \
+  --num_generations "${NUM_GENERATIONS}" \
   --temperature "${TEMPERATURE}" \
   --top_p "${TOP_P}" \
   --tuner_type lora \
@@ -173,10 +185,10 @@ swift rlhf \
   --torch_dtype "${TORCH_DTYPE}" \
   --num_train_epochs "${NUM_TRAIN_EPOCHS}" \
   --max_steps -1 \
-  --max_completion_length 128 \
-  --max_length 512 \
-  --per_device_train_batch_size 8 \
-  --gradient_accumulation_steps 1 \
+  --max_completion_length "${MAX_COMPLETION_LENGTH}" \
+  --max_length "${MAX_LENGTH}" \
+  --per_device_train_batch_size "${PER_DEVICE_TRAIN_BATCH_SIZE}" \
+  --gradient_accumulation_steps "${GRADIENT_ACCUMULATION_STEPS}" \
   --learning_rate 1e-5 \
   --weight_decay 0.1 \
   --warmup_ratio 0.05 \
@@ -188,7 +200,7 @@ swift rlhf \
   --save_total_limit 10 \
   --dataloader_num_workers "${DATALOADER_NUM_WORKERS}" \
   --dataset_num_proc "${DATASET_NUM_PROC}" \
-  --deepspeed zero2 \
+  "${DEEPSPEED_ARGS[@]}" \
   --output_dir "${OUTPUT_DIR}" \
   --report_to tensorboard \
   --log_completions true \
