@@ -1,0 +1,78 @@
+[INFO:swift] Successfully registered `/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/dataset/data/dataset_info.json`.
+[INFO:swift] Setting args.remove_unused_columns: False
+[INFO:swift] Successfully imported external_plugins: ['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'].
+[INFO:swift] rank: 0, local_rank: 0, world_size: 1, local_world_size: 1
+`torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] Because len(args.val_dataset) > 0, setting split_dataset_ratio: 0.0
+[INFO:swift] Setting args.lazy_tokenize: True
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/cli/rlhf.py", line 7, in <module>
+[rank0]:     rlhf_main()
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/pipelines/train/rlhf.py", line 239, in rlhf_main
+[rank0]:     return SwiftRLHF(args).main()
+[rank0]:            ^^^^^^^^^^^^^^^
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/pipelines/train/sft.py", line 27, in __init__
+[rank0]:     super().__init__(args)
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/pipelines/base.py", line 18, in __init__
+[rank0]:     self.args = self._parse_args(args)
+[rank0]:                 ^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/pipelines/base.py", line 35, in _parse_args
+[rank0]:     args, remaining_argv = parse_args(self.args_class, args)
+[rank0]:                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/utils/utils.py", line 187, in parse_args
+[rank0]:     args, remaining_args = parser.parse_args_into_dataclasses(argv, return_remaining_strings=True)
+[rank0]:                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/transformers/hf_argparser.py", line 345, in parse_args_into_dataclasses
+[rank0]:     obj = dtype(**inputs)
+[rank0]:           ^^^^^^^^^^^^^^^
+[rank0]:   File "<string>", line 468, in __init__
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/arguments/rlhf_args.py", line 255, in __post_init__
+[rank0]:     SftArguments.__post_init__(self)
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/arguments/sft_args.py", line 228, in __post_init__
+[rank0]:     self.training_args = TrainerFactory.get_training_args(self)
+[rank0]:                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/trainers/trainer_factory.py", line 72, in get_training_args
+[rank0]:     training_args = training_args_cls(**args_dict)
+[rank0]:                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "<string>", line 300, in __init__
+[rank0]:   File "/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/rlhf_trainers/arguments.py", line 88, in __post_init__
+[rank0]:     HfGRPOConfig.__post_init__(self)
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/trl/trainer/grpo_config.py", line 879, in __post_init__
+[rank0]:     raise ValueError(
+[rank0]: ValueError: The global eval batch size (1 * 1) must be divisible by the number of generations used for evaluation (4).
+[rank0]:[W717 13:47:42.595577002 ProcessGroupNCCL.cpp:1524] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+E0717 13:47:43.199000 133100 torch/distributed/elastic/multiprocessing/api.py:882] failed (exitcode: 1) local_rank: 0 (pid: 133111) of binary: /home/gridex/.venvs/gridex/bin/python
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 940, in <module>
+    main()
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 156, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 293, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/cli/rlhf.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-07-17_13:47:43
+  host      : DESKTOP-7CRVBQK.localdomain
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 133111)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

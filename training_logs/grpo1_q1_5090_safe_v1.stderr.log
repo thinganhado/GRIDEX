@@ -1,0 +1,62 @@
+[INFO:swift] Successfully registered `/home/gridex/src/ms-swift-d9010/swift/dataset/data/dataset_info.json`.
+[INFO:swift] Setting args.remove_unused_columns: False
+Traceback (most recent call last):
+  File "/home/gridex/src/ms-swift-d9010/swift/cli/rlhf.py", line 7, in <module>
+    rlhf_main()
+  File "/home/gridex/src/ms-swift-d9010/swift/pipelines/train/rlhf.py", line 240, in rlhf_main
+    return SwiftRLHF(args).main()
+           ^^^^^^^^^^^^^^^
+  File "/home/gridex/src/ms-swift-d9010/swift/pipelines/train/sft.py", line 28, in __init__
+    super().__init__(args)
+  File "/home/gridex/src/ms-swift-d9010/swift/pipelines/base.py", line 18, in __init__
+    self.args = self._parse_args(args)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/src/ms-swift-d9010/swift/pipelines/base.py", line 35, in _parse_args
+    args, remaining_argv = parse_args(self.args_class, args)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/src/ms-swift-d9010/swift/utils/utils.py", line 188, in parse_args
+    args, remaining_args = parser.parse_args_into_dataclasses(argv, return_remaining_strings=True)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/transformers/hf_argparser.py", line 345, in parse_args_into_dataclasses
+    obj = dtype(**inputs)
+          ^^^^^^^^^^^^^^^
+  File "<string>", line 468, in __init__
+  File "/home/gridex/src/ms-swift-d9010/swift/arguments/rlhf_args.py", line 252, in __post_init__
+    self._init_rollout()
+  File "/home/gridex/src/ms-swift-d9010/swift/arguments/rlhf_args.py", line 361, in _init_rollout
+    raise ValueError('vllm_mode is not supported when use_vllm is false')
+ValueError: vllm_mode is not supported when use_vllm is false
+E0717 13:57:45.791000 134053 torch/distributed/elastic/multiprocessing/api.py:882] failed (exitcode: 1) local_rank: 0 (pid: 134064) of binary: /home/gridex/.venvs/gridex/bin/python
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 940, in <module>
+    main()
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 156, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 293, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/home/gridex/src/ms-swift-d9010/swift/cli/rlhf.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-07-17_13:57:45
+  host      : DESKTOP-7CRVBQK.localdomain
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 134064)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

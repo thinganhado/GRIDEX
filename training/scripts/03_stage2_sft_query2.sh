@@ -36,18 +36,31 @@ SKIP_CONVERT="${SKIP_CONVERT:-0}"
 TMPDIR_BASE="${TMPDIR_BASE:-/tmp/${USER:-user}_mswift_q2}"
 TORCH_DTYPE="${TORCH_DTYPE:-bfloat16}"
 NUM_TRAIN_EPOCHS="${NUM_TRAIN_EPOCHS:-2}"
+MAX_STEPS="${MAX_STEPS:--1}"
 PER_DEVICE_TRAIN_BATCH_SIZE="${PER_DEVICE_TRAIN_BATCH_SIZE:-4}"
 GRADIENT_ACCUMULATION_STEPS="${GRADIENT_ACCUMULATION_STEPS:-8}"
+PER_DEVICE_EVAL_BATCH_SIZE="${PER_DEVICE_EVAL_BATCH_SIZE:-4}"
+GRADIENT_CHECKPOINTING="${GRADIENT_CHECKPOINTING:-false}"
 LEARNING_RATE="${LEARNING_RATE:-5e-5}"
 WEIGHT_DECAY="${WEIGHT_DECAY:-0.1}"
 WARMUP_RATIO="${WARMUP_RATIO:-0.03}"
 SAVE_STEPS="${SAVE_STEPS:-200}"
 LOGGING_STEPS="${LOGGING_STEPS:-10}"
 SAVE_TOTAL_LIMIT="${SAVE_TOTAL_LIMIT:-5}"
-DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-1}"
+DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-4}"
+DATALOADER_PERSISTENT_WORKERS="${DATALOADER_PERSISTENT_WORKERS:-true}"
+DATALOADER_PREFETCH_FACTOR="${DATALOADER_PREFETCH_FACTOR:-2}"
 DATASET_NUM_PROC="${DATASET_NUM_PROC:-4}"
+# Audited Q2 examples are 1,154-1,308 tokens at MAX_PIXELS=524288.
+# 1,408 avoids silently truncating the supervised En targets.
+MAX_LENGTH="${MAX_LENGTH:-1408}"
 MAX_PIXELS="${MAX_PIXELS:-524288}"
 DEEPSPEED="${DEEPSPEED:-zero2}"
+EVAL_STRATEGY="${EVAL_STRATEGY:-epoch}"
+SAVE_STRATEGY="${SAVE_STRATEGY:-epoch}"
+LOAD_BEST_MODEL_AT_END="${LOAD_BEST_MODEL_AT_END:-true}"
+DATASET_SAMPLE="${DATASET_SAMPLE:-0}"
+VAL_DATASET_SAMPLE="${VAL_DATASET_SAMPLE:-0}"
 EXPECTED_TRAIN_SAMPLES="${EXPECTED_TRAIN_SAMPLES:-10320}"
 EXPECTED_VAL_SAMPLES="${EXPECTED_VAL_SAMPLES:-10192}"
 
@@ -67,6 +80,10 @@ export DATASETS_CACHE="${CACHE_ROOT}/datasets"
 export MODELSCOPE_CACHE="${CACHE_ROOT}/modelscope"
 export XDG_CACHE_HOME="${CACHE_ROOT}/xdg_cache"
 export TMPDIR="${TMPDIR_BASE}"
+export PYTORCH_ALLOC_CONF="${PYTORCH_ALLOC_CONF:-expandable_segments:True}"
+export TOKENIZERS_PARALLELISM="${TOKENIZERS_PARALLELISM:-false}"
+export CUDA_MODULE_LOADING="${CUDA_MODULE_LOADING:-LAZY}"
+export TORCH_ALLOW_TF32_CUBLAS_OVERRIDE="${TORCH_ALLOW_TF32_CUBLAS_OVERRIDE:-1}"
 unset TRANSFORMERS_CACHE
 
 if [[ ! -f "${Q2_JSON_IN}" ]]; then
@@ -215,13 +232,39 @@ if [[ "${DEEPSPEED}" != "none" && -n "${DEEPSPEED}" ]]; then
   DEEPSPEED_ARGS=(--deepspeed "${DEEPSPEED}")
 fi
 
+if [[ "${NPROC_PER_NODE}" -ne 1 ]]; then
+  IFS=',' read -r -a visible_gpus <<< "${CUDA_VISIBLE_DEVICES}"
+  if (( ${#visible_gpus[@]} < NPROC_PER_NODE )); then
+    echo "ERROR: NPROC_PER_NODE=${NPROC_PER_NODE}, but CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES} exposes only ${#visible_gpus[@]} GPU(s)." >&2
+    exit 2
+  fi
+fi
+
+if [[ "${DATALOADER_NUM_WORKERS}" -eq 0 ]]; then
+  DATALOADER_PERSISTENT_WORKERS=false
+fi
+
+effective_batch=$((NPROC_PER_NODE * PER_DEVICE_TRAIN_BATCH_SIZE * GRADIENT_ACCUMULATION_STEPS))
+TRAIN_DATASET_ARG="${Q2_JSON_SWIFT}"
+VAL_DATASET_ARG="${Q2_VAL_JSON_SWIFT}"
+if (( DATASET_SAMPLE > 0 )); then
+  TRAIN_DATASET_ARG+="#${DATASET_SAMPLE}"
+fi
+if (( VAL_DATASET_SAMPLE > 0 )); then
+  VAL_DATASET_ARG+="#${VAL_DATASET_SAMPLE}"
+fi
+echo "[sft2] GPUs=${NPROC_PER_NODE} visible=${CUDA_VISIBLE_DEVICES} effective_batch=${effective_batch}"
+echo "[sft2] train_batch=${PER_DEVICE_TRAIN_BATCH_SIZE} eval_batch=${PER_DEVICE_EVAL_BATCH_SIZE} grad_acc=${GRADIENT_ACCUMULATION_STEPS}"
+echo "[sft2] max_length=${MAX_LENGTH} max_pixels=${MAX_PIXELS} gradient_checkpointing=${GRADIENT_CHECKPOINTING} deepspeed=${DEEPSPEED}"
+echo "[sft2] eval_strategy=${EVAL_STRATEGY} save_strategy=${SAVE_STRATEGY} workers=${DATALOADER_NUM_WORKERS}"
+
 # ===== Train Q2-only SFT adapter =====
 NPROC_PER_NODE="${NPROC_PER_NODE}" \
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
 swift sft \
   --model "${MODEL_ID}" \
-  --dataset "${Q2_JSON_SWIFT}" \
-  --val_dataset "${Q2_VAL_JSON_SWIFT}" \
+  --dataset "${TRAIN_DATASET_ARG}" \
+  --val_dataset "${VAL_DATASET_ARG}" \
   --system "${SYSTEM_PROMPT}" \
   --tuner_type lora \
   --torch_dtype "${TORCH_DTYPE}" \
@@ -233,21 +276,30 @@ swift sft \
   --freeze_vit true \
   --freeze_aligner true \
   --num_train_epochs "${NUM_TRAIN_EPOCHS}" \
+  --max_steps "${MAX_STEPS}" \
   --per_device_train_batch_size "${PER_DEVICE_TRAIN_BATCH_SIZE}" \
+  --per_device_eval_batch_size "${PER_DEVICE_EVAL_BATCH_SIZE}" \
   --gradient_accumulation_steps "${GRADIENT_ACCUMULATION_STEPS}" \
-  --max_length 768 \
+  --gradient_checkpointing "${GRADIENT_CHECKPOINTING}" \
+  --max_length "${MAX_LENGTH}" \
   --learning_rate "${LEARNING_RATE}" \
   --weight_decay "${WEIGHT_DECAY}" \
   --warmup_ratio "${WARMUP_RATIO}" \
   --lr_scheduler_type cosine \
   --max_pixels "${MAX_PIXELS}" \
   "${DEEPSPEED_ARGS[@]}" \
-  --eval_strategy steps \
+  --eval_strategy "${EVAL_STRATEGY}" \
   --eval_steps "${SAVE_STEPS}" \
+  --save_strategy "${SAVE_STRATEGY}" \
+  --load_best_model_at_end "${LOAD_BEST_MODEL_AT_END}" \
+  --metric_for_best_model loss \
+  --greater_is_better false \
   --logging_steps "${LOGGING_STEPS}" \
   --save_steps "${SAVE_STEPS}" \
   --save_total_limit "${SAVE_TOTAL_LIMIT}" \
   --dataloader_num_workers "${DATALOADER_NUM_WORKERS}" \
+  --dataloader_persistent_workers "${DATALOADER_PERSISTENT_WORKERS}" \
+  --dataloader_prefetch_factor "${DATALOADER_PREFETCH_FACTOR}" \
   --dataset_num_proc "${DATASET_NUM_PROC}" \
   --output_dir "${OUTPUT_DIR}" \
   --report_to tensorboard

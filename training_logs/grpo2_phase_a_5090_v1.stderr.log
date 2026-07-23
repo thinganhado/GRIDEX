@@ -1,0 +1,982 @@
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[INFO:swift] Successfully registered `/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/dataset/data/dataset_info.json`.
+[INFO:swift] Setting args.remove_unused_columns: False
+[INFO:swift] Successfully imported external_plugins: ['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'].
+[INFO:swift] rank: 0, local_rank: 0, world_size: 1, local_world_size: 1
+`torch_dtype` is deprecated! Use `dtype` instead!
+[INFO:swift] Successfully loaded /home/gridex/training_outputs/sft2_query2/sft2_q2_5090_balanced_v1/sft2_checkpoint324_merged/args.json.
+[INFO:swift] Setting model_type: qwen2_5_vl
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] Successfully loaded /home/gridex/training_outputs/sft2_query2/sft2_q2_5090_balanced_v1/sft2_checkpoint324_merged/args.json.
+[INFO:swift] Setting args.lazy_tokenize: True
+[INFO:swift] output_dir: /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158
+[INFO:swift] args: RLHFArguments(
+_n_gpu=-1,
+acc_strategy=token,
+accelerator_config={'dispatch_batches': False},
+adafactor=False,
+adalora_beta1=0.85,
+adalora_beta2=0.85,
+adalora_deltaT=1,
+adalora_init_r=12,
+adalora_orth_reg_weight=0.5,
+adalora_target_r=8,
+adalora_tfinal=0,
+adalora_tinit=0,
+adam_beta1=0.9,
+adam_beta2=0.95,
+adam_epsilon=1e-08,
+adapter_act=gelu,
+adapter_length=128,
+adapters=[],
+add_non_thinking_prefix=True,
+add_version=True,
+advantage_estimator=grpo,
+agent_template=None,
+aligner_lr=None,
+async_generate=False,
+attn_impl=None,
+auto_find_batch_size=False,
+average_tokens_across_devices=True,
+batch_eval_metrics=False,
+beta=0.1,
+bf16=True,
+bf16_full_eval=False,
+bnb_4bit_compute_dtype=torch.bfloat16,
+bnb_4bit_quant_storage=None,
+bnb_4bit_quant_type=nf4,
+bnb_4bit_use_double_quant=True,
+boft_block_num=0,
+boft_block_size=4,
+boft_dropout=0.0,
+boft_n_butterfly_factor=1,
+cached_dataset=[],
+cached_val_dataset=[],
+callbacks=[],
+center_rewards_coefficient=None,
+check_model=True,
+chord_enable_phi_function=False,
+chord_mu_decay_steps=None,
+chord_mu_peak=None,
+chord_mu_valley=None,
+chord_mu_warmup_steps=None,
+chord_sft_dataset=[],
+chord_sft_per_device_train_batch_size=None,
+cliprange=0.2,
+cliprange_value=0.2,
+columns={},
+completion_length_limit_scope=per_round,
+cosine_max_len=None,
+cosine_max_len_value_correct=0.5,
+cosine_max_len_value_wrong=0.0,
+cosine_min_len_value_correct=1.0,
+cosine_min_len_value_wrong=-0.5,
+cpo_alpha=1.0,
+create_checkpoint_symlink=False,
+custom_dataset_info=[],
+custom_register_path=[],
+data_seed=42,
+dataloader_drop_last=False,
+dataloader_num_workers=4,
+dataloader_persistent_workers=False,
+dataloader_pin_memory=True,
+dataloader_prefetch_factor=None,
+dataset=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/grpo2_pred_aligned_swift.json'],
+dataset_num_proc=4,
+dataset_shuffle=True,
+ddp_backend=None,
+ddp_broadcast_buffers=None,
+ddp_bucket_cap_mb=None,
+ddp_find_unused_parameters=None,
+ddp_timeout=18000000,
+debug=None,
+deepspeed=None,
+deepspeed_autotp_size=None,
+delta=None,
+desirable_weight=1.0,
+device_groups=None,
+device_map=None,
+disable_tqdm=None,
+discopop_tau=0.05,
+do_eval=False,
+do_predict=False,
+do_train=False,
+download_mode=reuse_dataset_if_exists,
+ds3_gather_for_generation=True,
+dynamic_sample=False,
+early_stop_interval=None,
+enable_channel_loss=False,
+enable_dft_loss=False,
+enable_flattened_weight_sync=True,
+enable_thinking=None,
+epsilon=0.2,
+epsilon_high=None,
+eval_accumulation_steps=None,
+eval_dataset=[],
+eval_dataset_args=None,
+eval_delay=0,
+eval_do_concat_batches=True,
+eval_generation_config=None,
+eval_limit=None,
+eval_metric=None,
+eval_on_start=False,
+eval_steps=100.0,
+eval_strategy=no,
+eval_use_evalscope=False,
+eval_use_gather_object=False,
+experts_impl=None,
+external_plugins=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'],
+extra_eval_args=None,
+fourier_n_frequency=2000,
+fourier_scaling=300.0,
+fp16=False,
+fp16_backend=auto,
+fp16_full_eval=False,
+fp16_opt_level=O1,
+freeze_aligner=True,
+freeze_llm=False,
+freeze_parameters=[],
+freeze_parameters_ratio=0.0,
+freeze_parameters_regex=None,
+freeze_vit=True,
+fsdp=[],
+fsdp_config=None,
+fsdp_min_num_params=0,
+fsdp_transformer_layer_cls_to_wrap=None,
+full_determinism=False,
+galore_cos_threshold=0.4,
+galore_gamma_proj=2,
+galore_optim_per_parameter=False,
+galore_proj_bits=4,
+galore_proj_group_size=256,
+galore_proj_quant=False,
+galore_proj_type=std,
+galore_quantization=False,
+galore_queue_size=5,
+galore_rank=128,
+galore_scale=1.0,
+galore_target_modules=None,
+galore_update_proj_gap=50,
+galore_with_embedding=False,
+gamma=1.0,
+generation_batch_size=None,
+generation_config=None,
+generation_max_length=None,
+generation_num_beams=None,
+gradient_accumulation_steps=16,
+gradient_checkpointing=True,
+gradient_checkpointing_kwargs=None,
+greater_is_better=False,
+group_by_length=False,
+half_precision_backend=auto,
+hqq_axis=None,
+hub_always_push=False,
+hub_model_id=None,
+hub_private_repo=None,
+hub_revision=None,
+hub_strategy=every_save,
+hub_token=<HUB_TOKEN>,
+ignore_args_error=False,
+ignore_data_skip=False,
+importance_sampling_level=token,
+include_for_metrics=[],
+include_inputs_for_metrics=False,
+include_num_input_tokens_seen=False,
+include_tokens_per_second=False,
+init_strategy=None,
+init_weights=True,
+interleave_prob=None,
+jit_mode_eval=False,
+kl_coef=0.05,
+kl_in_reward=False,
+label_names=None,
+label_smoothing=0,
+label_smoothing_factor=0.0,
+lam=0.95,
+lazy_tokenize=True,
+ld_alpha=None,
+learning_rate=1e-05,
+length_column_name=length,
+liger_kernel_config=None,
+lisa_activated_layers=0,
+lisa_step_interval=20,
+llamapro_num_groups=None,
+llamapro_num_new_blocks=4,
+lmbda=0.5,
+load_args=False,
+load_best_model_at_end=False,
+load_data_args=False,
+load_from_cache_file=False,
+local_rank=0,
+local_repo_path=None,
+local_rollout_forward_batch_size=64,
+log_completions=True,
+log_entropy=False,
+log_level=passive,
+log_level_replica=warning,
+log_on_each_node=True,
+log_rollout_offpolicy_metrics=False,
+logging_dir=/home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/runs,
+logging_first_step=True,
+logging_nan_inf_filter=True,
+logging_steps=20,
+logging_strategy=steps,
+logprobs=False,
+lora_alpha=32,
+lora_bias=none,
+lora_dropout=0.05,
+lora_dtype=None,
+lora_ga_batch_size=2,
+lora_ga_direction=ArB2r,
+lora_ga_iters=2,
+lora_ga_max_length=1024,
+lora_ga_scale=stable,
+lora_ga_stable_gamma=16,
+lora_rank=8,
+lorap_lr_ratio=None,
+loss_scale=last_round,
+loss_type=grpo,
+loss_weights=None,
+lr_scheduler_kwargs=None,
+lr_scheduler_type=cosine,
+max_completion_length=512,
+max_epochs=None,
+max_grad_norm=1.0,
+max_length=1408,
+max_memory={},
+max_model_len=None,
+max_new_tokens=512,
+max_pixels=None,
+max_resample_times=3,
+max_steps=-1,
+max_turns=None,
+metric_for_best_model=loss,
+missing_eos_penalty=None,
+model=/home/gridex/training_outputs/sft2_query2/sft2_q2_5090_balanced_v1/sft2_checkpoint324_merged,
+model_author=None,
+model_kwargs={},
+model_name=None,
+model_revision=None,
+model_type=qwen2_5_vl,
+modules_to_save=[],
+move_model_batches=None,
+mp_parameters=,
+multi_turn_scheduler=None,
+neftune_noise_alpha=None,
+new_special_tokens=[],
+no_cuda=False,
+norm_bbox=None,
+num_beams=1,
+num_generations=2,
+num_generations_eval=None,
+num_iterations=1,
+num_labels=None,
+num_mini_batches=1,
+num_ppo_epochs=4,
+num_sample_generations=10,
+num_train_epochs=1.0,
+off_policy_sequence_mask_delta=None,
+offload_model=False,
+offload_optimizer=False,
+offload_teacher_model=False,
+optim=adamw_torch_fused,
+optim_args=None,
+optim_target_modules=None,
+optimizer=None,
+output_dir=/home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158,
+overlong_filter=False,
+overwrite_output_dir=False,
+packing=False,
+packing_length=None,
+packing_num_proc=1,
+padding_free=False,
+padding_side=right,
+parallelism_config=None,
+past_index=-1,
+per_device_eval_batch_size=1,
+per_device_train_batch_size=2,
+predict_with_generate=False,
+prediction_loss_only=False,
+problem_type=None,
+project=huggingface,
+push_to_hub=False,
+push_to_hub_model_id=None,
+push_to_hub_organization=None,
+push_to_hub_token=<PUSH_TO_HUB_TOKEN>,
+quant_bits=None,
+quant_method=None,
+ray_exp_name=None,
+ray_scope=last,
+ref_adapters=[],
+ref_model=None,
+ref_model_mixup_alpha=0.6,
+ref_model_revision=None,
+ref_model_sync_steps=512,
+ref_model_type=None,
+reft_args=None,
+reft_intervention_type=LoreftIntervention,
+reft_layer_key=None,
+reft_layers=None,
+reft_rank=4,
+remove_unused_columns=False,
+repetition_max_penalty=-1.0,
+repetition_n_grams=3,
+repetition_penalty=1.0,
+report_to=['tensorboard'],
+response_length=512,
+response_prefix=None,
+restore_callback_states_from_checkpoint=False,
+resume_from_checkpoint=None,
+resume_only_model=False,
+reward_adapters=[],
+reward_funcs=['external_interspeech_p2'],
+reward_model=None,
+reward_model_plugin=None,
+reward_model_revision=None,
+reward_model_type=None,
+reward_weights=None,
+rlhf_type=grpo,
+rollout_importance_sampling_mode=None,
+rollout_importance_sampling_threshold=2.0,
+rope_scaling=None,
+router_aux_loss_coef=0.0,
+rpo_alpha=None,
+run_name=/home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158,
+save_on_each_node=False,
+save_only_model=False,
+save_safetensors=True,
+save_steps=100.0,
+save_strategy=steps,
+save_total_limit=10,
+scale_rewards=group,
+seed=42,
+seq_kd=False,
+sequence_parallel_size=1,
+sft_alpha=0,
+shuffle_buffer_size=1000,
+simpo_gamma=1,
+skip_memory_metrics=True,
+sleep_level=0,
+soft_cache_length=None,
+soft_max_length=None,
+sortish_sampler=False,
+split_dataset_ratio=0.0,
+steps_per_generation=None,
+stop_words=[],
+stopping_strategy=first_exhausted,
+stream=False,
+streaming=False,
+strict=False,
+structured_outputs_regex=None,
+swanlab_email_language=zh,
+swanlab_exp_name=None,
+swanlab_mode=cloud,
+swanlab_notification_method=None,
+swanlab_project=ms-swift,
+swanlab_receiver_email=None,
+swanlab_secret=None,
+swanlab_sender_email=None,
+swanlab_smtp_port=None,
+swanlab_smtp_server=None,
+swanlab_token=<SWANLAB_TOKEN>,
+swanlab_webhook_url=None,
+swanlab_workspace=None,
+sync_ref_model=False,
+system=You are an expert in deepfake speech spectrogram forensics.
+
+You are given a spectrogram and transcript. You have already selected exactly 3 region IDs, in order: ID1, ID2, ID3.
+For each ID, infer timing information (T), frequency band (F), phonetic category (P), and a visual description of the artifact and the likely audio impact implied by the artificial signs (En).
+
+OUTPUT FORMAT (must follow exactly):
+(T1=..., F1=..., P1=..., En1="..."); (T2=..., F2=..., P2=..., En2="..."); (T3=..., F3=..., P3=..., En3="...")
+
+Field definitions:
+- Fields ending in 1, 2, and 3 correspond to ID1, ID2, and ID3 respectively.
+- T: one of {speech, non-speech}
+- F: one of {low, mid, high}
+- P: one of {consonant, vowel, none}. Use none when the region is outside aligned speech and no phone can be assigned.
+- En: textual description, must be enclosed in double quotes.
+
+Do not output any other text outside the three tuples.,
+target_modules=['all-linear'],
+target_parameters=None,
+target_regex=None,
+task_type=causal_lm,
+tau_neg=1.05,
+tau_pos=1.0,
+teacher_adapters=[],
+teacher_deepspeed=None,
+teacher_model=None,
+teacher_model_revision=None,
+teacher_model_type=None,
+temperature=0.9,
+template=qwen2_5_vl,
+template_backend=swift,
+tf32=None,
+top_entropy_quantile=1.0,
+top_k=50,
+top_logprobs=None,
+top_p=0.9,
+torch_compile=False,
+torch_compile_backend=None,
+torch_compile_mode=None,
+torch_dtype=torch.bfloat16,
+torch_empty_cache_steps=None,
+torchdynamo=None,
+tpu_metrics_debug=False,
+tpu_num_cores=None,
+trackio_space_id=trackio,
+train_dataloader_shuffle=True,
+train_type=None,
+trainable_parameters=[],
+trainable_parameters_regex=None,
+truncation_strategy=left,
+tuner_backend=peft,
+tuner_type=lora,
+undesirable_weight=1.0,
+use_chat_template=True,
+use_cpu=False,
+use_dora=False,
+use_flash_ckpt=False,
+use_galore=False,
+use_hf=False,
+use_legacy_prediction_loop=False,
+use_liger_kernel=False,
+use_logits_to_keep=None,
+use_mps_device=False,
+use_ray=False,
+use_rslora=False,
+use_swift_lora=False,
+use_vllm=False,
+val_dataset=[],
+val_dataset_shuffle=False,
+vera_d_initial=0.1,
+vera_dropout=0.0,
+vera_projection_prng_key=0,
+vera_rank=256,
+vf_coef=0.1,
+vit_gradient_checkpointing=None,
+vit_lr=None,
+vllm_data_parallel_size=1,
+vllm_disable_cascade_attn=False,
+vllm_disable_custom_all_reduce=True,
+vllm_enable_expert_parallel=False,
+vllm_enable_lora=False,
+vllm_enable_prefix_caching=True,
+vllm_enforce_eager=False,
+vllm_engine_kwargs={},
+vllm_gpu_memory_utilization=0.9,
+vllm_limit_mm_per_prompt=None,
+vllm_max_lora_rank=16,
+vllm_max_model_len=None,
+vllm_max_num_seqs=None,
+vllm_mm_processor_cache_gb=None,
+vllm_mode=None,
+vllm_pipeline_parallel_size=1,
+vllm_quantization=None,
+vllm_reasoning_parser=None,
+vllm_server_base_url=None,
+vllm_server_group_port=None,
+vllm_server_host=None,
+vllm_server_pass_dataset=False,
+vllm_server_port=[8000],
+vllm_server_timeout=240.0,
+vllm_speculative_config=None,
+vllm_tensor_parallel_size=1,
+vllm_use_async_engine=None,
+wandb_log_unique_prompts=None,
+warmup_ratio=0.05,
+warmup_steps=0,
+weight_decay=0.1,
+whiten_rewards=False,
+zero_hpz_partition_size=None,
+)
+[INFO:swift] Global seed set to 42
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] model_kwargs: {'device_map': 'cuda:0', 'dtype': torch.bfloat16}
+The image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To continue using the slow processor, instantiate this class with `use_fast=False`. Note that this behavior will be extended to all models in a future release.
+The tokenizer you are loading from '/home/gridex/training_outputs/sft2_query2/sft2_q2_5090_balanced_v1/sft2_checkpoint324_merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+[INFO:swift] Setting max_ratio: 200. You can adjust this hyperparameter through the environment variable: `MAX_RATIO`.
+[INFO:swift] Setting frame_factor: 2. You can adjust this hyperparameter through the environment variable: `FRAME_FACTOR`.
+[INFO:swift] Setting fps: 2.0. You can adjust this hyperparameter through the environment variable: `FPS`.
+[INFO:swift] Setting fps_min_frames: 4. You can adjust this hyperparameter through the environment variable: `FPS_MIN_FRAMES`.
+[INFO:swift] Setting fps_max_frames: 768. You can adjust this hyperparameter through the environment variable: `FPS_MAX_FRAMES`.
+[INFO:swift] Setting image_max_token_num: 16384. You can adjust this hyperparameter through the environment variable: `IMAGE_MAX_TOKEN_NUM`.
+[INFO:swift] Setting image_min_token_num: 4. You can adjust this hyperparameter through the environment variable: `IMAGE_MIN_TOKEN_NUM`.
+[INFO:swift] Setting spatial_merge_size: 2. You can adjust this hyperparameter through the environment variable: `SPATIAL_MERGE_SIZE`.
+[INFO:swift] Setting video_max_token_num: 768. You can adjust this hyperparameter through the environment variable: `VIDEO_MAX_TOKEN_NUM`.
+[INFO:swift] Setting video_min_token_num: 128. You can adjust this hyperparameter through the environment variable: `VIDEO_MIN_TOKEN_NUM`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.01s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.44s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.52s/it]
+[INFO:swift] model.hf_device_map: {'': device(type='cuda', index=0)}
+[INFO:swift] model_info: ModelInfo(model_type='qwen2_5_vl', model_dir='/home/gridex/training_outputs/sft2_query2/sft2_q2_5090_balanced_v1/sft2_checkpoint324_merged', torch_dtype=torch.bfloat16, max_model_len=128000, quant_method=None, quant_bits=None, rope_scaling={'mrope_section': [16, 24, 24], 'rope_type': 'default', 'type': 'default'}, is_moe_model=False, is_multimodal=True, config=Qwen2_5_VLConfig {
+  "architectures": [
+    "Qwen2_5_VLForConditionalGeneration"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "image_token_id": 151655,
+  "initializer_range": 0.02,
+  "intermediate_size": 11008,
+  "max_position_embeddings": 128000,
+  "max_window_layers": 70,
+  "model_type": "qwen2_5_vl",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 36,
+  "num_key_value_heads": 2,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": {
+    "mrope_section": [
+      16,
+      24,
+      24
+    ],
+    "rope_type": "default",
+    "type": "default"
+  },
+  "rope_theta": 1000000.0,
+  "sliding_window": 32768,
+  "text_config": {
+    "architectures": [
+      "Qwen2_5_VLForConditionalGeneration"
+    ],
+    "attention_dropout": 0.0,
+    "bos_token_id": 151643,
+    "dtype": "bfloat16",
+    "eos_token_id": 151645,
+    "hidden_act": "silu",
+    "hidden_size": 2048,
+    "initializer_range": 0.02,
+    "intermediate_size": 11008,
+    "layer_types": [
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention"
+    ],
+    "max_position_embeddings": 128000,
+    "max_window_layers": 70,
+    "model_type": "qwen2_5_vl_text",
+    "num_attention_heads": 16,
+    "num_hidden_layers": 36,
+    "num_key_value_heads": 2,
+    "pad_token_id": 151643,
+    "rms_norm_eps": 1e-06,
+    "rope_scaling": {
+      "mrope_section": [
+        16,
+        24,
+        24
+      ],
+      "rope_type": "default",
+      "type": "default"
+    },
+    "rope_theta": 1000000.0,
+    "sliding_window": null,
+    "tie_word_embeddings": true,
+    "use_cache": true,
+    "use_sliding_window": false,
+    "vision_token_id": 151654,
+    "vocab_size": 151936
+  },
+  "transformers_version": "4.57.6",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "video_token_id": 151656,
+  "vision_config": {
+    "depth": 32,
+    "dtype": "bfloat16",
+    "fullatt_block_indexes": [
+      7,
+      15,
+      23,
+      31
+    ],
+    "hidden_act": "silu",
+    "hidden_size": 1280,
+    "in_channels": 3,
+    "in_chans": 3,
+    "initializer_range": 0.02,
+    "intermediate_size": 3420,
+    "model_type": "qwen2_5_vl",
+    "num_heads": 16,
+    "out_hidden_size": 2048,
+    "pad_token_id": 151643,
+    "patch_size": 14,
+    "spatial_merge_size": 2,
+    "spatial_patch_size": 14,
+    "temporal_patch_size": 2,
+    "tokens_per_second": 2,
+    "window_size": 112
+  },
+  "vision_end_token_id": 151653,
+  "vision_start_token_id": 151652,
+  "vision_token_id": 151654,
+  "vocab_size": 151936
+}
+, task_type='causal_lm', num_labels=None)
+[INFO:swift] model.generation_config: GenerationConfig {
+  "bos_token_id": 151643,
+  "do_sample": true,
+  "eos_token_id": [
+    151645,
+    151643
+  ],
+  "max_new_tokens": 512,
+  "pad_token_id": 151643,
+  "temperature": 0.9,
+  "top_p": 0.9
+}
+
+[INFO:swift] default_system: 'You are an expert in deepfake speech spectrogram forensics.\n\nYou are given a spectrogram and transcript. You have already selected exactly 3 region IDs, in order: ID1, ID2, ID3.\nFor each ID, infer timing information (T), frequency band (F), phonetic category (P), and a visual description of the artifact and the likely audio impact implied by the artificial signs (En).\n\nOUTPUT FORMAT (must follow exactly):\n(T1=..., F1=..., P1=..., En1="..."); (T2=..., F2=..., P2=..., En2="..."); (T3=..., F3=..., P3=..., En3="...")\n\nField definitions:\n- Fields ending in 1, 2, and 3 correspond to ID1, ID2, and ID3 respectively.\n- T: one of {speech, non-speech}\n- F: one of {low, mid, high}\n- P: one of {consonant, vowel, none}. Use none when the region is outside aligned speech and no phone can be assigned.\n- En: textual description, must be enclosed in double quotes.\n\nDo not output any other text outside the three tuples.'
+[INFO:swift] max_length: 1408
+[INFO:swift] response_prefix: ''
+[INFO:swift] agent_template: hermes
+[INFO:swift] norm_bbox: none
+[INFO:swift] Setting ROOT_IMAGE_DIR: None. You can adjust this hyperparameter through the environment variable: `ROOT_IMAGE_DIR`.
+[INFO:swift] Setting QWENVL_BBOX_FORMAT: legacy. You can adjust this hyperparameter through the environment variable: `QWENVL_BBOX_FORMAT`.
+[INFO:swift] Start time of running main: 2026-07-21 09:42:02.269130
+[INFO:swift] swift.__version__: 4.0.0.dev0
+Setting num_proc from 4 back to 1 for the train split to disable multiprocessing as it only contains one shard.
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 10320 examples [00:00, 33797.80 examples/s]Generating train split: 10320 examples [00:00, 33360.81 examples/s]
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/distributed_c10d.py:4876: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  warnings.warn(  # warn only once
+Map (num_proc=4):   0%|          | 0/10320 [00:00<?, ? examples/s]Map (num_proc=4):  78%|███████▊  | 8000/10320 [00:00<00:00, 79480.85 examples/s]Map (num_proc=4): 100%|██████████| 10320/10320 [00:00<00:00, 58654.28 examples/s]
+[INFO:swift] train_dataset: Dataset({
+    features: ['sample_id', 'prompt1_output', 'transcript', 'p1_raw_pred', 'messages', 'gt_prompt2', 'factual_mask', 'gt_regions'],
+    num_rows: 10320
+})
+[INFO:swift] val_dataset: None
+[INFO:swift] The RLHFArguments will be saved in: /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/args.json
+[INFO:swift] lora_config: LoraConfig(task_type='CAUSAL_LM', peft_type=<PeftType.LORA: 'LORA'>, auto_mapping=None, peft_version='0.18.1', base_model_name_or_path='/home/gridex/training_outputs/sft2_query2/sft2_q2_5090_balanced_v1/sft2_checkpoint324_merged', revision=None, inference_mode=False, r=8, target_modules='^(model.language_model.*\\.(k_proj|gate_proj|q_proj|v_proj|up_proj|o_proj|down_proj))$', exclude_modules=None, lora_alpha=32, lora_dropout=0.05, fan_in_fan_out=False, bias='none', use_rslora=False, modules_to_save=[], init_lora_weights=True, layers_to_transform=None, layers_pattern=None, rank_pattern={}, alpha_pattern={}, megatron_config=None, megatron_core='megatron.core', trainable_token_indices=None, loftq_config={}, eva_config=None, corda_config=None, use_dora=False, alora_invocation_tokens=None, use_qalora=False, qalora_group_size=16, layer_replication=None, runtime_config=LoraRuntimeConfig(ephemeral_gpu_offload=False), lora_bias=False, target_parameters=None, arrow_config=None, ensure_weight_tying=False, lora_dtype=None, lorap_lr_ratio=None, lorap_emb_lr=1e-06)
+[INFO:swift] model: PeftModelForCausalLM(
+  (base_model): LoraModel(
+    (model): Qwen2_5_VLForConditionalGeneration(
+      (model): Qwen2_5_VLModel(
+        (visual): Qwen2_5_VisionTransformerPretrainedModel(
+          (patch_embed): Qwen2_5_VisionPatchEmbed(
+            (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+          )
+          (rotary_pos_emb): Qwen2_5_VisionRotaryEmbedding()
+          (blocks): ModuleList(
+            (0-31): 32 x Qwen2_5_VLVisionBlock(
+              (norm1): Qwen2RMSNorm((1280,), eps=1e-06)
+              (norm2): Qwen2RMSNorm((1280,), eps=1e-06)
+              (attn): Qwen2_5_VLVisionAttention(
+                (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+                (proj): Linear(in_features=1280, out_features=1280, bias=True)
+              )
+              (mlp): Qwen2_5_VLMLP(
+                (gate_proj): Linear(in_features=1280, out_features=3420, bias=True)
+                (up_proj): Linear(in_features=1280, out_features=3420, bias=True)
+                (down_proj): Linear(in_features=3420, out_features=1280, bias=True)
+                (act_fn): SiLUActivation()
+              )
+            )
+          )
+          (merger): Qwen2_5_VLPatchMerger(
+            (ln_q): Qwen2RMSNorm((1280,), eps=1e-06)
+            (mlp): Sequential(
+              (0): Linear(in_features=5120, out_features=5120, bias=True)
+              (1): GELU(approximate='none')
+              (2): Linear(in_features=5120, out_features=2048, bias=True)
+            )
+          )
+        )
+        (language_model): Qwen2_5_VLTextModel(
+          (embed_tokens): Embedding(151936, 2048, padding_idx=151643)
+          (layers): ModuleList(
+            (0-35): 36 x Qwen2_5_VLDecoderLayer(
+              (self_attn): Qwen2_5_VLAttention(
+                (q_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=2048, bias=True)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=2048, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (k_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=256, bias=True)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=256, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (v_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=256, bias=True)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=256, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (o_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=2048, bias=False)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=2048, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (rotary_emb): Qwen2_5_VLRotaryEmbedding()
+              )
+              (mlp): Qwen2MLP(
+                (gate_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=11008, bias=False)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=11008, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (up_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=11008, bias=False)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=11008, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (down_proj): lora.Linear(
+                  (base_layer): Linear(in_features=11008, out_features=2048, bias=False)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=11008, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=2048, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (act_fn): SiLUActivation()
+              )
+              (input_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+              (post_attention_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+            )
+          )
+          (norm): Qwen2RMSNorm((2048,), eps=1e-06)
+          (rotary_emb): Qwen2_5_VLRotaryEmbedding()
+        )
+      )
+      (lm_head): Linear(in_features=2048, out_features=151936, bias=False)
+    )
+  )
+)
+[INFO:swift] model_parameter_info: PeftModelForCausalLM: 3769.5898M Params (14.9668M Trainable [0.3970%]), 0.0024M Buffers.
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/trl/generation/__init__.py:22: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.13.0 installed. We recommend installing a supported version to avoid compatibility issues.
+  if is_vllm_available():
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/trl/generation/vllm_client.py:39: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.13.0 installed. We recommend installing a supported version to avoid compatibility issues.
+  if is_vllm_available():
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/trl/generation/vllm_generation.py:56: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.13.0 installed. We recommend installing a supported version to avoid compatibility issues.
+  if is_vllm_available():
+The model is already on multiple devices. Skipping the move to device specified in `args`.
+[INFO:swift] use_reentrant: False
+[INFO:swift] The logging file will be saved in: /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/logging.jsonl
+[INFO:swift] Successfully registered post_encode hook: ['PeftModelForCausalLM'].
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None}.
+Train:   0%|          | 0/645 [00:00<?, ?it/s]Train:   0%|          | 1/645 [02:25<25:59:26, 145.29s/it]                                                          Train:   0%|          | 1/645 [02:25<25:59:26, 145.29s/it]Train:   0%|          | 1/645 [02:25<25:59:26, 145.29s/it]Train:   0%|          | 2/645 [04:49<25:52:07, 144.83s/it]Train:   0%|          | 3/645 [07:15<25:55:23, 145.36s/it]Train:   1%|          | 4/645 [09:27<24:55:11, 139.96s/it]Train:   1%|          | 5/645 [11:34<24:02:24, 135.23s/it]Train:   1%|          | 6/645 [13:44<23:40:40, 133.40s/it]Train:   1%|          | 7/645 [16:03<24:00:28, 135.47s/it]Train:   1%|          | 8/645 [18:16<23:49:41, 134.67s/it]Train:   1%|▏         | 9/645 [20:22<23:17:49, 131.87s/it]Train:   2%|▏         | 10/645 [22:35<23:19:05, 132.20s/it]Train:   2%|▏         | 11/645 [24:50<23:24:52, 132.95s/it]Train:   2%|▏         | 12/645 [27:08<23:40:55, 134.68s/it]Train:   2%|▏         | 13/645 [29:15<23:11:47, 132.13s/it]Train:   2%|▏         | 14/645 [31:17<22:38:05, 129.14s/it]Train:   2%|▏         | 15/645 [33:36<23:08:57, 132.28s/it]Train:   2%|▏         | 16/645 [35:52<23:17:00, 133.26s/it]Train:   3%|▎         | 17/645 [38:02<23:04:27, 132.27s/it]Train:   3%|▎         | 18/645 [40:22<23:27:33, 134.69s/it]Train:   3%|▎         | 19/645 [42:42<23:41:17, 136.23s/it]Train:   3%|▎         | 20/645 [45:01<23:46:56, 136.99s/it]                                                           Train:   3%|▎         | 20/645 [45:01<23:46:56, 136.99s/it]Train:   3%|▎         | 20/645 [45:01<23:46:56, 136.99s/it]Train:   3%|▎         | 21/645 [47:16<23:39:58, 136.54s/it]Train:   3%|▎         | 22/645 [49:33<23:39:52, 136.75s/it]Train:   4%|▎         | 23/645 [51:48<23:32:14, 136.23s/it]Train:   4%|▎         | 24/645 [53:57<23:04:51, 133.80s/it]Train:   4%|▍         | 25/645 [56:18<23:25:42, 136.04s/it]Train:   4%|▍         | 26/645 [58:41<23:44:26, 138.07s/it]Train:   4%|▍         | 27/645 [1:00:49<23:12:23, 135.18s/it]Train:   4%|▍         | 28/645 [1:02:56<22:43:17, 132.57s/it]Train:   4%|▍         | 29/645 [1:05:02<22:23:19, 130.84s/it]Train:   5%|▍         | 30/645 [1:07:17<22:33:16, 132.03s/it]Train:   5%|▍         | 31/645 [1:09:59<24:02:58, 141.01s/it]Train:   5%|▍         | 32/645 [1:12:10<23:28:17, 137.84s/it]Train:   5%|▌         | 33/645 [1:14:47<24:26:13, 143.75s/it]Train:   5%|▌         | 34/645 [1:17:05<24:06:21, 142.03s/it]Train:   5%|▌         | 35/645 [1:19:28<24:06:01, 142.23s/it]Train:   6%|▌         | 36/645 [1:22:02<24:41:19, 145.94s/it]Train:   6%|▌         | 37/645 [1:24:32<24:49:57, 147.03s/it]Train:   6%|▌         | 38/645 [1:26:37<23:40:59, 140.46s/it]Train:   6%|▌         | 39/645 [1:28:57<23:37:05, 140.31s/it]Train:   6%|▌         | 40/645 [1:31:01<22:44:53, 135.36s/it]                                                             Train:   6%|▌         | 40/645 [1:31:01<22:44:53, 135.36s/it]Train:   6%|▌         | 40/645 [1:31:01<22:44:53, 135.36s/it]Train:   6%|▋         | 41/645 [1:33:24<23:05:52, 137.67s/it]Train:   7%|▋         | 42/645 [1:35:28<22:21:09, 133.45s/it]Train:   7%|▋         | 43/645 [1:37:59<23:13:58, 138.93s/it]Train:   7%|▋         | 44/645 [1:40:08<22:39:32, 135.73s/it]Train:   7%|▋         | 45/645 [1:42:13<22:07:47, 132.78s/it]Train:   7%|▋         | 46/645 [1:44:35<22:32:13, 135.45s/it]Train:   7%|▋         | 47/645 [1:46:56<22:45:09, 136.97s/it]Train:   7%|▋         | 48/645 [1:49:01<22:08:17, 133.50s/it]Train:   8%|▊         | 49/645 [1:51:29<22:48:19, 137.75s/it]Train:   8%|▊         | 50/645 [1:53:50<22:55:57, 138.75s/it]Train:   8%|▊         | 51/645 [1:56:13<23:06:11, 140.02s/it]Train:   8%|▊         | 52/645 [1:58:28<22:50:12, 138.64s/it]Train:   8%|▊         | 53/645 [2:00:41<22:31:47, 137.01s/it]Train:   8%|▊         | 54/645 [2:02:50<22:04:09, 134.43s/it]Train:   9%|▊         | 55/645 [2:05:01<21:53:18, 133.56s/it]Train:   9%|▊         | 56/645 [2:07:11<21:39:30, 132.38s/it]Train:   9%|▉         | 57/645 [2:09:45<22:40:40, 138.84s/it]Train:   9%|▉         | 58/645 [2:11:47<21:48:54, 133.79s/it]Train:   9%|▉         | 59/645 [2:14:05<21:58:35, 135.01s/it]Train:   9%|▉         | 60/645 [2:16:26<22:13:02, 136.72s/it]                                                             Train:   9%|▉         | 60/645 [2:16:26<22:13:02, 136.72s/it]Train:   9%|▉         | 60/645 [2:16:26<22:13:02, 136.72s/it]Train:   9%|▉         | 61/645 [2:18:27<21:27:23, 132.27s/it]Train:  10%|▉         | 62/645 [2:20:42<21:31:21, 132.90s/it]Train:  10%|▉         | 63/645 [2:23:01<21:46:15, 134.67s/it]Train:  10%|▉         | 64/645 [2:25:09<21:25:51, 132.79s/it]Train:  10%|█         | 65/645 [2:27:46<22:33:08, 139.98s/it]Train:  10%|█         | 66/645 [2:29:50<21:44:58, 135.23s/it]Train:  10%|█         | 67/645 [2:32:07<21:47:52, 135.77s/it]Train:  11%|█         | 68/645 [2:34:20<21:38:03, 134.98s/it]Train:  11%|█         | 69/645 [2:36:50<22:18:41, 139.45s/it]Train:  11%|█         | 70/645 [2:39:09<22:16:43, 139.49s/it]Train:  11%|█         | 71/645 [2:41:26<22:04:59, 138.50s/it]Train:  11%|█         | 72/645 [2:43:51<22:23:14, 140.65s/it]Train:  11%|█▏        | 73/645 [2:46:07<22:06:15, 139.12s/it]Train:  11%|█▏        | 74/645 [2:48:33<22:23:21, 141.16s/it]Train:  12%|█▏        | 75/645 [2:51:00<22:37:10, 142.86s/it]Train:  12%|█▏        | 76/645 [2:53:03<21:40:28, 137.13s/it]Train:  12%|█▏        | 77/645 [2:55:37<22:23:58, 141.97s/it]Train:  12%|█▏        | 78/645 [2:57:50<21:58:10, 139.49s/it]Train:  12%|█▏        | 79/645 [3:00:15<22:09:59, 140.99s/it]Train:  12%|█▏        | 80/645 [3:02:27<21:41:28, 138.21s/it]                                                             Train:  12%|█▏        | 80/645 [3:02:27<21:41:28, 138.21s/it]Train:  12%|█▏        | 80/645 [3:02:27<21:41:28, 138.21s/it]Train:  13%|█▎        | 81/645 [3:04:55<22:06:41, 141.14s/it]Train:  13%|█▎        | 82/645 [3:07:05<21:33:15, 137.83s/it]Train:  13%|█▎        | 83/645 [3:09:45<22:35:25, 144.71s/it]Train:  13%|█▎        | 84/645 [3:11:57<21:56:29, 140.80s/it]Train:  13%|█▎        | 85/645 [3:14:21<22:03:58, 141.85s/it]Train:  13%|█▎        | 86/645 [3:16:47<22:11:00, 142.86s/it]Train:  13%|█▎        | 87/645 [3:19:04<21:53:24, 141.23s/it]Train:  14%|█▎        | 88/645 [3:21:17<21:28:17, 138.78s/it]Train:  14%|█▍        | 89/645 [3:23:22<20:46:36, 134.53s/it]Train:  14%|█▍        | 90/645 [3:25:42<21:00:34, 136.28s/it]Train:  14%|█▍        | 91/645 [3:27:58<20:57:28, 136.19s/it]Train:  14%|█▍        | 92/645 [3:30:09<20:41:55, 134.75s/it]Train:  14%|█▍        | 93/645 [3:32:31<20:59:15, 136.88s/it]Train:  15%|█▍        | 94/645 [3:34:56<21:18:57, 139.27s/it]Train:  15%|█▍        | 95/645 [3:37:10<21:00:29, 137.51s/it]Train:  15%|█▍        | 96/645 [3:39:23<20:47:32, 136.34s/it]Train:  15%|█▌        | 97/645 [3:41:51<21:15:32, 139.66s/it]Train:  15%|█▌        | 98/645 [3:44:08<21:07:14, 139.00s/it]Train:  15%|█▌        | 99/645 [3:46:12<20:24:25, 134.55s/it]Train:  16%|█▌        | 100/645 [3:48:16<19:53:07, 131.35s/it]                                                              Train:  16%|█▌        | 100/645 [3:48:16<19:53:07, 131.35s/it]Train:  16%|█▌        | 100/645 [3:48:16<19:53:07, 131.35s/it][INFO:swift] Saving model checkpoint to /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-100
+Train:  16%|█▌        | 101/645 [3:50:30<19:58:49, 132.22s/it]Train:  16%|█▌        | 102/645 [3:52:47<20:09:28, 133.64s/it]Train:  16%|█▌        | 103/645 [3:55:08<20:27:20, 135.87s/it]Train:  16%|█▌        | 104/645 [3:57:29<20:38:17, 137.33s/it]Train:  16%|█▋        | 105/645 [3:59:41<20:20:09, 135.57s/it]Train:  16%|█▋        | 106/645 [4:01:59<20:25:41, 136.44s/it]Train:  17%|█▋        | 107/645 [4:04:15<20:22:50, 136.38s/it]Train:  17%|█▋        | 108/645 [4:06:25<20:01:26, 134.24s/it]Train:  17%|█▋        | 109/645 [4:08:50<20:30:27, 137.74s/it]Train:  17%|█▋        | 110/645 [4:11:04<20:18:06, 136.61s/it]Train:  17%|█▋        | 111/645 [4:13:21<20:15:17, 136.55s/it]Train:  17%|█▋        | 112/645 [4:15:32<19:58:51, 134.96s/it]Train:  18%|█▊        | 113/645 [4:17:48<20:00:16, 135.37s/it]Train:  18%|█▊        | 114/645 [4:20:09<20:12:20, 136.99s/it]Train:  18%|█▊        | 115/645 [4:22:31<20:22:16, 138.37s/it]Train:  18%|█▊        | 116/645 [4:24:49<20:19:47, 138.35s/it]Train:  18%|█▊        | 117/645 [4:27:13<20:31:07, 139.90s/it]Train:  18%|█▊        | 118/645 [4:29:29<20:20:53, 139.00s/it]Train:  18%|█▊        | 119/645 [4:31:36<19:46:07, 135.30s/it]Train:  19%|█▊        | 120/645 [4:33:47<19:32:43, 134.03s/it]                                                              Train:  19%|█▊        | 120/645 [4:33:47<19:32:43, 134.03s/it]Train:  19%|█▊        | 120/645 [4:33:47<19:32:43, 134.03s/it]Train:  19%|█▉        | 121/645 [4:36:05<19:41:44, 135.31s/it]Train:  19%|█▉        | 122/645 [4:38:32<20:08:09, 138.60s/it]Train:  19%|█▉        | 123/645 [4:40:50<20:04:22, 138.43s/it]Train:  19%|█▉        | 124/645 [4:43:07<19:57:51, 137.95s/it]Train:  19%|█▉        | 125/645 [4:45:32<20:15:56, 140.30s/it]Train:  20%|█▉        | 126/645 [4:47:52<20:12:26, 140.17s/it]Train:  20%|█▉        | 127/645 [4:50:01<19:41:43, 136.88s/it]Train:  20%|█▉        | 128/645 [4:52:19<19:41:43, 137.14s/it]Train:  20%|██        | 129/645 [4:54:33<19:29:37, 136.00s/it]Train:  20%|██        | 130/645 [4:57:08<20:17:22, 141.83s/it]Train:  20%|██        | 131/645 [4:59:08<19:19:45, 135.38s/it]Train:  20%|██        | 132/645 [5:01:10<18:41:45, 131.20s/it]Train:  21%|██        | 133/645 [5:03:24<18:47:29, 132.13s/it]Train:  21%|██        | 134/645 [5:05:40<18:54:09, 133.17s/it]Train:  21%|██        | 135/645 [5:08:03<19:18:27, 136.29s/it]Train:  21%|██        | 136/645 [5:10:18<19:12:25, 135.85s/it]Train:  21%|██        | 137/645 [5:12:25<18:48:45, 133.32s/it]Train:  21%|██▏       | 138/645 [5:14:45<19:03:24, 135.31s/it]Train:  22%|██▏       | 139/645 [5:16:55<18:47:09, 133.65s/it]Train:  22%|██▏       | 140/645 [5:19:10<18:48:42, 134.10s/it]                                                              Train:  22%|██▏       | 140/645 [5:19:10<18:48:42, 134.10s/it]Train:  22%|██▏       | 140/645 [5:19:10<18:48:42, 134.10s/it]Train:  22%|██▏       | 141/645 [5:21:45<19:37:01, 140.12s/it]Train:  22%|██▏       | 142/645 [5:23:52<19:03:44, 136.43s/it]Train:  22%|██▏       | 143/645 [5:26:07<18:58:00, 136.02s/it]Train:  22%|██▏       | 144/645 [5:28:36<19:27:17, 139.79s/it]Train:  22%|██▏       | 145/645 [5:30:38<18:41:14, 134.55s/it]Train:  23%|██▎       | 146/645 [5:33:00<18:55:34, 136.54s/it]Train:  23%|██▎       | 147/645 [5:35:02<18:18:48, 132.39s/it]Train:  23%|██▎       | 148/645 [5:37:19<18:27:56, 133.76s/it]Train:  23%|██▎       | 149/645 [5:39:27<18:12:07, 132.11s/it]Train:  23%|██▎       | 150/645 [5:41:43<18:18:16, 133.12s/it]Train:  23%|██▎       | 151/645 [5:44:02<18:30:42, 134.90s/it]Train:  24%|██▎       | 152/645 [5:46:26<18:50:39, 137.61s/it]Train:  24%|██▎       | 153/645 [5:48:45<18:53:02, 138.18s/it]Train:  24%|██▍       | 154/645 [5:51:15<19:18:53, 141.62s/it]Train:  24%|██▍       | 155/645 [5:53:38<19:19:11, 141.94s/it]Train:  24%|██▍       | 156/645 [5:55:49<18:50:47, 138.75s/it]Train:  24%|██▍       | 157/645 [5:57:52<18:10:01, 134.02s/it]Train:  24%|██▍       | 158/645 [5:59:58<17:49:13, 131.73s/it]Train:  25%|██▍       | 159/645 [6:02:07<17:39:51, 130.85s/it]Train:  25%|██▍       | 160/645 [6:04:16<17:33:39, 130.35s/it]                                                              Train:  25%|██▍       | 160/645 [6:04:16<17:33:39, 130.35s/it]Train:  25%|██▍       | 160/645 [6:04:16<17:33:39, 130.35s/it]Train:  25%|██▍       | 161/645 [6:06:25<17:27:02, 129.80s/it]Train:  25%|██▌       | 162/645 [6:08:42<17:41:23, 131.85s/it]Train:  25%|██▌       | 163/645 [6:11:01<17:57:22, 134.11s/it]Train:  25%|██▌       | 164/645 [6:13:12<17:46:58, 133.09s/it]Train:  26%|██▌       | 165/645 [6:15:44<18:31:57, 139.00s/it]Train:  26%|██▌       | 166/645 [6:17:47<17:49:34, 133.98s/it]Train:  26%|██▌       | 167/645 [6:20:02<17:50:06, 134.32s/it]Train:  26%|██▌       | 168/645 [6:22:12<17:39:11, 133.23s/it]Train:  26%|██▌       | 169/645 [6:24:30<17:46:52, 134.48s/it]Train:  26%|██▋       | 170/645 [6:27:03<18:29:04, 140.09s/it]Train:  27%|██▋       | 171/645 [6:29:23<18:26:35, 140.07s/it]Train:  27%|██▋       | 172/645 [6:31:50<18:40:37, 142.15s/it]Train:  27%|██▋       | 173/645 [6:33:53<17:52:42, 136.36s/it]Train:  27%|██▋       | 174/645 [6:35:55<17:15:39, 131.93s/it]Train:  27%|██▋       | 175/645 [6:38:11<17:23:16, 133.18s/it]Train:  27%|██▋       | 176/645 [6:40:33<17:43:21, 136.04s/it]Train:  27%|██▋       | 177/645 [6:42:53<17:48:31, 136.99s/it]Train:  28%|██▊       | 178/645 [6:45:11<17:50:45, 137.57s/it]Train:  28%|██▊       | 179/645 [6:47:28<17:44:54, 137.11s/it]Train:  28%|██▊       | 180/645 [6:49:32<17:13:11, 133.31s/it]                                                              Train:  28%|██▊       | 180/645 [6:49:32<17:13:11, 133.31s/it]Train:  28%|██▊       | 180/645 [6:49:32<17:13:11, 133.31s/it]Train:  28%|██▊       | 181/645 [6:51:44<17:07:17, 132.84s/it]Train:  28%|██▊       | 182/645 [6:53:50<16:50:07, 130.90s/it]Train:  28%|██▊       | 183/645 [6:56:28<17:49:25, 138.89s/it]Train:  29%|██▊       | 184/645 [6:58:46<17:46:58, 138.87s/it]Train:  29%|██▊       | 185/645 [7:00:52<17:14:07, 134.89s/it]Train:  29%|██▉       | 186/645 [7:03:16<17:32:33, 137.59s/it]Train:  29%|██▉       | 187/645 [7:05:19<16:57:41, 133.32s/it]Train:  29%|██▉       | 188/645 [7:07:39<17:09:48, 135.20s/it]Train:  29%|██▉       | 189/645 [7:09:55<17:08:34, 135.34s/it]Train:  29%|██▉       | 190/645 [7:12:01<16:45:02, 132.53s/it]Train:  30%|██▉       | 191/645 [7:14:03<16:20:32, 129.59s/it]Train:  30%|██▉       | 192/645 [7:16:20<16:33:32, 131.60s/it]Train:  30%|██▉       | 193/645 [7:18:25<16:16:24, 129.61s/it]Train:  30%|███       | 194/645 [7:20:35<16:15:11, 129.74s/it]Train:  30%|███       | 195/645 [7:23:06<17:00:46, 136.10s/it]Train:  30%|███       | 196/645 [7:25:38<17:34:14, 140.88s/it]Train:  31%|███       | 197/645 [7:27:59<17:32:19, 140.94s/it]Train:  31%|███       | 198/645 [7:30:18<17:27:03, 140.55s/it]Train:  31%|███       | 199/645 [7:32:55<18:00:33, 145.37s/it]Train:  31%|███       | 200/645 [7:35:13<17:41:22, 143.11s/it]                                                              Train:  31%|███       | 200/645 [7:35:13<17:41:22, 143.11s/it]Train:  31%|███       | 200/645 [7:35:13<17:41:22, 143.11s/it][INFO:swift] Saving model checkpoint to /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-200
+Train:  31%|███       | 201/645 [7:37:19<17:01:56, 138.10s/it]Train:  31%|███▏      | 202/645 [7:39:49<17:25:24, 141.59s/it]Train:  31%|███▏      | 203/645 [7:42:13<17:29:32, 142.47s/it]Train:  32%|███▏      | 204/645 [7:44:31<17:15:48, 140.93s/it]Train:  32%|███▏      | 205/645 [7:46:54<17:19:24, 141.74s/it]Train:  32%|███▏      | 206/645 [7:49:09<17:02:05, 139.69s/it]Train:  32%|███▏      | 207/645 [7:51:22<16:44:24, 137.59s/it]Train:  32%|███▏      | 208/645 [7:53:39<16:41:03, 137.45s/it]Train:  32%|███▏      | 209/645 [7:56:11<17:10:56, 141.87s/it]Train:  33%|███▎      | 210/645 [7:58:34<17:10:09, 142.09s/it]Train:  33%|███▎      | 211/645 [8:01:04<17:26:23, 144.66s/it]Train:  33%|███▎      | 212/645 [8:03:38<17:42:39, 147.25s/it]Train:  33%|███▎      | 213/645 [8:05:43<16:52:13, 140.59s/it]Train:  33%|███▎      | 214/645 [8:08:02<16:47:01, 140.19s/it]Train:  33%|███▎      | 215/645 [8:10:32<17:06:16, 143.20s/it]Train:  33%|███▎      | 216/645 [8:12:56<17:04:50, 143.33s/it]Train:  34%|███▎      | 217/645 [8:15:09<16:41:10, 140.35s/it]Train:  34%|███▍      | 218/645 [8:17:27<16:32:27, 139.45s/it]Train:  34%|███▍      | 219/645 [8:19:59<16:57:05, 143.25s/it]Train:  34%|███▍      | 220/645 [8:22:17<16:43:05, 141.61s/it]                                                              Train:  34%|███▍      | 220/645 [8:22:17<16:43:05, 141.61s/it]Train:  34%|███▍      | 220/645 [8:22:17<16:43:05, 141.61s/it]Train:  34%|███▍      | 221/645 [8:24:47<16:59:14, 144.23s/it]Train:  34%|███▍      | 222/645 [8:27:09<16:53:10, 143.71s/it]Train:  35%|███▍      | 223/645 [8:29:13<16:07:37, 137.58s/it]Train:  35%|███▍      | 224/645 [8:31:30<16:04:07, 137.40s/it]Train:  35%|███▍      | 225/645 [8:33:40<15:46:03, 135.15s/it]Train:  35%|███▌      | 226/645 [8:35:54<15:41:16, 134.79s/it]Train:  35%|███▌      | 227/645 [8:37:58<15:17:05, 131.64s/it]Train:  35%|███▌      | 228/645 [8:40:05<15:06:05, 130.37s/it]Train:  36%|███▌      | 229/645 [8:42:21<15:14:04, 131.84s/it]Train:  36%|███▌      | 230/645 [8:45:00<16:09:30, 140.17s/it]Train:  36%|███▌      | 231/645 [8:47:27<16:21:15, 142.21s/it]Train:  36%|███▌      | 232/645 [8:49:52<16:23:40, 142.91s/it]Train:  36%|███▌      | 233/645 [8:52:15<16:21:46, 142.98s/it]Train:  36%|███▋      | 234/645 [8:54:36<16:14:55, 142.32s/it]Train:  36%|███▋      | 235/645 [8:56:49<15:53:17, 139.51s/it]Train:  37%|███▋      | 236/645 [8:59:00<15:34:35, 137.10s/it]Train:  37%|███▋      | 237/645 [9:01:03<15:03:24, 132.85s/it]Train:  37%|███▋      | 238/645 [9:03:24<15:17:53, 135.31s/it]Train:  37%|███▋      | 239/645 [9:05:41<15:18:19, 135.71s/it]Train:  37%|███▋      | 240/645 [9:07:59<15:20:26, 136.36s/it]                                                              Train:  37%|███▋      | 240/645 [9:07:59<15:20:26, 136.36s/it]Train:  37%|███▋      | 240/645 [9:07:59<15:20:26, 136.36s/it]Train:  37%|███▋      | 241/645 [9:10:12<15:11:42, 135.40s/it]Train:  38%|███▊      | 242/645 [9:12:31<15:18:07, 136.69s/it]Train:  38%|███▊      | 243/645 [9:14:36<14:51:21, 133.04s/it]Train:  38%|███▊      | 244/645 [9:17:06<15:23:43, 138.21s/it]Train:  38%|███▊      | 245/645 [9:19:13<14:58:24, 134.76s/it]Train:  38%|███▊      | 246/645 [9:21:34<15:08:27, 136.61s/it]Train:  38%|███▊      | 247/645 [9:24:03<15:31:51, 140.48s/it]Train:  38%|███▊      | 248/645 [9:26:17<15:15:00, 138.29s/it]Train:  39%|███▊      | 249/645 [9:28:34<15:11:05, 138.04s/it]Train:  39%|███▉      | 250/645 [9:30:46<14:56:46, 136.22s/it]Train:  39%|███▉      | 251/645 [9:33:16<15:22:06, 140.42s/it]Train:  39%|███▉      | 252/645 [9:35:39<15:23:54, 141.05s/it]Train:  39%|███▉      | 253/645 [9:37:50<15:01:55, 138.05s/it]Train:  39%|███▉      | 254/645 [9:40:24<15:31:08, 142.89s/it]Train:  40%|███▉      | 255/645 [9:42:28<14:52:05, 137.24s/it]Train:  40%|███▉      | 256/645 [9:44:52<15:02:48, 139.25s/it]Train:  40%|███▉      | 257/645 [9:47:09<14:56:20, 138.61s/it]Train:  40%|████      | 258/645 [9:49:17<14:32:46, 135.31s/it]Train:  40%|████      | 259/645 [9:51:41<14:47:50, 138.01s/it]Train:  40%|████      | 260/645 [9:53:51<14:30:52, 135.72s/it]                                                              Train:  40%|████      | 260/645 [9:53:51<14:30:52, 135.72s/it]Train:  40%|████      | 260/645 [9:53:51<14:30:52, 135.72s/it]Train:  40%|████      | 261/645 [9:56:04<14:22:36, 134.78s/it]Train:  41%|████      | 262/645 [9:58:10<14:03:03, 132.07s/it]Train:  41%|████      | 263/645 [10:00:32<14:20:01, 135.08s/it]Train:  41%|████      | 264/645 [10:02:48<14:19:06, 135.29s/it]Train:  41%|████      | 265/645 [10:05:10<14:30:32, 137.45s/it]Train:  41%|████      | 266/645 [10:07:16<14:06:28, 134.01s/it]Train:  41%|████▏     | 267/645 [10:09:27<13:58:40, 133.12s/it]Train:  42%|████▏     | 268/645 [10:11:48<14:10:16, 135.32s/it]Train:  42%|████▏     | 269/645 [10:14:09<14:18:41, 137.02s/it]Train:  42%|████▏     | 270/645 [10:16:23<14:11:47, 136.29s/it]Train:  42%|████▏     | 271/645 [10:18:41<14:11:47, 136.65s/it]Train:  42%|████▏     | 272/645 [10:20:50<13:55:26, 134.39s/it]Train:  42%|████▏     | 273/645 [10:23:20<14:21:57, 139.03s/it]Train:  42%|████▏     | 274/645 [10:25:29<14:01:32, 136.10s/it]Train:  43%|████▎     | 275/645 [10:28:08<14:42:05, 143.04s/it]Train:  43%|████▎     | 276/645 [10:30:14<14:07:58, 137.88s/it]Train:  43%|████▎     | 277/645 [10:32:34<14:10:02, 138.59s/it]Train:  43%|████▎     | 278/645 [10:34:51<14:04:08, 138.01s/it]Train:  43%|████▎     | 279/645 [10:37:01<13:47:50, 135.71s/it]Train:  43%|████▎     | 280/645 [10:39:30<14:08:51, 139.54s/it]                                                               Train:  43%|████▎     | 280/645 [10:39:30<14:08:51, 139.54s/it]Train:  43%|████▎     | 280/645 [10:39:30<14:08:51, 139.54s/it]Train:  44%|████▎     | 281/645 [10:41:32<13:35:06, 134.36s/it]Train:  44%|████▎     | 282/645 [10:43:53<13:45:19, 136.42s/it]Train:  44%|████▍     | 283/645 [10:46:26<14:13:23, 141.44s/it]Train:  44%|████▍     | 284/645 [10:48:56<14:26:29, 144.02s/it]Train:  44%|████▍     | 285/645 [10:51:21<14:24:59, 144.17s/it]Train:  44%|████▍     | 286/645 [10:53:49<14:30:34, 145.50s/it]Train:  44%|████▍     | 287/645 [10:56:10<14:18:56, 143.96s/it]Train:  45%|████▍     | 288/645 [10:58:26<14:01:57, 141.51s/it]Train:  45%|████▍     | 289/645 [11:00:28<13:25:42, 135.79s/it]Train:  45%|████▍     | 290/645 [11:02:37<13:12:00, 133.86s/it]Train:  45%|████▌     | 291/645 [11:05:02<13:29:20, 137.18s/it]Train:  45%|████▌     | 292/645 [11:07:13<13:15:07, 135.15s/it]Train:  45%|████▌     | 293/645 [11:09:53<13:57:24, 142.74s/it]Train:  46%|████▌     | 294/645 [11:12:01<13:29:16, 138.34s/it]Train:  46%|████▌     | 295/645 [11:14:29<13:44:01, 141.26s/it]Train:  46%|████▌     | 296/645 [11:16:52<13:44:43, 141.79s/it]Train:  46%|████▌     | 297/645 [11:19:15<13:44:15, 142.11s/it]Train:  46%|████▌     | 298/645 [11:21:24<13:19:20, 138.21s/it]Train:  46%|████▋     | 299/645 [11:23:36<13:06:12, 136.34s/it]Train:  47%|████▋     | 300/645 [11:25:54<13:06:22, 136.76s/it]                                                               Train:  47%|████▋     | 300/645 [11:25:54<13:06:22, 136.76s/it]Train:  47%|████▋     | 300/645 [11:25:54<13:06:22, 136.76s/it][INFO:swift] Saving model checkpoint to /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-300
+Train:  47%|████▋     | 301/645 [11:28:13<13:08:29, 137.53s/it]Train:  47%|████▋     | 302/645 [11:30:36<13:14:29, 138.98s/it]Train:  47%|████▋     | 303/645 [11:32:50<13:03:45, 137.50s/it]Train:  47%|████▋     | 304/645 [11:35:08<13:02:50, 137.74s/it]Train:  47%|████▋     | 305/645 [11:37:33<13:11:58, 139.76s/it]Train:  47%|████▋     | 306/645 [11:39:45<12:56:32, 137.44s/it]Train:  48%|████▊     | 307/645 [11:41:48<12:30:24, 133.21s/it]Train:  48%|████▊     | 308/645 [11:43:57<12:21:10, 131.96s/it]Train:  48%|████▊     | 309/645 [11:46:31<12:55:39, 138.51s/it]Train:  48%|████▊     | 310/645 [11:48:54<13:01:47, 140.02s/it]Train:  48%|████▊     | 311/645 [11:51:19<13:06:52, 141.35s/it]Train:  48%|████▊     | 312/645 [11:53:50<13:21:41, 144.45s/it]Train:  49%|████▊     | 313/645 [11:56:00<12:54:37, 139.99s/it]Train:  49%|████▊     | 314/645 [11:58:33<13:13:45, 143.89s/it]Train:  49%|████▉     | 315/645 [12:00:52<13:03:41, 142.49s/it]Train:  49%|████▉     | 316/645 [12:03:16<13:03:16, 142.85s/it]Train:  49%|████▉     | 317/645 [12:05:23<12:34:20, 137.99s/it]Train:  49%|████▉     | 318/645 [12:07:24<12:04:37, 132.96s/it]Train:  49%|████▉     | 319/645 [12:09:56<12:33:56, 138.76s/it]Train:  50%|████▉     | 320/645 [12:12:27<12:52:06, 142.54s/it]                                                               Train:  50%|████▉     | 320/645 [12:12:27<12:52:06, 142.54s/it]Train:  50%|████▉     | 320/645 [12:12:27<12:52:06, 142.54s/it]Train:  50%|████▉     | 321/645 [12:14:59<13:04:56, 145.36s/it]Train:  50%|████▉     | 322/645 [12:17:23<13:00:22, 144.96s/it]Train:  50%|█████     | 323/645 [12:19:50<12:59:49, 145.31s/it]Train:  50%|█████     | 324/645 [12:22:06<12:43:46, 142.76s/it]Train:  50%|█████     | 325/645 [12:24:28<12:39:08, 142.34s/it]Train:  51%|█████     | 326/645 [12:26:54<12:42:32, 143.42s/it]Train:  51%|█████     | 327/645 [12:29:13<12:34:14, 142.31s/it]Train:  51%|█████     | 328/645 [12:31:42<12:41:06, 144.06s/it]Train:  51%|█████     | 329/645 [12:33:55<12:22:39, 141.01s/it]Train:  51%|█████     | 330/645 [12:36:06<12:04:29, 138.00s/it]Train:  51%|█████▏    | 331/645 [12:38:32<12:13:48, 140.22s/it]Train:  51%|█████▏    | 332/645 [12:40:43<11:57:03, 137.46s/it]Train:  52%|█████▏    | 333/645 [12:42:57<11:49:53, 136.52s/it]Train:  52%|█████▏    | 334/645 [12:45:08<11:38:47, 134.81s/it]Train:  52%|█████▏    | 335/645 [12:47:13<11:21:03, 131.82s/it]Train:  52%|█████▏    | 336/645 [12:49:26<11:21:30, 132.33s/it]Train:  52%|█████▏    | 337/645 [12:51:56<11:45:49, 137.50s/it]Train:  52%|█████▏    | 338/645 [12:54:28<12:05:35, 141.81s/it]Train:  53%|█████▎    | 339/645 [12:56:39<11:47:13, 138.67s/it]Train:  53%|█████▎    | 340/645 [12:58:51<11:34:28, 136.62s/it]                                                               Train:  53%|█████▎    | 340/645 [12:58:51<11:34:28, 136.62s/it]Train:  53%|█████▎    | 340/645 [12:58:51<11:34:28, 136.62s/it]Train:  53%|█████▎    | 341/645 [13:01:05<11:28:27, 135.88s/it]Train:  53%|█████▎    | 342/645 [13:03:36<11:48:54, 140.38s/it]Train:  53%|█████▎    | 343/645 [13:06:08<12:03:40, 143.78s/it]Train:  53%|█████▎    | 344/645 [13:08:45<12:21:14, 147.75s/it]Train:  53%|█████▎    | 345/645 [13:11:14<12:21:12, 148.24s/it]Train:  54%|█████▎    | 346/645 [13:13:25<11:53:31, 143.18s/it]Train:  54%|█████▍    | 347/645 [13:15:54<11:59:25, 144.85s/it]Train:  54%|█████▍    | 348/645 [13:18:18<11:54:48, 144.40s/it]Train:  54%|█████▍    | 349/645 [13:20:58<12:15:51, 149.16s/it]Train:  54%|█████▍    | 350/645 [13:23:19<12:00:57, 146.63s/it]Train:  54%|█████▍    | 351/645 [13:25:43<11:54:46, 145.87s/it]Train:  55%|█████▍    | 352/645 [13:27:55<11:32:17, 141.77s/it]Train:  55%|█████▍    | 353/645 [13:30:10<11:19:36, 139.64s/it]Train:  55%|█████▍    | 354/645 [13:32:21<11:05:09, 137.14s/it]Train:  55%|█████▌    | 355/645 [13:34:40<11:05:53, 137.77s/it]Train:  55%|█████▌    | 356/645 [13:36:58<11:04:23, 137.94s/it]Train:  55%|█████▌    | 357/645 [13:39:09<10:50:59, 135.62s/it]Train:  56%|█████▌    | 358/645 [13:41:17<10:38:31, 133.49s/it]Train:  56%|█████▌    | 359/645 [13:43:42<10:53:09, 137.03s/it]Train:  56%|█████▌    | 360/645 [13:46:07<11:00:59, 139.16s/it]                                                               Train:  56%|█████▌    | 360/645 [13:46:07<11:00:59, 139.16s/it]Train:  56%|█████▌    | 360/645 [13:46:07<11:00:59, 139.16s/it]Train:  56%|█████▌    | 361/645 [13:48:10<10:36:06, 134.39s/it]Train:  56%|█████▌    | 362/645 [13:50:22<10:30:37, 133.70s/it]Train:  56%|█████▋    | 363/645 [13:52:48<10:46:08, 137.48s/it]Train:  56%|█████▋    | 364/645 [13:55:05<10:43:29, 137.40s/it]Train:  57%|█████▋    | 365/645 [13:57:36<11:00:03, 141.44s/it]Train:  57%|█████▋    | 366/645 [13:59:41<10:34:48, 136.52s/it]Train:  57%|█████▋    | 367/645 [14:02:21<11:04:58, 143.52s/it]Train:  57%|█████▋    | 368/645 [14:04:31<10:43:42, 139.43s/it]Train:  57%|█████▋    | 369/645 [14:06:53<10:45:00, 140.22s/it]Train:  57%|█████▋    | 370/645 [14:09:15<10:45:36, 140.86s/it]Train:  58%|█████▊    | 371/645 [14:11:32<10:36:55, 139.47s/it]Train:  58%|█████▊    | 372/645 [14:13:43<10:24:05, 137.16s/it]Train:  58%|█████▊    | 373/645 [14:16:10<10:34:44, 140.02s/it]Train:  58%|█████▊    | 374/645 [14:18:33<10:36:27, 140.91s/it]Train:  58%|█████▊    | 375/645 [14:20:56<10:36:38, 141.47s/it]Train:  58%|█████▊    | 376/645 [14:22:59<10:10:02, 136.07s/it]Train:  58%|█████▊    | 377/645 [14:25:07<9:56:31, 133.55s/it] Train:  59%|█████▊    | 378/645 [14:27:39<10:18:17, 138.94s/it]Train:  59%|█████▉    | 379/645 [14:29:56<10:14:09, 138.53s/it]Train:  59%|█████▉    | 380/645 [14:32:18<10:15:33, 139.37s/it]                                                               Train:  59%|█████▉    | 380/645 [14:32:18<10:15:33, 139.37s/it]Train:  59%|█████▉    | 380/645 [14:32:18<10:15:33, 139.37s/it]Train:  59%|█████▉    | 381/645 [14:34:30<10:04:03, 137.28s/it]Train:  59%|█████▉    | 382/645 [14:36:42<9:54:37, 135.66s/it] Train:  59%|█████▉    | 383/645 [14:38:52<9:45:35, 134.11s/it]Train:  60%|█████▉    | 384/645 [14:40:55<9:29:07, 130.83s/it]Train:  60%|█████▉    | 385/645 [14:43:28<9:54:42, 137.24s/it]Train:  60%|█████▉    | 386/645 [14:45:38<9:43:44, 135.23s/it]Train:  60%|██████    | 387/645 [14:47:58<9:47:26, 136.62s/it]Train:  60%|██████    | 388/645 [14:50:23<9:55:47, 139.10s/it]Train:  60%|██████    | 389/645 [14:52:31<9:39:28, 135.81s/it]Train:  60%|██████    | 390/645 [14:54:39<9:26:34, 133.31s/it]Train:  61%|██████    | 391/645 [14:57:12<9:49:50, 139.33s/it]Train:  61%|██████    | 392/645 [14:59:20<9:33:47, 136.08s/it]Train:  61%|██████    | 393/645 [15:01:26<9:17:57, 132.85s/it]Train:  61%|██████    | 394/645 [15:03:54<9:34:34, 137.35s/it]Train:  61%|██████    | 395/645 [15:06:04<9:23:45, 135.30s/it]Train:  61%|██████▏   | 396/645 [15:08:50<9:59:17, 144.41s/it]Train:  62%|██████▏   | 397/645 [15:11:06<9:47:02, 142.03s/it]Train:  62%|██████▏   | 398/645 [15:13:17<9:31:07, 138.74s/it]Train:  62%|██████▏   | 399/645 [15:15:54<9:51:07, 144.18s/it]Train:  62%|██████▏   | 400/645 [15:18:18<9:48:48, 144.20s/it]                                                              Train:  62%|██████▏   | 400/645 [15:18:18<9:48:48, 144.20s/it]Train:  62%|██████▏   | 400/645 [15:18:18<9:48:48, 144.20s/it][INFO:swift] Saving model checkpoint to /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-400
+Train:  62%|██████▏   | 401/645 [15:20:53<9:58:28, 147.17s/it]Train:  62%|██████▏   | 402/645 [15:23:10<9:43:57, 144.19s/it]Train:  62%|██████▏   | 403/645 [15:25:35<9:43:11, 144.59s/it]Train:  63%|██████▎   | 404/645 [15:27:47<9:25:39, 140.83s/it]Train:  63%|██████▎   | 405/645 [15:30:01<9:14:16, 138.57s/it]Train:  63%|██████▎   | 406/645 [15:32:29<9:23:35, 141.49s/it]Train:  63%|██████▎   | 407/645 [15:34:49<9:19:26, 141.03s/it]Train:  63%|██████▎   | 408/645 [15:36:57<9:01:45, 137.15s/it]Train:  63%|██████▎   | 409/645 [15:39:15<8:59:59, 137.29s/it]Train:  64%|██████▎   | 410/645 [15:41:30<8:55:04, 136.62s/it]Train:  64%|██████▎   | 411/645 [15:43:45<8:51:34, 136.30s/it]Train:  64%|██████▍   | 412/645 [15:45:53<8:39:26, 133.76s/it]Train:  64%|██████▍   | 413/645 [15:48:25<8:58:36, 139.29s/it]Train:  64%|██████▍   | 414/645 [15:50:52<9:04:30, 141.43s/it]Train:  64%|██████▍   | 415/645 [15:53:07<8:55:00, 139.57s/it]Train:  64%|██████▍   | 416/645 [15:55:21<8:46:51, 138.04s/it]Train:  65%|██████▍   | 417/645 [15:57:54<9:00:41, 142.29s/it]Train:  65%|██████▍   | 418/645 [16:00:17<8:59:55, 142.71s/it]Train:  65%|██████▍   | 419/645 [16:02:48<9:06:10, 145.00s/it]Train:  65%|██████▌   | 420/645 [16:04:56<8:45:34, 140.15s/it]                                                              Train:  65%|██████▌   | 420/645 [16:04:56<8:45:34, 140.15s/it]Train:  65%|██████▌   | 420/645 [16:04:56<8:45:34, 140.15s/it]Train:  65%|██████▌   | 421/645 [16:07:15<8:41:26, 139.67s/it]Train:  65%|██████▌   | 422/645 [16:09:29<8:32:32, 137.90s/it]Train:  66%|██████▌   | 423/645 [16:11:38<8:20:30, 135.27s/it]Train:  66%|██████▌   | 424/645 [16:13:44<8:08:21, 132.59s/it]Train:  66%|██████▌   | 425/645 [16:16:11<8:21:23, 136.74s/it]Train:  66%|██████▌   | 426/645 [16:18:31<8:22:40, 137.72s/it]Train:  66%|██████▌   | 427/645 [16:20:53<8:25:18, 139.07s/it]Train:  66%|██████▋   | 428/645 [16:22:58<8:07:20, 134.75s/it]Train:  67%|██████▋   | 429/645 [16:25:31<8:24:45, 140.21s/it]Train:  67%|██████▋   | 430/645 [16:28:00<8:32:43, 143.09s/it]Train:  67%|██████▋   | 431/645 [16:30:28<8:35:21, 144.49s/it]Train:  67%|██████▋   | 432/645 [16:32:50<8:29:50, 143.62s/it]Train:  67%|██████▋   | 433/645 [16:35:06<8:20:11, 141.56s/it]Train:  67%|██████▋   | 434/645 [16:37:25<8:14:16, 140.55s/it]Train:  67%|██████▋   | 435/645 [16:40:01<8:28:41, 145.34s/it]Train:  68%|██████▊   | 436/645 [16:42:04<8:02:40, 138.57s/it]Train:  68%|██████▊   | 437/645 [16:44:24<8:01:28, 138.89s/it]Train:  68%|██████▊   | 438/645 [16:46:57<8:13:59, 143.19s/it]Train:  68%|██████▊   | 439/645 [16:49:01<7:51:42, 137.39s/it]Train:  68%|██████▊   | 440/645 [16:51:23<7:54:08, 138.77s/it]                                                              Train:  68%|██████▊   | 440/645 [16:51:23<7:54:08, 138.77s/it]Train:  68%|██████▊   | 440/645 [16:51:23<7:54:08, 138.77s/it]Train:  68%|██████▊   | 441/645 [16:53:32<7:42:01, 135.89s/it]Train:  69%|██████▊   | 442/645 [16:55:45<7:36:53, 135.04s/it]Train:  69%|██████▊   | 443/645 [16:58:04<7:39:06, 136.37s/it]Train:  69%|██████▉   | 444/645 [17:00:10<7:25:58, 133.13s/it]Train:  69%|██████▉   | 445/645 [17:02:15<7:15:58, 130.79s/it]Train:  69%|██████▉   | 446/645 [17:04:37<7:25:10, 134.23s/it]Train:  69%|██████▉   | 447/645 [17:06:45<7:16:09, 132.17s/it]Train:  69%|██████▉   | 448/645 [17:09:06<7:22:53, 134.89s/it]Train:  70%|██████▉   | 449/645 [17:11:26<7:25:31, 136.39s/it]Train:  70%|██████▉   | 450/645 [17:13:46<7:27:14, 137.61s/it]Train:  70%|██████▉   | 451/645 [17:16:03<7:24:25, 137.45s/it]Train:  70%|███████   | 452/645 [17:18:22<7:22:59, 137.72s/it]Train:  70%|███████   | 453/645 [17:20:51<7:31:26, 141.08s/it]Train:  70%|███████   | 454/645 [17:23:00<7:17:33, 137.45s/it]Train:  71%|███████   | 455/645 [17:25:04<7:02:26, 133.40s/it]Train:  71%|███████   | 456/645 [17:27:19<7:02:22, 134.09s/it]Train:  71%|███████   | 457/645 [17:29:53<7:18:33, 139.97s/it]Train:  71%|███████   | 458/645 [17:32:05<7:08:36, 137.52s/it]Train:  71%|███████   | 459/645 [17:34:25<7:08:24, 138.19s/it]Train:  71%|███████▏  | 460/645 [17:36:35<6:58:49, 135.84s/it]                                                              Train:  71%|███████▏  | 460/645 [17:36:35<6:58:49, 135.84s/it]Train:  71%|███████▏  | 460/645 [17:36:35<6:58:49, 135.84s/it]Train:  71%|███████▏  | 461/645 [17:39:10<7:13:50, 141.47s/it]Train:  72%|███████▏  | 462/645 [17:41:28<7:08:55, 140.63s/it]Train:  72%|███████▏  | 463/645 [17:43:55<7:12:04, 142.44s/it]Train:  72%|███████▏  | 464/645 [17:46:07<7:00:25, 139.37s/it]Train:  72%|███████▏  | 465/645 [17:48:23<6:55:04, 138.36s/it]Train:  72%|███████▏  | 466/645 [17:50:42<6:53:30, 138.61s/it]Train:  72%|███████▏  | 467/645 [17:53:00<6:50:31, 138.38s/it]Train:  73%|███████▎  | 468/645 [17:55:22<6:51:39, 139.55s/it]Train:  73%|███████▎  | 469/645 [17:57:42<6:49:33, 139.62s/it]Train:  73%|███████▎  | 470/645 [18:00:00<6:45:17, 138.96s/it]Train:  73%|███████▎  | 471/645 [18:02:26<6:49:25, 141.18s/it]Train:  73%|███████▎  | 472/645 [18:04:49<6:48:23, 141.64s/it]Train:  73%|███████▎  | 473/645 [18:07:02<6:38:40, 139.08s/it]Train:  73%|███████▎  | 474/645 [18:09:16<6:32:04, 137.57s/it]Train:  74%|███████▎  | 475/645 [18:11:40<6:35:38, 139.64s/it]Train:  74%|███████▍  | 476/645 [18:14:02<6:34:49, 140.17s/it]Train:  74%|███████▍  | 477/645 [18:16:07<6:20:02, 135.73s/it]Train:  74%|███████▍  | 478/645 [18:18:16<6:12:20, 133.78s/it]Train:  74%|███████▍  | 479/645 [18:20:34<6:13:32, 135.02s/it]Train:  74%|███████▍  | 480/645 [18:23:02<6:21:55, 138.88s/it]                                                              Train:  74%|███████▍  | 480/645 [18:23:02<6:21:55, 138.88s/it]Train:  74%|███████▍  | 480/645 [18:23:02<6:21:55, 138.88s/it]Train:  75%|███████▍  | 481/645 [18:25:13<6:13:23, 136.61s/it]Train:  75%|███████▍  | 482/645 [18:27:50<6:27:11, 142.52s/it]Train:  75%|███████▍  | 483/645 [18:30:17<6:28:40, 143.96s/it]Train:  75%|███████▌  | 484/645 [18:32:30<6:17:13, 140.58s/it]Train:  75%|███████▌  | 485/645 [18:35:03<6:24:51, 144.32s/it]Train:  75%|███████▌  | 486/645 [18:37:13<6:11:01, 140.01s/it]Train:  76%|███████▌  | 487/645 [18:39:30<6:06:30, 139.18s/it]Train:  76%|███████▌  | 488/645 [18:41:51<6:05:40, 139.75s/it]Train:  76%|███████▌  | 489/645 [18:44:06<5:59:25, 138.24s/it]Train:  76%|███████▌  | 490/645 [18:46:34<6:04:30, 141.10s/it]Train:  76%|███████▌  | 491/645 [18:48:39<5:49:47, 136.28s/it]Train:  76%|███████▋  | 492/645 [18:50:59<5:51:00, 137.65s/it]Train:  76%|███████▋  | 493/645 [18:53:08<5:42:04, 135.03s/it]Train:  77%|███████▋  | 494/645 [18:55:30<5:44:27, 136.87s/it]Train:  77%|███████▋  | 495/645 [18:57:48<5:43:42, 137.48s/it]Train:  77%|███████▋  | 496/645 [19:00:22<5:53:33, 142.38s/it]Train:  77%|███████▋  | 497/645 [19:02:49<5:54:17, 143.63s/it]Train:  77%|███████▋  | 498/645 [19:04:56<5:40:10, 138.84s/it]Train:  77%|███████▋  | 499/645 [19:07:31<5:48:59, 143.42s/it]Train:  78%|███████▊  | 500/645 [19:09:52<5:45:11, 142.84s/it]                                                              Train:  78%|███████▊  | 500/645 [19:09:52<5:45:11, 142.84s/it]Train:  78%|███████▊  | 500/645 [19:09:52<5:45:11, 142.84s/it][INFO:swift] Saving model checkpoint to /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-500
+Train:  78%|███████▊  | 501/645 [19:12:17<5:44:02, 143.35s/it]Train:  78%|███████▊  | 502/645 [19:14:37<5:39:47, 142.57s/it]Train:  78%|███████▊  | 503/645 [19:16:42<5:24:52, 137.27s/it]Train:  78%|███████▊  | 504/645 [19:18:58<5:21:16, 136.72s/it]Train:  78%|███████▊  | 505/645 [19:21:16<5:20:10, 137.22s/it]Train:  78%|███████▊  | 506/645 [19:23:26<5:12:54, 135.07s/it]Train:  79%|███████▊  | 507/645 [19:25:52<5:18:20, 138.41s/it]Train:  79%|███████▉  | 508/645 [19:28:00<5:08:54, 135.29s/it]Train:  79%|███████▉  | 509/645 [19:30:24<5:12:09, 137.72s/it]Train:  79%|███████▉  | 510/645 [19:32:48<5:14:01, 139.57s/it]Train:  79%|███████▉  | 511/645 [19:34:53<5:02:11, 135.31s/it]Train:  79%|███████▉  | 512/645 [19:37:07<4:58:48, 134.80s/it]Train:  80%|███████▉  | 513/645 [19:39:22<4:57:08, 135.06s/it]Train:  80%|███████▉  | 514/645 [19:41:27<4:48:19, 132.06s/it]Train:  80%|███████▉  | 515/645 [19:43:34<4:42:37, 130.44s/it]Train:  80%|████████  | 516/645 [19:45:55<4:47:25, 133.68s/it]Train:  80%|████████  | 517/645 [19:47:59<4:38:49, 130.70s/it]Train:  80%|████████  | 518/645 [19:50:15<4:40:06, 132.33s/it]Train:  80%|████████  | 519/645 [19:52:42<4:47:16, 136.80s/it]Train:  81%|████████  | 520/645 [19:55:02<4:47:04, 137.79s/it]                                                              Train:  81%|████████  | 520/645 [19:55:02<4:47:04, 137.79s/it]Train:  81%|████████  | 520/645 [19:55:02<4:47:04, 137.79s/it]Train:  81%|████████  | 521/645 [19:57:23<4:46:23, 138.58s/it]Train:  81%|████████  | 522/645 [19:59:29<4:36:14, 134.75s/it]Train:  81%|████████  | 523/645 [20:02:05<4:47:00, 141.16s/it]Train:  81%|████████  | 524/645 [20:04:14<4:37:18, 137.51s/it]Train:  81%|████████▏ | 525/645 [20:06:47<4:44:19, 142.16s/it]Train:  82%|████████▏ | 526/645 [20:09:10<4:42:21, 142.37s/it]Train:  82%|████████▏ | 527/645 [20:11:29<4:38:11, 141.45s/it]Train:  82%|████████▏ | 528/645 [20:14:04<4:43:57, 145.62s/it]Train:  82%|████████▏ | 529/645 [20:16:17<4:34:01, 141.73s/it]Train:  82%|████████▏ | 530/645 [20:18:50<4:37:58, 145.03s/it]Train:  82%|████████▏ | 531/645 [20:21:00<4:27:07, 140.59s/it]Train:  82%|████████▏ | 532/645 [20:23:25<4:27:32, 142.06s/it]Train:  83%|████████▎ | 533/645 [20:25:33<4:17:08, 137.75s/it]Train:  83%|████████▎ | 534/645 [20:27:55<4:17:22, 139.12s/it]Train:  83%|████████▎ | 535/645 [20:30:29<4:22:59, 143.45s/it]Train:  83%|████████▎ | 536/645 [20:32:54<4:21:14, 143.81s/it]Train:  83%|████████▎ | 537/645 [20:35:18<4:19:12, 144.00s/it]Train:  83%|████████▎ | 538/645 [20:37:50<4:21:08, 146.43s/it]Train:  84%|████████▎ | 539/645 [20:40:13<4:16:41, 145.29s/it]Train:  84%|████████▎ | 540/645 [20:42:39<4:14:41, 145.54s/it]                                                              Train:  84%|████████▎ | 540/645 [20:42:39<4:14:41, 145.54s/it]Train:  84%|████████▎ | 540/645 [20:42:39<4:14:41, 145.54s/it]Train:  84%|████████▍ | 541/645 [20:45:10<4:15:01, 147.13s/it]Train:  84%|████████▍ | 542/645 [20:47:15<4:01:07, 140.46s/it]Train:  84%|████████▍ | 543/645 [20:49:37<3:59:41, 140.99s/it]Train:  84%|████████▍ | 544/645 [20:52:01<3:59:03, 142.01s/it]Train:  84%|████████▍ | 545/645 [20:54:15<3:52:44, 139.64s/it]Train:  85%|████████▍ | 546/645 [20:56:43<3:54:17, 142.00s/it]Train:  85%|████████▍ | 547/645 [20:58:55<3:47:05, 139.04s/it]Train:  85%|████████▍ | 548/645 [21:01:05<3:40:16, 136.25s/it]Train:  85%|████████▌ | 549/645 [21:03:20<3:37:32, 135.96s/it]Train:  85%|████████▌ | 550/645 [21:05:53<3:43:31, 141.17s/it]Train:  85%|████████▌ | 551/645 [21:08:15<3:41:12, 141.19s/it]Train:  86%|████████▌ | 552/645 [21:10:24<3:33:22, 137.66s/it]Train:  86%|████████▌ | 553/645 [21:12:58<3:38:28, 142.49s/it]Train:  86%|████████▌ | 554/645 [21:15:31<3:40:54, 145.65s/it]Train:  86%|████████▌ | 555/645 [21:17:54<3:37:20, 144.89s/it]Train:  86%|████████▌ | 556/645 [21:20:19<3:34:58, 144.92s/it]Train:  86%|████████▋ | 557/645 [21:22:31<3:26:56, 141.10s/it]Train:  87%|████████▋ | 558/645 [21:24:39<3:18:52, 137.16s/it]Train:  87%|████████▋ | 559/645 [21:27:02<3:19:15, 139.01s/it]Train:  87%|████████▋ | 560/645 [21:29:30<3:20:30, 141.53s/it]                                                              Train:  87%|████████▋ | 560/645 [21:29:30<3:20:30, 141.53s/it]Train:  87%|████████▋ | 560/645 [21:29:30<3:20:30, 141.53s/it]Train:  87%|████████▋ | 561/645 [21:32:10<3:26:02, 147.18s/it]Train:  87%|████████▋ | 562/645 [21:34:24<3:17:55, 143.08s/it]Train:  87%|████████▋ | 563/645 [21:36:46<3:15:03, 142.73s/it]Train:  87%|████████▋ | 564/645 [21:39:00<3:09:21, 140.26s/it]Train:  88%|████████▊ | 565/645 [21:41:18<3:06:13, 139.67s/it]Train:  88%|████████▊ | 566/645 [21:43:34<3:02:20, 138.48s/it]Train:  88%|████████▊ | 567/645 [21:45:53<3:00:20, 138.73s/it]Train:  88%|████████▊ | 568/645 [21:48:06<2:55:32, 136.79s/it]Train:  88%|████████▊ | 569/645 [21:50:34<2:57:39, 140.25s/it]Train:  88%|████████▊ | 570/645 [21:52:56<2:55:50, 140.68s/it]Train:  89%|████████▊ | 571/645 [21:54:58<2:46:36, 135.08s/it]Train:  89%|████████▊ | 572/645 [21:57:33<2:51:38, 141.08s/it]Train:  89%|████████▉ | 573/645 [21:59:50<2:47:53, 139.92s/it]Train:  89%|████████▉ | 574/645 [22:02:21<2:49:33, 143.29s/it]Train:  89%|████████▉ | 575/645 [22:04:53<2:50:03, 145.76s/it]Train:  89%|████████▉ | 576/645 [22:06:54<2:39:00, 138.27s/it]Train:  89%|████████▉ | 577/645 [22:09:26<2:41:37, 142.61s/it]Train:  90%|████████▉ | 578/645 [22:11:50<2:39:39, 142.97s/it]Train:  90%|████████▉ | 579/645 [22:14:11<2:36:35, 142.35s/it]Train:  90%|████████▉ | 580/645 [22:16:30<2:33:08, 141.36s/it]                                                              Train:  90%|████████▉ | 580/645 [22:16:30<2:33:08, 141.36s/it]Train:  90%|████████▉ | 580/645 [22:16:30<2:33:08, 141.36s/it]Train:  90%|█████████ | 581/645 [22:18:47<2:29:22, 140.04s/it]Train:  90%|█████████ | 582/645 [22:21:21<2:31:31, 144.30s/it]Train:  90%|█████████ | 583/645 [22:23:45<2:28:59, 144.18s/it]Train:  91%|█████████ | 584/645 [22:26:01<2:24:03, 141.70s/it]Train:  91%|█████████ | 585/645 [22:28:15<2:19:16, 139.27s/it]Train:  91%|█████████ | 586/645 [22:30:32<2:16:25, 138.73s/it]Train:  91%|█████████ | 587/645 [22:32:58<2:16:07, 140.82s/it]Train:  91%|█████████ | 588/645 [22:35:09<2:11:10, 138.08s/it]Train:  91%|█████████▏| 589/645 [22:37:25<2:08:03, 137.21s/it]Train:  91%|█████████▏| 590/645 [22:39:52<2:08:37, 140.32s/it]Train:  92%|█████████▏| 591/645 [22:42:08<2:05:10, 139.09s/it]Train:  92%|█████████▏| 592/645 [22:44:39<2:05:56, 142.57s/it]Train:  92%|█████████▏| 593/645 [22:46:43<1:58:35, 136.85s/it]Train:  92%|█████████▏| 594/645 [22:49:07<1:58:20, 139.22s/it]Train:  92%|█████████▏| 595/645 [22:51:37<1:58:38, 142.36s/it]Train:  92%|█████████▏| 596/645 [22:53:55<1:55:06, 140.95s/it]Train:  93%|█████████▎| 597/645 [22:56:27<1:55:31, 144.40s/it]Train:  93%|█████████▎| 598/645 [22:58:38<1:49:57, 140.38s/it]Train:  93%|█████████▎| 599/645 [23:00:57<1:47:17, 139.95s/it]Train:  93%|█████████▎| 600/645 [23:03:10<1:43:26, 137.92s/it]                                                              Train:  93%|█████████▎| 600/645 [23:03:10<1:43:26, 137.92s/it]Train:  93%|█████████▎| 600/645 [23:03:10<1:43:26, 137.92s/it][INFO:swift] Saving model checkpoint to /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-600
+Train:  93%|█████████▎| 601/645 [23:05:33<1:42:10, 139.34s/it]Train:  93%|█████████▎| 602/645 [23:07:52<1:39:51, 139.33s/it]Train:  93%|█████████▎| 603/645 [23:10:09<1:37:03, 138.65s/it]Train:  94%|█████████▎| 604/645 [23:12:14<1:31:51, 134.42s/it]Train:  94%|█████████▍| 605/645 [23:14:39<1:31:48, 137.70s/it]Train:  94%|█████████▍| 606/645 [23:16:52<1:28:31, 136.19s/it]Train:  94%|█████████▍| 607/645 [23:19:03<1:25:20, 134.75s/it]Train:  94%|█████████▍| 608/645 [23:21:48<1:28:39, 143.76s/it]Train:  94%|█████████▍| 609/645 [23:24:04<1:24:45, 141.25s/it]Train:  95%|█████████▍| 610/645 [23:26:11<1:19:54, 137.00s/it]Train:  95%|█████████▍| 611/645 [23:28:15<1:15:30, 133.25s/it]Train:  95%|█████████▍| 612/645 [23:30:40<1:15:14, 136.80s/it]Train:  95%|█████████▌| 613/645 [23:32:48<1:11:29, 134.04s/it]Train:  95%|█████████▌| 614/645 [23:35:02<1:09:14, 134.02s/it]Train:  95%|█████████▌| 615/645 [23:37:07<1:05:43, 131.46s/it]Train:  96%|█████████▌| 616/645 [23:39:18<1:03:24, 131.19s/it]Train:  96%|█████████▌| 617/645 [23:41:21<1:00:05, 128.75s/it]Train:  96%|█████████▌| 618/645 [23:43:34<58:28, 129.93s/it]  Train:  96%|█████████▌| 619/645 [23:45:44<56:24, 130.18s/it]Train:  96%|█████████▌| 620/645 [23:47:47<53:20, 128.00s/it]                                                            Train:  96%|█████████▌| 620/645 [23:47:47<53:20, 128.00s/it]Train:  96%|█████████▌| 620/645 [23:47:47<53:20, 128.00s/it]Train:  96%|█████████▋| 621/645 [23:49:51<50:39, 126.67s/it]Train:  96%|█████████▋| 622/645 [23:52:20<51:12, 133.57s/it]Train:  97%|█████████▋| 623/645 [23:54:35<49:06, 133.95s/it]Train:  97%|█████████▋| 624/645 [23:57:03<48:18, 138.04s/it]Train:  97%|█████████▋| 625/645 [23:59:18<45:41, 137.05s/it]Train:  97%|█████████▋| 626/645 [24:01:25<42:26, 134.03s/it]Train:  97%|█████████▋| 627/645 [24:03:35<39:52, 132.93s/it]Train:  97%|█████████▋| 628/645 [24:05:51<37:55, 133.88s/it]Train:  98%|█████████▊| 629/645 [24:08:24<37:16, 139.75s/it]Train:  98%|█████████▊| 630/645 [24:10:56<35:48, 143.24s/it]Train:  98%|█████████▊| 631/645 [24:13:12<32:57, 141.23s/it]Train:  98%|█████████▊| 632/645 [24:15:37<30:47, 142.13s/it]Train:  98%|█████████▊| 633/645 [24:17:54<28:06, 140.55s/it]Train:  98%|█████████▊| 634/645 [24:20:11<25:36, 139.68s/it]Train:  98%|█████████▊| 635/645 [24:22:24<22:57, 137.74s/it]Train:  99%|█████████▊| 636/645 [24:24:38<20:29, 136.60s/it]Train:  99%|█████████▉| 637/645 [24:26:51<18:02, 135.31s/it]Train:  99%|█████████▉| 638/645 [24:29:08<15:50, 135.86s/it]Train:  99%|█████████▉| 639/645 [24:31:33<13:52, 138.75s/it]Train:  99%|█████████▉| 640/645 [24:34:11<12:01, 144.35s/it]                                                            Train:  99%|█████████▉| 640/645 [24:34:11<12:01, 144.35s/it]Train:  99%|█████████▉| 640/645 [24:34:11<12:01, 144.35s/it]Train:  99%|█████████▉| 641/645 [24:36:26<09:27, 141.78s/it]Train: 100%|█████████▉| 642/645 [24:38:45<07:02, 140.95s/it]Train: 100%|█████████▉| 643/645 [24:40:50<04:32, 136.09s/it]Train: 100%|█████████▉| 644/645 [24:42:58<02:13, 133.72s/it][2026-07-22 10:26:11] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:11] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:11] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:11] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:13] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:13] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:13] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:13] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:15] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:15] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:15] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:15] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:18] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:18] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:18] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:18] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:20] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:20] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:20] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:20] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:22] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:22] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:22] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:22] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:24] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:24] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:24] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:24] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:26] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:26] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:26] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:26:26] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:28] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:28] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:28] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:28] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:30] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:30] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:30] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:30] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:32] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:32] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:32] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:32] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:35] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:35] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:35] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:35] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:37] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:37] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:37] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:37] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:39] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:39] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:39] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:39] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:41] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:41] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:41] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:41] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:43] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:43] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:43] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+[2026-07-22 10:27:43] INFO accelerator.py:3117: [RANK 0] The used dataset had no length, returning gathered tensors. You should drop the remainder yourself.
+Train: 100%|██████████| 645/645 [24:45:33<00:00, 139.94s/it][INFO:swift] Saving model checkpoint to /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-645
+                                                            Train: 100%|██████████| 645/645 [24:45:33<00:00, 139.94s/it]Train: 100%|██████████| 645/645 [24:45:33<00:00, 139.94s/it]Train: 100%|██████████| 645/645 [24:45:33<00:00, 138.19s/it]
+[INFO:swift] last_model_checkpoint: /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-645
+[INFO:swift] best_model_checkpoint: None
+[INFO:swift] images_dir: /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/images
+[INFO:swift] End time of running main: 2026-07-22 10:27:46.602617
+[rank0]:[W722 10:27:47.133293046 ProcessGroupNCCL.cpp:1524] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+[INFO:swift] Successfully registered `/mnt/c/Users/Admin/Documents/GitHub/ms-swift/swift/dataset/data/dataset_info.json`.
+[INFO:swift] Successfully loaded /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-645/args.json.
+[INFO:swift] Successfully imported external_plugins: ['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'].
+[INFO:swift] rank: -1, local_rank: -1, world_size: 1, local_world_size: 1
+`torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] Setting args.lazy_tokenize: True
+[INFO:swift] args.output_dir: `/home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a_merged`
+[INFO:swift] args: ExportArguments(use_ray=False, ray_exp_name=None, device_groups=None, model='/home/gridex/training_outputs/sft2_query2/sft2_q2_5090_balanced_v1/sft2_checkpoint324_merged', model_type='qwen2_5_vl', model_revision=None, task_type='causal_lm', torch_dtype=torch.bfloat16, attn_impl=None, experts_impl=None, new_special_tokens=[], num_labels=None, problem_type=None, rope_scaling=None, device_map=None, max_memory={}, max_model_len=None, local_repo_path=None, init_strategy=None, template='qwen2_5_vl', system='You are an expert in deepfake speech spectrogram forensics.\n\nYou are given a spectrogram and transcript. You have already selected exactly 3 region IDs, in order: ID1, ID2, ID3.\nFor each ID, infer timing information (T), frequency band (F), phonetic category (P), and a visual description of the artifact and the likely audio impact implied by the artificial signs (En).\n\nOUTPUT FORMAT (must follow exactly):\n(T1=..., F1=..., P1=..., En1="..."); (T2=..., F2=..., P2=..., En2="..."); (T3=..., F3=..., P3=..., En3="...")\n\nField definitions:\n- Fields ending in 1, 2, and 3 correspond to ID1, ID2, and ID3 respectively.\n- T: one of {speech, non-speech}\n- F: one of {low, mid, high}\n- P: one of {consonant, vowel, none}. Use none when the region is outside aligned speech and no phone can be assigned.\n- En: textual description, must be enclosed in double quotes.\n\nDo not output any other text outside the three tuples.', max_length=128000, truncation_strategy='left', max_pixels=None, agent_template=None, norm_bbox=None, use_chat_template=True, padding_side='right', padding_free=False, loss_scale='default', sequence_parallel_size=1, template_backend='swift', response_prefix=None, enable_thinking=None, add_non_thinking_prefix=True, dataset=[], val_dataset=[], cached_dataset=[], cached_val_dataset=[], split_dataset_ratio=0.0, data_seed=42, dataset_num_proc=1, load_from_cache_file=False, dataset_shuffle=True, val_dataset_shuffle=False, streaming=False, interleave_prob=None, stopping_strategy='first_exhausted', shuffle_buffer_size=1000, download_mode='reuse_dataset_if_exists', columns={}, strict=False, remove_unused_columns=True, model_name=None, model_author=None, custom_dataset_info=[], quant_method=None, quant_bits=None, hqq_axis=None, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type='nf4', bnb_4bit_use_double_quant=True, bnb_4bit_quant_storage=None, max_new_tokens=None, temperature=None, top_k=None, top_p=None, repetition_penalty=None, num_beams=1, stream=False, stop_words=[], logprobs=False, top_logprobs=None, structured_outputs_regex=None, tuner_backend='peft', tuner_type='lora', train_type=None, adapters=['/home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a/v0-20260721-094158/checkpoint-645'], external_plugins=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'], custom_register_path=[], seed=42, model_kwargs={}, load_args=True, load_data_args=False, packing=False, packing_length=None, packing_num_proc=1, lazy_tokenize=True, use_hf=False, hub_token=None, ddp_timeout=18000000, ddp_backend=None, ignore_args_error=False, use_swift_lora=False, merge_lora=True, safe_serialization=True, max_shard_size='5GB', output_dir='/home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a_merged', quant_n_samples=256, quant_batch_size=1, group_size=128, to_cached_dataset=False, template_mode='train', to_ollama=False, to_mcore=False, to_hf=False, mcore_model=None, mcore_adapter=None, thread_count=None, test_convert_precision=False, test_convert_dtype=torch.float32, push_to_hub=False, hub_model_id=None, hub_private_repo=False, commit_message='update files', to_peft_format=False, exist_ok=False)
+[INFO:swift] Global seed set to 42
+[INFO:swift] Start time of running main: 2026-07-22 10:28:03.360363
+[INFO:swift] swift.__version__: 4.0.0.dev0
+[INFO:swift] merge_device_map: None
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] model_kwargs: {'device_map': 'cuda:0', 'dtype': torch.bfloat16}
+The image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To continue using the slow processor, instantiate this class with `use_fast=False`. Note that this behavior will be extended to all models in a future release.
+The tokenizer you are loading from '/home/gridex/training_outputs/sft2_query2/sft2_q2_5090_balanced_v1/sft2_checkpoint324_merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+[INFO:swift] Setting max_ratio: 200. You can adjust this hyperparameter through the environment variable: `MAX_RATIO`.
+[INFO:swift] Setting frame_factor: 2. You can adjust this hyperparameter through the environment variable: `FRAME_FACTOR`.
+[INFO:swift] Setting fps: 2.0. You can adjust this hyperparameter through the environment variable: `FPS`.
+[INFO:swift] Setting fps_min_frames: 4. You can adjust this hyperparameter through the environment variable: `FPS_MIN_FRAMES`.
+[INFO:swift] Setting fps_max_frames: 768. You can adjust this hyperparameter through the environment variable: `FPS_MAX_FRAMES`.
+[INFO:swift] Setting image_max_token_num: 16384. You can adjust this hyperparameter through the environment variable: `IMAGE_MAX_TOKEN_NUM`.
+[INFO:swift] Setting image_min_token_num: 4. You can adjust this hyperparameter through the environment variable: `IMAGE_MIN_TOKEN_NUM`.
+[INFO:swift] Setting spatial_merge_size: 2. You can adjust this hyperparameter through the environment variable: `SPATIAL_MERGE_SIZE`.
+[INFO:swift] Setting video_max_token_num: 768. You can adjust this hyperparameter through the environment variable: `VIDEO_MAX_TOKEN_NUM`.
+[INFO:swift] Setting video_min_token_num: 128. You can adjust this hyperparameter through the environment variable: `VIDEO_MIN_TOKEN_NUM`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:05<00:05,  5.23s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:09<00:00,  4.41s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:09<00:00,  4.53s/it]
+[INFO:swift] default_system: 'You are an expert in deepfake speech spectrogram forensics.\n\nYou are given a spectrogram and transcript. You have already selected exactly 3 region IDs, in order: ID1, ID2, ID3.\nFor each ID, infer timing information (T), frequency band (F), phonetic category (P), and a visual description of the artifact and the likely audio impact implied by the artificial signs (En).\n\nOUTPUT FORMAT (must follow exactly):\n(T1=..., F1=..., P1=..., En1="..."); (T2=..., F2=..., P2=..., En2="..."); (T3=..., F3=..., P3=..., En3="...")\n\nField definitions:\n- Fields ending in 1, 2, and 3 correspond to ID1, ID2, and ID3 respectively.\n- T: one of {speech, non-speech}\n- F: one of {low, mid, high}\n- P: one of {consonant, vowel, none}. Use none when the region is outside aligned speech and no phone can be assigned.\n- En: textual description, must be enclosed in double quotes.\n\nDo not output any other text outside the three tuples.'
+[INFO:swift] max_length: 128000
+[INFO:swift] response_prefix: ''
+[INFO:swift] agent_template: hermes
+[INFO:swift] norm_bbox: none
+[INFO:swift] Setting ROOT_IMAGE_DIR: None. You can adjust this hyperparameter through the environment variable: `ROOT_IMAGE_DIR`.
+[INFO:swift] Setting QWENVL_BBOX_FORMAT: legacy. You can adjust this hyperparameter through the environment variable: `QWENVL_BBOX_FORMAT`.
+[INFO:swift] Merge LoRA...
+[INFO:swift] Saving merged weights...
+[INFO:swift] Successfully merged LoRA and saved in /home/gridex/training_outputs/grpo2_curriculum/grpo2_phase_a_5090_v1/phase_a_merged.
+[INFO:swift] End time of running main: 2026-07-22 10:28:23.165821

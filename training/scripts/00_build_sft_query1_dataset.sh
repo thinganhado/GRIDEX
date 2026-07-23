@@ -25,13 +25,16 @@ ORDER_METHOD_COL="${ORDER_METHOD_COL:-method}"
 ORDER_METHOD="${ORDER_METHOD:-grid}"
 IMAGE_DIR="${IMAGE_DIR:-${DATA_ROOT}/spectrograms/grid}"
 IMAGE_SUFFIX="${IMAGE_SUFFIX:-_grid_img_edge_number_axes.png}"
+PYTHON_BIN="${PYTHON_BIN:-python}"
 
 EXTRA_ARGS=()
+ORDER_REQUIRE_ARGS=(--require-order-scores)
 if [ -n "${REGIONS_COL}" ]; then
   EXTRA_ARGS+=(--regions-col "${REGIONS_COL}")
 fi
 if [[ "${PRESERVE_INPUT_REGION_ORDER}" == "1" ]]; then
   EXTRA_ARGS+=(--preserve-input-region-order)
+  ORDER_REQUIRE_ARGS=()
 fi
 if [[ "${SPLIT_BY_PATH}" == "1" ]]; then
   EXTRA_ARGS+=(--split-by-path)
@@ -47,7 +50,7 @@ fi
 
 mkdir -p "$(dirname "${SFT_JSON_SWIFT}")"
 
-python "${TRAINING_ROOT}/tools/build_swift_sft_query1_dataset.py" \
+"${PYTHON_BIN}" "${TRAINING_ROOT}/tools/build_swift_sft_query1_dataset.py" \
   --input-csv "${CSV_IN}" \
   --image-col "${IMAGE_COL}" \
   --sample-id-col "${SAMPLE_ID_COL}" \
@@ -58,7 +61,7 @@ python "${TRAINING_ROOT}/tools/build_swift_sft_query1_dataset.py" \
   --order-score-col "${ORDER_SCORE_COL}" \
   --order-method-col "${ORDER_METHOD_COL}" \
   --order-method "${ORDER_METHOD}" \
-  --require-order-scores \
+  "${ORDER_REQUIRE_ARGS[@]}" \
   --verify-order \
   --require-images \
   --image-dir "${IMAGE_DIR}" \

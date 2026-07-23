@@ -1,0 +1,959 @@
+[INFO:swift] Successfully registered `/home/gridex/src/ms-swift-d9010/swift/dataset/data/dataset_info.json`.
+[INFO:swift] Setting args.remove_unused_columns: False
+[INFO:swift] Successfully imported external_plugins: ['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'].
+[INFO:swift] rank: 0, local_rank: 0, world_size: 1, local_world_size: 1
+`torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] Because len(args.val_dataset) > 0, setting split_dataset_ratio: 0.0
+[INFO:swift] Setting args.lazy_tokenize: True
+[INFO:swift] output_dir: /home/gridex/training_outputs/grpo1/grpo1_q1_5090_balanced_v2/v0-20260717-135123
+[INFO:swift] args: RLHFArguments(
+_n_gpu=-1,
+acc_strategy=token,
+accelerator_config={'dispatch_batches': False},
+adafactor=False,
+adalora_beta1=0.85,
+adalora_beta2=0.85,
+adalora_deltaT=1,
+adalora_init_r=12,
+adalora_orth_reg_weight=0.5,
+adalora_target_r=8,
+adalora_tfinal=0,
+adalora_tinit=0,
+adam_beta1=0.9,
+adam_beta2=0.95,
+adam_epsilon=1e-08,
+adapter_act=gelu,
+adapter_length=128,
+adapters=['/home/gridex/training_outputs/sft1_query1/sft1_q1_5090_balanced_v1/v0-20260717-085528/checkpoint-774'],
+add_non_thinking_prefix=True,
+add_version=True,
+advantage_estimator=grpo,
+agent_template=None,
+aligner_lr=None,
+async_generate=False,
+attn_impl=None,
+auto_find_batch_size=False,
+average_tokens_across_devices=True,
+batch_eval_metrics=False,
+beta=0.01,
+bf16=True,
+bf16_full_eval=False,
+bnb_4bit_compute_dtype=torch.bfloat16,
+bnb_4bit_quant_storage=None,
+bnb_4bit_quant_type=nf4,
+bnb_4bit_use_double_quant=True,
+boft_block_num=0,
+boft_block_size=4,
+boft_dropout=0.0,
+boft_n_butterfly_factor=1,
+cached_dataset=[],
+cached_val_dataset=[],
+callbacks=[],
+center_rewards_coefficient=None,
+check_model=True,
+chord_enable_phi_function=False,
+chord_mu_decay_steps=None,
+chord_mu_peak=None,
+chord_mu_valley=None,
+chord_mu_warmup_steps=None,
+chord_sft_dataset=[],
+chord_sft_per_device_train_batch_size=None,
+cliprange=0.2,
+cliprange_value=0.2,
+columns={},
+completion_length_limit_scope=per_round,
+cosine_max_len=None,
+cosine_max_len_value_correct=0.5,
+cosine_max_len_value_wrong=0.0,
+cosine_min_len_value_correct=1.0,
+cosine_min_len_value_wrong=-0.5,
+cpo_alpha=1.0,
+create_checkpoint_symlink=False,
+custom_dataset_info=[],
+custom_register_path=[],
+data_seed=42,
+dataloader_drop_last=False,
+dataloader_num_workers=4,
+dataloader_persistent_workers=False,
+dataloader_pin_memory=True,
+dataloader_prefetch_factor=None,
+dataset=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/stage1_query1_train_swift.json'],
+dataset_num_proc=4,
+dataset_shuffle=True,
+ddp_backend=None,
+ddp_broadcast_buffers=None,
+ddp_bucket_cap_mb=None,
+ddp_find_unused_parameters=None,
+ddp_timeout=18000000,
+debug=None,
+deepspeed=None,
+deepspeed_autotp_size=None,
+delta=None,
+desirable_weight=1.0,
+device_groups=None,
+device_map=None,
+disable_tqdm=None,
+discopop_tau=0.05,
+do_eval=False,
+do_predict=False,
+do_train=False,
+download_mode=reuse_dataset_if_exists,
+ds3_gather_for_generation=True,
+dynamic_sample=False,
+early_stop_interval=None,
+enable_channel_loss=False,
+enable_dft_loss=False,
+enable_flattened_weight_sync=True,
+enable_thinking=None,
+epsilon=0.2,
+epsilon_high=None,
+eval_accumulation_steps=None,
+eval_dataset=[],
+eval_dataset_args=None,
+eval_delay=0,
+eval_do_concat_batches=True,
+eval_generation_config=None,
+eval_limit=None,
+eval_metric=None,
+eval_on_start=False,
+eval_steps=200.0,
+eval_strategy=steps,
+eval_use_evalscope=False,
+eval_use_gather_object=False,
+experts_impl=None,
+external_plugins=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'],
+extra_eval_args=None,
+fourier_n_frequency=2000,
+fourier_scaling=300.0,
+fp16=False,
+fp16_backend=auto,
+fp16_full_eval=False,
+fp16_opt_level=O1,
+freeze_aligner=True,
+freeze_llm=False,
+freeze_parameters=[],
+freeze_parameters_ratio=0.0,
+freeze_parameters_regex=None,
+freeze_vit=True,
+fsdp=[],
+fsdp_config=None,
+fsdp_min_num_params=0,
+fsdp_transformer_layer_cls_to_wrap=None,
+full_determinism=False,
+galore_cos_threshold=0.4,
+galore_gamma_proj=2,
+galore_optim_per_parameter=False,
+galore_proj_bits=4,
+galore_proj_group_size=256,
+galore_proj_quant=False,
+galore_proj_type=std,
+galore_quantization=False,
+galore_queue_size=5,
+galore_rank=128,
+galore_scale=1.0,
+galore_target_modules=None,
+galore_update_proj_gap=50,
+galore_with_embedding=False,
+gamma=1.0,
+generation_batch_size=None,
+generation_config=None,
+generation_max_length=None,
+generation_num_beams=None,
+gradient_accumulation_steps=8,
+gradient_checkpointing=True,
+gradient_checkpointing_kwargs=None,
+greater_is_better=False,
+group_by_length=False,
+half_precision_backend=auto,
+hqq_axis=None,
+hub_always_push=False,
+hub_model_id=None,
+hub_private_repo=None,
+hub_revision=None,
+hub_strategy=every_save,
+hub_token=<HUB_TOKEN>,
+ignore_args_error=False,
+ignore_data_skip=False,
+importance_sampling_level=token,
+include_for_metrics=[],
+include_inputs_for_metrics=False,
+include_num_input_tokens_seen=False,
+include_tokens_per_second=False,
+init_strategy=None,
+init_weights=True,
+interleave_prob=None,
+jit_mode_eval=False,
+kl_coef=0.05,
+kl_in_reward=False,
+label_names=None,
+label_smoothing=0,
+label_smoothing_factor=0.0,
+lam=0.95,
+lazy_tokenize=True,
+ld_alpha=None,
+learning_rate=1e-05,
+length_column_name=length,
+liger_kernel_config=None,
+lisa_activated_layers=0,
+lisa_step_interval=20,
+llamapro_num_groups=None,
+llamapro_num_new_blocks=4,
+lmbda=0.5,
+load_args=False,
+load_best_model_at_end=False,
+load_data_args=False,
+load_from_cache_file=False,
+local_rank=0,
+local_repo_path=None,
+local_rollout_forward_batch_size=64,
+log_completions=True,
+log_entropy=False,
+log_level=passive,
+log_level_replica=warning,
+log_on_each_node=True,
+log_rollout_offpolicy_metrics=False,
+logging_dir=/home/gridex/training_outputs/grpo1/grpo1_q1_5090_balanced_v2/v0-20260717-135123/runs,
+logging_first_step=True,
+logging_nan_inf_filter=True,
+logging_steps=10,
+logging_strategy=steps,
+logprobs=False,
+lora_alpha=32,
+lora_bias=none,
+lora_dropout=0.05,
+lora_dtype=None,
+lora_ga_batch_size=2,
+lora_ga_direction=ArB2r,
+lora_ga_iters=2,
+lora_ga_max_length=1024,
+lora_ga_scale=stable,
+lora_ga_stable_gamma=16,
+lora_rank=8,
+lorap_lr_ratio=None,
+loss_scale=last_round,
+loss_type=grpo,
+loss_weights=None,
+lr_scheduler_kwargs=None,
+lr_scheduler_type=cosine,
+max_completion_length=64,
+max_epochs=None,
+max_grad_norm=1.0,
+max_length=768,
+max_memory={},
+max_model_len=None,
+max_new_tokens=64,
+max_pixels=524288,
+max_resample_times=3,
+max_steps=-1,
+max_turns=None,
+metric_for_best_model=loss,
+missing_eos_penalty=None,
+model=/home/gridex/models/Qwen2.5-VL-3B-Instruct,
+model_author=None,
+model_kwargs={},
+model_name=None,
+model_revision=None,
+model_type=qwen2_5_vl,
+modules_to_save=[],
+move_model_batches=None,
+mp_parameters=,
+multi_turn_scheduler=None,
+neftune_noise_alpha=None,
+new_special_tokens=[],
+no_cuda=False,
+norm_bbox=None,
+num_beams=1,
+num_generations=4,
+num_generations_eval=4,
+num_iterations=1,
+num_labels=None,
+num_mini_batches=1,
+num_ppo_epochs=4,
+num_sample_generations=10,
+num_train_epochs=2.0,
+off_policy_sequence_mask_delta=None,
+offload_model=False,
+offload_optimizer=False,
+offload_teacher_model=False,
+optim=adamw_torch_fused,
+optim_args=None,
+optim_target_modules=None,
+optimizer=None,
+output_dir=/home/gridex/training_outputs/grpo1/grpo1_q1_5090_balanced_v2/v0-20260717-135123,
+overlong_filter=False,
+overwrite_output_dir=False,
+packing=False,
+packing_length=None,
+packing_num_proc=1,
+padding_free=False,
+padding_side=right,
+parallelism_config=None,
+past_index=-1,
+per_device_eval_batch_size=4,
+per_device_train_batch_size=4,
+predict_with_generate=False,
+prediction_loss_only=False,
+problem_type=None,
+project=huggingface,
+push_to_hub=False,
+push_to_hub_model_id=None,
+push_to_hub_organization=None,
+push_to_hub_token=<PUSH_TO_HUB_TOKEN>,
+quant_bits=None,
+quant_method=None,
+ray_exp_name=None,
+ray_scope=last,
+ref_adapters=['/home/gridex/training_outputs/sft1_query1/sft1_q1_5090_balanced_v1/v0-20260717-085528/checkpoint-774'],
+ref_model=None,
+ref_model_mixup_alpha=0.6,
+ref_model_revision=None,
+ref_model_sync_steps=512,
+ref_model_type=None,
+reft_args=None,
+reft_intervention_type=LoreftIntervention,
+reft_layer_key=None,
+reft_layers=None,
+reft_rank=4,
+remove_unused_columns=False,
+repetition_max_penalty=-1.0,
+repetition_n_grams=3,
+repetition_penalty=1.0,
+report_to=['tensorboard'],
+response_length=64,
+response_prefix=None,
+restore_callback_states_from_checkpoint=False,
+resume_from_checkpoint=None,
+resume_only_model=False,
+reward_adapters=[],
+reward_funcs=['external_interspeech_p1'],
+reward_model=None,
+reward_model_plugin=None,
+reward_model_revision=None,
+reward_model_type=None,
+reward_weights=None,
+rlhf_type=grpo,
+rollout_importance_sampling_mode=None,
+rollout_importance_sampling_threshold=2.0,
+rope_scaling=None,
+router_aux_loss_coef=0.0,
+rpo_alpha=None,
+run_name=/home/gridex/training_outputs/grpo1/grpo1_q1_5090_balanced_v2/v0-20260717-135123,
+save_on_each_node=False,
+save_only_model=False,
+save_safetensors=True,
+save_steps=200.0,
+save_strategy=steps,
+save_total_limit=10,
+scale_rewards=group,
+seed=42,
+seq_kd=False,
+sequence_parallel_size=1,
+sft_alpha=0,
+shuffle_buffer_size=1000,
+simpo_gamma=1,
+skip_memory_metrics=True,
+sleep_level=1,
+soft_cache_length=None,
+soft_max_length=None,
+sortish_sampler=False,
+split_dataset_ratio=0.0,
+steps_per_generation=None,
+stop_words=[],
+stopping_strategy=first_exhausted,
+stream=False,
+streaming=False,
+strict=False,
+structured_outputs_regex=None,
+swanlab_email_language=zh,
+swanlab_exp_name=None,
+swanlab_mode=cloud,
+swanlab_notification_method=None,
+swanlab_project=ms-swift,
+swanlab_receiver_email=None,
+swanlab_secret=None,
+swanlab_sender_email=None,
+swanlab_smtp_port=None,
+swanlab_smtp_server=None,
+swanlab_token=<SWANLAB_TOKEN>,
+swanlab_webhook_url=None,
+swanlab_workspace=None,
+sync_ref_model=False,
+system=As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs.,
+target_modules=['all-linear'],
+target_parameters=None,
+target_regex=None,
+task_type=causal_lm,
+tau_neg=1.05,
+tau_pos=1.0,
+teacher_adapters=[],
+teacher_deepspeed=None,
+teacher_model=None,
+teacher_model_revision=None,
+teacher_model_type=None,
+temperature=0.8,
+template=qwen2_5_vl,
+template_backend=swift,
+tf32=None,
+top_entropy_quantile=1.0,
+top_k=50,
+top_logprobs=None,
+top_p=0.8,
+torch_compile=False,
+torch_compile_backend=None,
+torch_compile_mode=None,
+torch_dtype=torch.bfloat16,
+torch_empty_cache_steps=None,
+torchdynamo=None,
+tpu_metrics_debug=False,
+tpu_num_cores=None,
+trackio_space_id=trackio,
+train_dataloader_shuffle=True,
+train_type=None,
+trainable_parameters=[],
+trainable_parameters_regex=None,
+truncation_strategy=left,
+tuner_backend=peft,
+tuner_type=lora,
+undesirable_weight=1.0,
+use_chat_template=True,
+use_cpu=False,
+use_dora=False,
+use_flash_ckpt=False,
+use_galore=False,
+use_hf=True,
+use_legacy_prediction_loop=False,
+use_liger_kernel=False,
+use_logits_to_keep=None,
+use_mps_device=False,
+use_ray=False,
+use_rslora=False,
+use_swift_lora=False,
+use_vllm=True,
+val_dataset=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/stage1_query1_val_swift.json'],
+val_dataset_shuffle=False,
+vera_d_initial=0.1,
+vera_dropout=0.0,
+vera_projection_prng_key=0,
+vera_rank=256,
+vf_coef=0.1,
+vit_gradient_checkpointing=None,
+vit_lr=None,
+vllm_data_parallel_size=1,
+vllm_disable_cascade_attn=False,
+vllm_disable_custom_all_reduce=True,
+vllm_enable_expert_parallel=False,
+vllm_enable_lora=False,
+vllm_enable_prefix_caching=True,
+vllm_enforce_eager=False,
+vllm_engine_kwargs={},
+vllm_gpu_memory_utilization=0.28,
+vllm_limit_mm_per_prompt=None,
+vllm_max_lora_rank=16,
+vllm_max_model_len=None,
+vllm_max_num_seqs=None,
+vllm_mm_processor_cache_gb=None,
+vllm_mode=colocate,
+vllm_pipeline_parallel_size=1,
+vllm_quantization=None,
+vllm_reasoning_parser=None,
+vllm_server_base_url=None,
+vllm_server_group_port=None,
+vllm_server_host=None,
+vllm_server_pass_dataset=False,
+vllm_server_port=[8000],
+vllm_server_timeout=240.0,
+vllm_speculative_config=None,
+vllm_tensor_parallel_size=1,
+vllm_use_async_engine=None,
+wandb_log_unique_prompts=None,
+warmup_ratio=0.05,
+warmup_steps=0,
+weight_decay=0.1,
+whiten_rewards=False,
+zero_hpz_partition_size=None,
+)
+[INFO:swift] Global seed set to 42
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] model_kwargs: {'device_map': 'cuda:0', 'dtype': torch.bfloat16}
+The image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To continue using the slow processor, instantiate this class with `use_fast=False`. Note that this behavior will be extended to all models in a future release.
+[INFO:swift] Setting max_ratio: 200. You can adjust this hyperparameter through the environment variable: `MAX_RATIO`.
+[INFO:swift] Setting frame_factor: 2. You can adjust this hyperparameter through the environment variable: `FRAME_FACTOR`.
+[INFO:swift] Setting fps: 2.0. You can adjust this hyperparameter through the environment variable: `FPS`.
+[INFO:swift] Setting fps_min_frames: 4. You can adjust this hyperparameter through the environment variable: `FPS_MIN_FRAMES`.
+[INFO:swift] Setting fps_max_frames: 768. You can adjust this hyperparameter through the environment variable: `FPS_MAX_FRAMES`.
+[INFO:swift] Using environment variable `IMAGE_MAX_TOKEN_NUM`, Setting image_max_token_num: 668.
+[INFO:swift] Setting image_min_token_num: 4. You can adjust this hyperparameter through the environment variable: `IMAGE_MIN_TOKEN_NUM`.
+[INFO:swift] Setting spatial_merge_size: 2. You can adjust this hyperparameter through the environment variable: `SPATIAL_MERGE_SIZE`.
+[INFO:swift] Setting video_max_token_num: 768. You can adjust this hyperparameter through the environment variable: `VIDEO_MAX_TOKEN_NUM`.
+[INFO:swift] Setting video_min_token_num: 128. You can adjust this hyperparameter through the environment variable: `VIDEO_MIN_TOKEN_NUM`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:01<00:01,  1.58s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.50s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.51s/it]
+[INFO:swift] model.hf_device_map: {'': device(type='cuda', index=0)}
+[INFO:swift] model_info: ModelInfo(model_type='qwen2_5_vl', model_dir='/home/gridex/models/Qwen2.5-VL-3B-Instruct', torch_dtype=torch.bfloat16, max_model_len=128000, quant_method=None, quant_bits=None, rope_scaling={'type': 'default', 'mrope_section': [16, 24, 24], 'rope_type': 'default'}, is_moe_model=False, is_multimodal=True, config=Qwen2_5_VLConfig {
+  "architectures": [
+    "Qwen2_5_VLForConditionalGeneration"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 2048,
+  "image_token_id": 151655,
+  "initializer_range": 0.02,
+  "intermediate_size": 11008,
+  "max_position_embeddings": 128000,
+  "max_window_layers": 70,
+  "model_type": "qwen2_5_vl",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 36,
+  "num_key_value_heads": 2,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": {
+    "mrope_section": [
+      16,
+      24,
+      24
+    ],
+    "rope_type": "default",
+    "type": "default"
+  },
+  "rope_theta": 1000000.0,
+  "sliding_window": 32768,
+  "text_config": {
+    "architectures": [
+      "Qwen2_5_VLForConditionalGeneration"
+    ],
+    "attention_dropout": 0.0,
+    "bos_token_id": 151643,
+    "dtype": "bfloat16",
+    "eos_token_id": 151645,
+    "hidden_act": "silu",
+    "hidden_size": 2048,
+    "initializer_range": 0.02,
+    "intermediate_size": 11008,
+    "layer_types": [
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention"
+    ],
+    "max_position_embeddings": 128000,
+    "max_window_layers": 70,
+    "model_type": "qwen2_5_vl_text",
+    "num_attention_heads": 16,
+    "num_hidden_layers": 36,
+    "num_key_value_heads": 2,
+    "rms_norm_eps": 1e-06,
+    "rope_scaling": {
+      "mrope_section": [
+        16,
+        24,
+        24
+      ],
+      "rope_type": "default",
+      "type": "default"
+    },
+    "rope_theta": 1000000.0,
+    "sliding_window": null,
+    "tie_word_embeddings": true,
+    "use_cache": true,
+    "use_sliding_window": false,
+    "vision_token_id": 151654,
+    "vocab_size": 151936
+  },
+  "transformers_version": "4.57.6",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "video_token_id": 151656,
+  "vision_config": {
+    "depth": 32,
+    "dtype": "bfloat16",
+    "fullatt_block_indexes": [
+      7,
+      15,
+      23,
+      31
+    ],
+    "hidden_act": "silu",
+    "hidden_size": 1280,
+    "in_channels": 3,
+    "in_chans": 3,
+    "initializer_range": 0.02,
+    "intermediate_size": 3420,
+    "model_type": "qwen2_5_vl",
+    "num_heads": 16,
+    "out_hidden_size": 2048,
+    "patch_size": 14,
+    "spatial_merge_size": 2,
+    "spatial_patch_size": 14,
+    "temporal_patch_size": 2,
+    "tokens_per_second": 2,
+    "window_size": 112
+  },
+  "vision_end_token_id": 151653,
+  "vision_start_token_id": 151652,
+  "vision_token_id": 151654,
+  "vocab_size": 151936
+}
+, task_type='causal_lm', num_labels=None)
+[INFO:swift] model.generation_config: GenerationConfig {
+  "bos_token_id": 151643,
+  "do_sample": true,
+  "eos_token_id": [
+    151645,
+    151643
+  ],
+  "max_new_tokens": 64,
+  "pad_token_id": 151643,
+  "temperature": 0.8,
+  "top_p": 0.8
+}
+
+[INFO:swift] default_system: 'As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs.'
+[INFO:swift] max_length: 768
+[INFO:swift] response_prefix: ''
+[INFO:swift] agent_template: hermes
+[INFO:swift] norm_bbox: none
+[INFO:swift] Setting ROOT_IMAGE_DIR: None. You can adjust this hyperparameter through the environment variable: `ROOT_IMAGE_DIR`.
+[INFO:swift] Setting QWENVL_BBOX_FORMAT: legacy. You can adjust this hyperparameter through the environment variable: `QWENVL_BBOX_FORMAT`.
+[INFO:swift] Start time of running main: 2026-07-17 13:51:27.658499
+[INFO:swift] swift.__version__: 4.0.0.dev0
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/distributed_c10d.py:4876: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  warnings.warn(  # warn only once
+Map (num_proc=4):   0%|          | 0/10320 [00:00<?, ? examples/s]Map (num_proc=4): 100%|██████████| 10320/10320 [00:00<00:00, 99045.85 examples/s]
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/distributed_c10d.py:4876: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  warnings.warn(  # warn only once
+Map (num_proc=4):   0%|          | 0/10320 [00:00<?, ? examples/s]Map (num_proc=4): 100%|██████████| 10320/10320 [00:00<00:00, 68484.17 examples/s]
+Map (num_proc=4):   0%|          | 0/10192 [00:00<?, ? examples/s]Map (num_proc=4): 100%|██████████| 10192/10192 [00:00<00:00, 101651.81 examples/s]
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/distributed_c10d.py:4876: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  warnings.warn(  # warn only once
+Map (num_proc=4):   0%|          | 0/10192 [00:00<?, ? examples/s]Map (num_proc=4): 100%|██████████| 10192/10192 [00:00<00:00, 65388.64 examples/s]
+[INFO:swift] train_dataset: Dataset({
+    features: ['sample_id', 'source_sample_id', 'gt_regions', 'solution', 'messages'],
+    num_rows: 10320
+})
+[INFO:swift] val_dataset: Dataset({
+    features: ['sample_id', 'source_sample_id', 'gt_regions', 'solution', 'messages'],
+    num_rows: 10192
+})
+[INFO:swift] The RLHFArguments will be saved in: /home/gridex/training_outputs/grpo1/grpo1_q1_5090_balanced_v2/v0-20260717-135123/args.json
+[INFO:swift] model: PeftModelForCausalLM(
+  (base_model): LoraModel(
+    (model): Qwen2_5_VLForConditionalGeneration(
+      (model): Qwen2_5_VLModel(
+        (visual): Qwen2_5_VisionTransformerPretrainedModel(
+          (patch_embed): Qwen2_5_VisionPatchEmbed(
+            (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+          )
+          (rotary_pos_emb): Qwen2_5_VisionRotaryEmbedding()
+          (blocks): ModuleList(
+            (0-31): 32 x Qwen2_5_VLVisionBlock(
+              (norm1): Qwen2RMSNorm((1280,), eps=1e-06)
+              (norm2): Qwen2RMSNorm((1280,), eps=1e-06)
+              (attn): Qwen2_5_VLVisionAttention(
+                (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+                (proj): Linear(in_features=1280, out_features=1280, bias=True)
+              )
+              (mlp): Qwen2_5_VLMLP(
+                (gate_proj): Linear(in_features=1280, out_features=3420, bias=True)
+                (up_proj): Linear(in_features=1280, out_features=3420, bias=True)
+                (down_proj): Linear(in_features=3420, out_features=1280, bias=True)
+                (act_fn): SiLUActivation()
+              )
+            )
+          )
+          (merger): Qwen2_5_VLPatchMerger(
+            (ln_q): Qwen2RMSNorm((1280,), eps=1e-06)
+            (mlp): Sequential(
+              (0): Linear(in_features=5120, out_features=5120, bias=True)
+              (1): GELU(approximate='none')
+              (2): Linear(in_features=5120, out_features=2048, bias=True)
+            )
+          )
+        )
+        (language_model): Qwen2_5_VLTextModel(
+          (embed_tokens): Embedding(151936, 2048)
+          (layers): ModuleList(
+            (0-35): 36 x Qwen2_5_VLDecoderLayer(
+              (self_attn): Qwen2_5_VLAttention(
+                (q_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=2048, bias=True)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                    (ref_adapter): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                    (ref_adapter): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=2048, bias=False)
+                    (ref_adapter): Linear(in_features=8, out_features=2048, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (k_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=256, bias=True)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                    (ref_adapter): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                    (ref_adapter): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=256, bias=False)
+                    (ref_adapter): Linear(in_features=8, out_features=256, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (v_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=256, bias=True)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                    (ref_adapter): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                    (ref_adapter): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=256, bias=False)
+                    (ref_adapter): Linear(in_features=8, out_features=256, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (o_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=2048, bias=False)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                    (ref_adapter): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                    (ref_adapter): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=2048, bias=False)
+                    (ref_adapter): Linear(in_features=8, out_features=2048, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (rotary_emb): Qwen2_5_VLRotaryEmbedding()
+              )
+              (mlp): Qwen2MLP(
+                (gate_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=11008, bias=False)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                    (ref_adapter): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                    (ref_adapter): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=11008, bias=False)
+                    (ref_adapter): Linear(in_features=8, out_features=11008, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (up_proj): lora.Linear(
+                  (base_layer): Linear(in_features=2048, out_features=11008, bias=False)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                    (ref_adapter): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=2048, out_features=8, bias=False)
+                    (ref_adapter): Linear(in_features=2048, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=11008, bias=False)
+                    (ref_adapter): Linear(in_features=8, out_features=11008, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (down_proj): lora.Linear(
+                  (base_layer): Linear(in_features=11008, out_features=2048, bias=False)
+                  (lora_dropout): ModuleDict(
+                    (default): Dropout(p=0.05, inplace=False)
+                    (ref_adapter): Dropout(p=0.05, inplace=False)
+                  )
+                  (lora_A): ModuleDict(
+                    (default): Linear(in_features=11008, out_features=8, bias=False)
+                    (ref_adapter): Linear(in_features=11008, out_features=8, bias=False)
+                  )
+                  (lora_B): ModuleDict(
+                    (default): Linear(in_features=8, out_features=2048, bias=False)
+                    (ref_adapter): Linear(in_features=8, out_features=2048, bias=False)
+                  )
+                  (lora_embedding_A): ParameterDict()
+                  (lora_embedding_B): ParameterDict()
+                  (lora_magnitude_vector): ModuleDict()
+                )
+                (act_fn): SiLUActivation()
+              )
+              (input_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+              (post_attention_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+            )
+          )
+          (norm): Qwen2RMSNorm((2048,), eps=1e-06)
+          (rotary_emb): Qwen2_5_VLRotaryEmbedding()
+        )
+      )
+      (lm_head): Linear(in_features=2048, out_features=151936, bias=False)
+    )
+  )
+)
+[INFO:swift] model_parameter_info: PeftModelForCausalLM: 3784.5565M Params (14.9668M Trainable [0.3955%]), 0.0024M Buffers.
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/trl/generation/__init__.py:22: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.13.0 installed. We recommend installing a supported version to avoid compatibility issues.
+  if is_vllm_available():
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/trl/generation/vllm_client.py:39: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.13.0 installed. We recommend installing a supported version to avoid compatibility issues.
+  if is_vllm_available():
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/trl/generation/vllm_generation.py:56: UserWarning: TRL currently supports vLLM versions: 0.10.2, 0.11.0, 0.11.1, 0.11.2, 0.12.0. You have version 0.13.0 installed. We recommend installing a supported version to avoid compatibility issues.
+  if is_vllm_available():
+The model is already on multiple devices. Skipping the move to device specified in `args`.
+[INFO:swift] use_reentrant: False
+[INFO:swift] Setting torch_dtype: torch.bfloat16
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+/home/gridex/.venvs/gridex/lib/python3.11/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:181: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
+We recommend installing via `pip install torch-c-dlpack-ext`
+  warnings.warn(
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/cli/rlhf.py", line 7, in <module>
+[rank0]:     rlhf_main()
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/pipelines/train/rlhf.py", line 240, in rlhf_main
+[rank0]:     return SwiftRLHF(args).main()
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/pipelines/base.py", line 52, in main
+[rank0]:     result = self.run()
+[rank0]:              ^^^^^^^^^^
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/ray/base.py", line 169, in wrapper
+[rank0]:     return func(self, *args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/pipelines/train/sft.py", line 190, in run
+[rank0]:     trainer = trainer_cls(
+[rank0]:               ^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/rlhf_trainers/grpo_trainer.py", line 104, in __init__
+[rank0]:     self.prepare_rollout()
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/rlhf_trainers/rollout_mixin.py", line 94, in prepare_rollout
+[rank0]:     self._prepare_vllm()
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/rlhf_trainers/rollout_mixin.py", line 188, in _prepare_vllm
+[rank0]:     self.engine = self._prepare_vllm_engine()
+[rank0]:                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/rlhf_trainers/rollout_mixin.py", line 237, in _prepare_vllm_engine
+[rank0]:     engine = GRPOVllmEngine(
+[rank0]:              ^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/infer_engine/vllm_engine.py", line 156, in __init__
+[rank0]:     self._prepare_engine()
+[rank0]:   File "/home/gridex/src/ms-swift-d9010/swift/infer_engine/vllm_engine.py", line 178, in _prepare_engine
+[rank0]:     engine = llm_engine_cls.from_engine_args(self.engine_args)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/vllm/v1/engine/llm_engine.py", line 183, in from_engine_args
+[rank0]:     return cls(
+[rank0]:            ^^^^
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/vllm/v1/engine/llm_engine.py", line 109, in __init__
+[rank0]:     self.engine_core = EngineCoreClient.make_client(
+[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/vllm/v1/engine/core_client.py", line 95, in make_client
+[rank0]:     return InprocClient(vllm_config, executor_class, log_stats)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/vllm/v1/engine/core_client.py", line 268, in __init__
+[rank0]:     self.engine_core = EngineCore(*args, **kwargs)
+[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/vllm/v1/engine/core.py", line 109, in __init__
+[rank0]:     num_gpu_blocks, num_cpu_blocks, kv_cache_config = self._initialize_kv_caches(
+[rank0]:                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/vllm/v1/engine/core.py", line 248, in _initialize_kv_caches
+[rank0]:     kv_cache_configs = get_kv_cache_configs(
+[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/vllm/v1/core/kv_cache_utils.py", line 1340, in get_kv_cache_configs
+[rank0]:     check_enough_kv_cache_memory(
+[rank0]:   File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/vllm/v1/core/kv_cache_utils.py", line 687, in check_enough_kv_cache_memory
+[rank0]:     raise ValueError(
+[rank0]: ValueError: No available memory for the cache blocks. Try increasing `gpu_memory_utilization` when initializing the engine. See https://docs.vllm.ai/en/latest/configuration/conserving_memory/ for more details.
+[rank0]:[W717 13:56:03.802634977 ProcessGroupNCCL.cpp:1524] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+!!!!!!! Segfault encountered !!!!!!!
+
+E0717 13:56:21.926000 133456 torch/distributed/elastic/multiprocessing/api.py:882] failed (exitcode: -11) local_rank: 0 (pid: 133467) of binary: /home/gridex/.venvs/gridex/bin/python
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 940, in <module>
+    main()
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 936, in main
+    run(args)
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/run.py", line 927, in run
+    elastic_launch(
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 156, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gridex/.venvs/gridex/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 293, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+========================================================
+/home/gridex/src/ms-swift-d9010/swift/cli/rlhf.py FAILED
+--------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+--------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-07-17_13:56:21
+  host      : DESKTOP-7CRVBQK.localdomain
+  rank      : 0 (local_rank: 0)
+  exitcode  : -11 (pid: 133467)
+  error_file: <N/A>
+  traceback : Signal 11 (SIGSEGV) received by PID 133467
+========================================================

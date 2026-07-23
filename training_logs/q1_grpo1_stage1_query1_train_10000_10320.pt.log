@@ -1,0 +1,437 @@
+run sh: `/home/gridex/.venvs/gridex/bin/python /home/gridex/src/ms-swift-d9010/swift/cli/infer.py --model /home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged --infer_backend pt --val_dataset /mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_chunks/stage1_query1_train_10000_10320.json --val_dataset_shuffle false --result_path /mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_parts/stage1_query1_train_10000_10320.jsonl --system As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs. --max_length 24576 --temperature 0.8 --top_p 0.8 --max_new_tokens 128 --write_batch_size 100`
+[INFO:swift] Successfully registered `/home/gridex/src/ms-swift-d9010/swift/dataset/data/dataset_info.json`.
+[WARNING:swift] args.infer_backend: `pt` is deprecated, please use args.infer_backend: `transformers`.
+[INFO:swift] Successfully loaded /home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged/args.json.
+[INFO:swift] Successfully imported external_plugins: ['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'].
+[INFO:swift] rank: -1, local_rank: -1, world_size: 1, local_world_size: 1
+`torch_dtype` is deprecated! Use `dtype` instead!
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] Because len(args.val_dataset) > 0, setting split_dataset_ratio: 0.0
+[INFO:swift] Setting args.eval_human: False
+[INFO:swift] Setting args.lazy_tokenize: True
+[INFO:swift] args: InferArguments(use_ray=False, ray_exp_name=None, device_groups=None, model='/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged', model_type='qwen2_5_vl', model_revision=None, task_type='causal_lm', torch_dtype=torch.bfloat16, attn_impl=None, experts_impl=None, new_special_tokens=[], num_labels=None, problem_type=None, rope_scaling=None, device_map=None, max_memory={}, max_model_len=None, local_repo_path=None, init_strategy=None, template='qwen2_5_vl', system='As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs.', max_length=24576, truncation_strategy='left', max_pixels=None, agent_template=None, norm_bbox=None, use_chat_template=True, padding_side='right', padding_free=False, loss_scale='default', sequence_parallel_size=1, template_backend='swift', response_prefix=None, enable_thinking=None, add_non_thinking_prefix=True, dataset=[], val_dataset=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_chunks/stage1_query1_train_10000_10320.json'], cached_dataset=[], cached_val_dataset=[], split_dataset_ratio=0.0, data_seed=42, dataset_num_proc=1, load_from_cache_file=False, dataset_shuffle=True, val_dataset_shuffle=False, streaming=False, interleave_prob=None, stopping_strategy='first_exhausted', shuffle_buffer_size=1000, download_mode='reuse_dataset_if_exists', columns={}, strict=False, remove_unused_columns=True, model_name=None, model_author=None, custom_dataset_info=[], quant_method=None, quant_bits=None, hqq_axis=None, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type='nf4', bnb_4bit_use_double_quant=True, bnb_4bit_quant_storage=None, max_new_tokens=128, temperature=0.8, top_k=None, top_p=0.8, repetition_penalty=None, num_beams=1, stream=False, stop_words=[], logprobs=False, top_logprobs=None, structured_outputs_regex=None, tuner_backend='peft', tuner_type='lora', train_type=None, adapters=[], external_plugins=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'], custom_register_path=[], seed=42, model_kwargs={}, load_args=True, load_data_args=False, packing=False, packing_length=None, packing_num_proc=1, lazy_tokenize=True, use_hf=False, hub_token=None, ddp_timeout=18000000, ddp_backend=None, ignore_args_error=False, use_swift_lora=False, vllm_gpu_memory_utilization=0.9, vllm_tensor_parallel_size=1, vllm_pipeline_parallel_size=1, vllm_enable_expert_parallel=False, vllm_max_num_seqs=256, vllm_max_model_len=None, vllm_disable_custom_all_reduce=True, vllm_enforce_eager=False, vllm_limit_mm_per_prompt=None, vllm_max_lora_rank=16, vllm_enable_prefix_caching=None, vllm_use_async_engine=False, vllm_quantization=None, vllm_reasoning_parser=None, vllm_disable_cascade_attn=False, vllm_mm_processor_cache_gb=None, vllm_speculative_config=None, vllm_engine_kwargs={}, vllm_data_parallel_size=1, sglang_tp_size=1, sglang_pp_size=1, sglang_dp_size=1, sglang_ep_size=1, sglang_enable_ep_moe=False, sglang_mem_fraction_static=None, sglang_context_length=None, sglang_disable_cuda_graph=False, sglang_quantization=None, sglang_kv_cache_dtype='auto', sglang_enable_dp_attention=False, sglang_disable_custom_all_reduce=True, sglang_speculative_algorithm=None, sglang_speculative_num_steps=None, sglang_speculative_eagle_topk=None, sglang_speculative_num_draft_tokens=None, lmdeploy_tp=1, lmdeploy_session_len=None, lmdeploy_cache_max_entry_count=0.8, lmdeploy_quant_policy=0, lmdeploy_vision_batch_size=1, merge_lora=False, safe_serialization=True, max_shard_size='5GB', infer_backend='transformers', result_path='/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_parts/stage1_query1_train_10000_10320.jsonl', write_batch_size=100, metric=None, max_batch_size=1, val_dataset_sample=None, reranker_use_activation=True)
+[INFO:swift] Global seed set to 42
+[WARNING:swift] Please install the package: `pip install "decord" -U`.
+[INFO:swift] model_kwargs: {'device_map': 'cuda:0', 'dtype': torch.bfloat16}
+The image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To continue using the slow processor, instantiate this class with `use_fast=False`. Note that this behavior will be extended to all models in a future release.
+The tokenizer you are loading from '/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+[INFO:swift] Setting max_ratio: 200. You can adjust this hyperparameter through the environment variable: `MAX_RATIO`.
+[INFO:swift] Setting frame_factor: 2. You can adjust this hyperparameter through the environment variable: `FRAME_FACTOR`.
+[INFO:swift] Setting fps: 2.0. You can adjust this hyperparameter through the environment variable: `FPS`.
+[INFO:swift] Setting fps_min_frames: 4. You can adjust this hyperparameter through the environment variable: `FPS_MIN_FRAMES`.
+[INFO:swift] Setting fps_max_frames: 768. You can adjust this hyperparameter through the environment variable: `FPS_MAX_FRAMES`.
+[INFO:swift] Setting image_max_token_num: 16384. You can adjust this hyperparameter through the environment variable: `IMAGE_MAX_TOKEN_NUM`.
+[INFO:swift] Setting image_min_token_num: 4. You can adjust this hyperparameter through the environment variable: `IMAGE_MIN_TOKEN_NUM`.
+[INFO:swift] Setting spatial_merge_size: 2. You can adjust this hyperparameter through the environment variable: `SPATIAL_MERGE_SIZE`.
+[INFO:swift] Setting video_max_token_num: 768. You can adjust this hyperparameter through the environment variable: `VIDEO_MAX_TOKEN_NUM`.
+[INFO:swift] Setting video_min_token_num: 128. You can adjust this hyperparameter through the environment variable: `VIDEO_MIN_TOKEN_NUM`.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.41it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  2.07it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.93it/s]
+[INFO:swift] default_system: 'As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs.'
+[INFO:swift] max_length: 24576
+[INFO:swift] response_prefix: ''
+[INFO:swift] agent_template: hermes
+[INFO:swift] norm_bbox: none
+[INFO:swift] Setting ROOT_IMAGE_DIR: None. You can adjust this hyperparameter through the environment variable: `ROOT_IMAGE_DIR`.
+[INFO:swift] Setting QWENVL_BBOX_FORMAT: legacy. You can adjust this hyperparameter through the environment variable: `QWENVL_BBOX_FORMAT`.
+[INFO:swift] model: Qwen2_5_VLForConditionalGeneration(
+  (model): Qwen2_5_VLModel(
+    (visual): Qwen2_5_VisionTransformerPretrainedModel(
+      (patch_embed): Qwen2_5_VisionPatchEmbed(
+        (proj): Conv3d(3, 1280, kernel_size=(2, 14, 14), stride=(2, 14, 14), bias=False)
+      )
+      (rotary_pos_emb): Qwen2_5_VisionRotaryEmbedding()
+      (blocks): ModuleList(
+        (0-31): 32 x Qwen2_5_VLVisionBlock(
+          (norm1): Qwen2RMSNorm((1280,), eps=1e-06)
+          (norm2): Qwen2RMSNorm((1280,), eps=1e-06)
+          (attn): Qwen2_5_VLVisionAttention(
+            (qkv): Linear(in_features=1280, out_features=3840, bias=True)
+            (proj): Linear(in_features=1280, out_features=1280, bias=True)
+          )
+          (mlp): Qwen2_5_VLMLP(
+            (gate_proj): Linear(in_features=1280, out_features=3420, bias=True)
+            (up_proj): Linear(in_features=1280, out_features=3420, bias=True)
+            (down_proj): Linear(in_features=3420, out_features=1280, bias=True)
+            (act_fn): SiLUActivation()
+          )
+        )
+      )
+      (merger): Qwen2_5_VLPatchMerger(
+        (ln_q): Qwen2RMSNorm((1280,), eps=1e-06)
+        (mlp): Sequential(
+          (0): Linear(in_features=5120, out_features=5120, bias=True)
+          (1): GELU(approximate='none')
+          (2): Linear(in_features=5120, out_features=2048, bias=True)
+        )
+      )
+    )
+    (language_model): Qwen2_5_VLTextModel(
+      (embed_tokens): Embedding(151936, 2048, padding_idx=151643)
+      (layers): ModuleList(
+        (0-35): 36 x Qwen2_5_VLDecoderLayer(
+          (self_attn): Qwen2_5_VLAttention(
+            (q_proj): Linear(in_features=2048, out_features=2048, bias=True)
+            (k_proj): Linear(in_features=2048, out_features=256, bias=True)
+            (v_proj): Linear(in_features=2048, out_features=256, bias=True)
+            (o_proj): Linear(in_features=2048, out_features=2048, bias=False)
+            (rotary_emb): Qwen2_5_VLRotaryEmbedding()
+          )
+          (mlp): Qwen2MLP(
+            (gate_proj): Linear(in_features=2048, out_features=11008, bias=False)
+            (up_proj): Linear(in_features=2048, out_features=11008, bias=False)
+            (down_proj): Linear(in_features=11008, out_features=2048, bias=False)
+            (act_fn): SiLUActivation()
+          )
+          (input_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+          (post_attention_layernorm): Qwen2RMSNorm((2048,), eps=1e-06)
+        )
+      )
+      (norm): Qwen2RMSNorm((2048,), eps=1e-06)
+      (rotary_emb): Qwen2_5_VLRotaryEmbedding()
+    )
+  )
+  (lm_head): Linear(in_features=2048, out_features=151936, bias=False)
+)
+[INFO:swift] Start time of running main: 2026-07-21 08:54:58.825406
+[INFO:swift] swift.__version__: 4.0.0.dev0
+[INFO:swift] request_config: RequestConfig(max_tokens=128, temperature=0.8, top_k=None, top_p=0.8, repetition_penalty=None, num_beams=1, stop=[], seed=None, stream=False, logprobs=False, top_logprobs=None, n=1, best_of=None, presence_penalty=0.0, frequency_penalty=0.0, length_penalty=1.0, return_details=False, structured_outputs_regex=None)
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 320 examples [00:00, 31971.07 examples/s]
+Map:   0%|          | 0/320 [00:00<?, ? examples/s]Map: 100%|██████████| 320/320 [00:00<00:00, 140483.28 examples/s]
+Map:   0%|          | 0/320 [00:00<?, ? examples/s]Map: 100%|██████████| 320/320 [00:00<00:00, 35167.75 examples/s]
+[INFO:swift] val_dataset: Dataset({
+    features: ['messages'],
+    num_rows: 320
+})
+[INFO:swift] args.result_path: /mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_parts/stage1_query1_train_10000_10320.jsonl
+  0%|          | 0/320 [00:00<?, ?it/s]
+  0%|          | 0/100 [00:00<?, ?it/s][A
+  1%|          | 1/100 [00:01<01:47,  1.09s/it][A
+  2%|▏         | 2/100 [00:01<01:13,  1.33it/s][A
+  3%|▎         | 3/100 [00:02<01:02,  1.55it/s][A
+  4%|▍         | 4/100 [00:02<00:57,  1.68it/s][A
+  5%|▌         | 5/100 [00:03<00:54,  1.76it/s][A
+  6%|▌         | 6/100 [00:03<00:53,  1.76it/s][A
+  7%|▋         | 7/100 [00:04<00:50,  1.83it/s][A
+  8%|▊         | 8/100 [00:04<00:50,  1.82it/s][A
+  9%|▉         | 9/100 [00:05<00:50,  1.80it/s][A
+ 10%|█         | 10/100 [00:05<00:51,  1.76it/s][A
+ 11%|█         | 11/100 [00:06<00:50,  1.76it/s][A
+ 12%|█▏        | 12/100 [00:07<00:48,  1.82it/s][A
+ 13%|█▎        | 13/100 [00:07<00:47,  1.82it/s][A
+ 14%|█▍        | 14/100 [00:08<00:47,  1.79it/s][A
+ 15%|█▌        | 15/100 [00:08<00:47,  1.79it/s][A
+ 16%|█▌        | 16/100 [00:09<00:46,  1.80it/s][A
+ 17%|█▋        | 17/100 [00:09<00:45,  1.81it/s][A
+ 18%|█▊        | 18/100 [00:10<00:45,  1.80it/s][A
+ 19%|█▉        | 19/100 [00:10<00:45,  1.79it/s][A
+ 20%|██        | 20/100 [00:11<00:43,  1.86it/s][A
+ 21%|██        | 21/100 [00:11<00:43,  1.84it/s][A
+ 22%|██▏       | 22/100 [00:12<00:43,  1.81it/s][A
+ 23%|██▎       | 23/100 [00:13<00:42,  1.79it/s][A
+ 24%|██▍       | 24/100 [00:13<00:42,  1.79it/s][A
+ 25%|██▌       | 25/100 [00:14<00:40,  1.84it/s][A
+ 26%|██▌       | 26/100 [00:14<00:40,  1.83it/s][A
+ 27%|██▋       | 27/100 [00:15<00:40,  1.81it/s][A
+ 28%|██▊       | 28/100 [00:15<00:38,  1.86it/s][A
+ 29%|██▉       | 29/100 [00:16<00:38,  1.83it/s][A
+ 30%|███       | 30/100 [00:16<00:38,  1.81it/s][A
+ 31%|███       | 31/100 [00:17<00:37,  1.84it/s][A
+ 32%|███▏      | 32/100 [00:17<00:36,  1.88it/s][A
+ 33%|███▎      | 33/100 [00:18<00:35,  1.89it/s][A
+ 34%|███▍      | 34/100 [00:19<00:35,  1.84it/s][A
+ 35%|███▌      | 35/100 [00:19<00:35,  1.83it/s][A
+ 36%|███▌      | 36/100 [00:20<00:35,  1.80it/s][A
+ 37%|███▋      | 37/100 [00:20<00:34,  1.82it/s][A
+ 38%|███▊      | 38/100 [00:21<00:34,  1.82it/s][A
+ 39%|███▉      | 39/100 [00:21<00:33,  1.81it/s][A
+ 40%|████      | 40/100 [00:22<00:33,  1.79it/s][A
+ 41%|████      | 41/100 [00:22<00:32,  1.82it/s][A
+ 42%|████▏     | 42/100 [00:23<00:32,  1.80it/s][A
+ 43%|████▎     | 43/100 [00:24<00:30,  1.86it/s][A
+ 44%|████▍     | 44/100 [00:24<00:30,  1.84it/s][A
+ 45%|████▌     | 45/100 [00:25<00:31,  1.74it/s][A
+ 46%|████▌     | 46/100 [00:25<00:30,  1.75it/s][A
+ 47%|████▋     | 47/100 [00:26<00:32,  1.65it/s][A
+ 48%|████▊     | 48/100 [00:27<00:32,  1.60it/s][A
+ 49%|████▉     | 49/100 [00:27<00:30,  1.65it/s][A
+ 50%|█████     | 50/100 [00:28<00:30,  1.61it/s][A
+ 51%|█████     | 51/100 [00:28<00:30,  1.60it/s][A
+ 52%|█████▏    | 52/100 [00:29<00:31,  1.53it/s][A
+ 53%|█████▎    | 53/100 [00:30<00:30,  1.55it/s][A
+ 54%|█████▍    | 54/100 [00:30<00:29,  1.56it/s][A
+ 55%|█████▌    | 55/100 [00:31<00:28,  1.57it/s][A
+ 56%|█████▌    | 56/100 [00:32<00:29,  1.50it/s][A
+ 57%|█████▋    | 57/100 [00:32<00:27,  1.58it/s][A
+ 58%|█████▊    | 58/100 [00:33<00:28,  1.49it/s][A
+ 59%|█████▉    | 59/100 [00:34<00:26,  1.54it/s][A
+ 60%|██████    | 60/100 [00:35<00:27,  1.45it/s][A
+ 61%|██████    | 61/100 [00:35<00:26,  1.46it/s][A
+ 62%|██████▏   | 62/100 [00:36<00:25,  1.48it/s][A
+ 63%|██████▎   | 63/100 [00:37<00:25,  1.46it/s][A
+ 64%|██████▍   | 64/100 [00:37<00:23,  1.52it/s][A
+ 65%|██████▌   | 65/100 [00:38<00:24,  1.44it/s][A
+ 66%|██████▌   | 66/100 [00:39<00:23,  1.45it/s][A
+ 67%|██████▋   | 67/100 [00:39<00:23,  1.43it/s][A
+ 68%|██████▊   | 68/100 [00:40<00:22,  1.44it/s][A
+ 69%|██████▉   | 69/100 [00:41<00:20,  1.48it/s][A
+ 70%|███████   | 70/100 [00:41<00:21,  1.40it/s][A
+ 71%|███████   | 71/100 [00:42<00:21,  1.38it/s][A
+ 72%|███████▏  | 72/100 [00:43<00:20,  1.39it/s][A
+ 73%|███████▎  | 73/100 [00:44<00:18,  1.46it/s][A
+ 74%|███████▍  | 74/100 [00:44<00:18,  1.39it/s][A
+ 75%|███████▌  | 75/100 [00:45<00:18,  1.37it/s][A
+ 76%|███████▌  | 76/100 [00:46<00:17,  1.39it/s][A
+ 77%|███████▋  | 77/100 [00:46<00:16,  1.40it/s][A
+ 78%|███████▊  | 78/100 [00:47<00:15,  1.46it/s][A
+ 79%|███████▉  | 79/100 [00:48<00:14,  1.45it/s][A
+ 80%|████████  | 80/100 [00:48<00:13,  1.46it/s][A
+ 81%|████████  | 81/100 [00:49<00:12,  1.51it/s][A
+ 82%|████████▏ | 82/100 [00:50<00:11,  1.50it/s][A
+ 83%|████████▎ | 83/100 [00:50<00:10,  1.55it/s][A
+ 84%|████████▍ | 84/100 [00:51<00:10,  1.53it/s][A
+ 85%|████████▌ | 85/100 [00:52<00:10,  1.43it/s][A
+ 86%|████████▌ | 86/100 [00:52<00:09,  1.47it/s][A
+ 87%|████████▋ | 87/100 [00:53<00:08,  1.50it/s][A
+ 88%|████████▊ | 88/100 [00:54<00:07,  1.51it/s][A
+ 89%|████████▉ | 89/100 [00:54<00:07,  1.57it/s][A
+ 90%|█████████ | 90/100 [00:55<00:06,  1.60it/s][A
+ 91%|█████████ | 91/100 [00:56<00:05,  1.53it/s][A
+ 92%|█████████▏| 92/100 [00:56<00:05,  1.49it/s][A
+ 93%|█████████▎| 93/100 [00:57<00:04,  1.56it/s][A
+ 94%|█████████▍| 94/100 [00:57<00:03,  1.62it/s][A
+ 95%|█████████▌| 95/100 [00:58<00:03,  1.55it/s][A
+ 96%|█████████▌| 96/100 [00:59<00:02,  1.61it/s][A
+ 97%|█████████▋| 97/100 [00:59<00:01,  1.59it/s][A
+ 98%|█████████▊| 98/100 [01:00<00:01,  1.53it/s][A
+ 99%|█████████▉| 99/100 [01:01<00:00,  1.58it/s][A
+100%|██████████| 100/100 [01:01<00:00,  1.59it/s][A100%|██████████| 100/100 [01:01<00:00,  1.62it/s]
+ 31%|███▏      | 100/320 [01:01<02:16,  1.62it/s]
+  0%|          | 0/100 [00:00<?, ?it/s][A
+  1%|          | 1/100 [00:00<01:03,  1.57it/s][A
+  2%|▏         | 2/100 [00:01<01:00,  1.62it/s][A
+  3%|▎         | 3/100 [00:01<00:59,  1.63it/s][A
+  4%|▍         | 4/100 [00:02<01:03,  1.52it/s][A
+  5%|▌         | 5/100 [00:03<01:03,  1.50it/s][A
+  6%|▌         | 6/100 [00:03<01:03,  1.49it/s][A
+  7%|▋         | 7/100 [00:04<00:59,  1.57it/s][A
+  8%|▊         | 8/100 [00:05<00:59,  1.54it/s][A
+  9%|▉         | 9/100 [00:05<00:56,  1.60it/s][A
+ 10%|█         | 10/100 [00:06<00:55,  1.61it/s][A
+ 11%|█         | 11/100 [00:06<00:52,  1.69it/s][A
+ 12%|█▏        | 12/100 [00:07<00:53,  1.64it/s][A
+ 13%|█▎        | 13/100 [00:08<00:51,  1.68it/s][A
+ 14%|█▍        | 14/100 [00:08<00:51,  1.66it/s][A
+ 15%|█▌        | 15/100 [00:09<00:50,  1.70it/s][A
+ 16%|█▌        | 16/100 [00:09<00:49,  1.70it/s][A
+ 17%|█▋        | 17/100 [00:10<00:49,  1.67it/s][A
+ 18%|█▊        | 18/100 [00:11<00:47,  1.72it/s][A
+ 19%|█▉        | 19/100 [00:11<00:47,  1.70it/s][A
+ 20%|██        | 20/100 [00:12<00:46,  1.72it/s][A
+ 21%|██        | 21/100 [00:12<00:47,  1.67it/s][A
+ 22%|██▏       | 22/100 [00:13<00:47,  1.64it/s][A
+ 23%|██▎       | 23/100 [00:14<00:47,  1.61it/s][A
+ 24%|██▍       | 24/100 [00:14<00:47,  1.61it/s][A
+ 25%|██▌       | 25/100 [00:15<00:47,  1.59it/s][A
+ 26%|██▌       | 26/100 [00:16<00:49,  1.49it/s][A
+ 27%|██▋       | 27/100 [00:16<00:48,  1.52it/s][A
+ 28%|██▊       | 28/100 [00:17<00:46,  1.55it/s][A
+ 29%|██▉       | 29/100 [00:17<00:43,  1.62it/s][A
+ 30%|███       | 30/100 [00:18<00:42,  1.64it/s][A
+ 31%|███       | 31/100 [00:19<00:41,  1.65it/s][A
+ 32%|███▏      | 32/100 [00:19<00:43,  1.57it/s][A
+ 33%|███▎      | 33/100 [00:20<00:44,  1.51it/s][A
+ 34%|███▍      | 34/100 [00:21<00:42,  1.55it/s][A
+ 35%|███▌      | 35/100 [00:21<00:41,  1.55it/s][A
+ 36%|███▌      | 36/100 [00:22<00:41,  1.53it/s][A
+ 37%|███▋      | 37/100 [00:23<00:41,  1.52it/s][A
+ 38%|███▊      | 38/100 [00:23<00:42,  1.46it/s][A
+ 39%|███▉      | 39/100 [00:24<00:39,  1.53it/s][A
+ 40%|████      | 40/100 [00:25<00:38,  1.56it/s][A
+ 41%|████      | 41/100 [00:25<00:36,  1.61it/s][A
+ 42%|████▏     | 42/100 [00:26<00:35,  1.63it/s][A
+ 43%|████▎     | 43/100 [00:26<00:35,  1.63it/s][A
+ 44%|████▍     | 44/100 [00:27<00:33,  1.66it/s][A
+ 45%|████▌     | 45/100 [00:28<00:34,  1.62it/s][A
+ 46%|████▌     | 46/100 [00:28<00:34,  1.58it/s][A
+ 47%|████▋     | 47/100 [00:29<00:33,  1.59it/s][A
+ 48%|████▊     | 48/100 [00:30<00:32,  1.61it/s][A
+ 49%|████▉     | 49/100 [00:30<00:30,  1.68it/s][A
+ 50%|█████     | 50/100 [00:31<00:30,  1.66it/s][A
+ 51%|█████     | 51/100 [00:31<00:30,  1.63it/s][A
+ 52%|█████▏    | 52/100 [00:32<00:30,  1.58it/s][A
+ 53%|█████▎    | 53/100 [00:33<00:29,  1.61it/s][A
+ 54%|█████▍    | 54/100 [00:33<00:28,  1.62it/s][A
+ 55%|█████▌    | 55/100 [00:34<00:28,  1.60it/s][A
+ 56%|█████▌    | 56/100 [00:34<00:27,  1.58it/s][A
+ 57%|█████▋    | 57/100 [00:35<00:26,  1.60it/s][A
+ 58%|█████▊    | 58/100 [00:36<00:27,  1.54it/s][A
+ 59%|█████▉    | 59/100 [00:36<00:26,  1.55it/s][A
+ 60%|██████    | 60/100 [00:37<00:25,  1.55it/s][A
+ 61%|██████    | 61/100 [00:38<00:26,  1.48it/s][A
+ 62%|██████▏   | 62/100 [00:39<00:26,  1.43it/s][A
+ 63%|██████▎   | 63/100 [00:39<00:25,  1.44it/s][A
+ 64%|██████▍   | 64/100 [00:40<00:25,  1.44it/s][A
+ 65%|██████▌   | 65/100 [00:41<00:24,  1.42it/s][A
+ 66%|██████▌   | 66/100 [00:41<00:24,  1.41it/s][A
+ 67%|██████▋   | 67/100 [00:42<00:23,  1.39it/s][A
+ 68%|██████▊   | 68/100 [00:43<00:22,  1.40it/s][A
+ 69%|██████▉   | 69/100 [00:44<00:21,  1.41it/s][A
+ 70%|███████   | 70/100 [00:44<00:19,  1.51it/s][A
+ 71%|███████   | 71/100 [00:45<00:19,  1.49it/s][A
+ 72%|███████▏  | 72/100 [00:46<00:19,  1.44it/s][A
+ 73%|███████▎  | 73/100 [00:46<00:18,  1.45it/s][A
+ 74%|███████▍  | 74/100 [00:47<00:17,  1.48it/s][A
+ 75%|███████▌  | 75/100 [00:48<00:17,  1.41it/s][A
+ 76%|███████▌  | 76/100 [00:48<00:16,  1.47it/s][A
+ 77%|███████▋  | 77/100 [00:49<00:15,  1.50it/s][A
+ 78%|███████▊  | 78/100 [00:50<00:14,  1.47it/s][A
+ 79%|███████▉  | 79/100 [00:50<00:14,  1.42it/s][A
+ 80%|████████  | 80/100 [00:51<00:13,  1.47it/s][A
+ 81%|████████  | 81/100 [00:52<00:12,  1.51it/s][A
+ 82%|████████▏ | 82/100 [00:52<00:11,  1.61it/s][A
+ 83%|████████▎ | 83/100 [00:53<00:10,  1.68it/s][A
+ 84%|████████▍ | 84/100 [00:53<00:09,  1.76it/s][A
+ 85%|████████▌ | 85/100 [00:54<00:08,  1.75it/s][A
+ 86%|████████▌ | 86/100 [00:54<00:08,  1.73it/s][A
+ 87%|████████▋ | 87/100 [00:55<00:07,  1.73it/s][A
+ 88%|████████▊ | 88/100 [00:56<00:06,  1.72it/s][A
+ 89%|████████▉ | 89/100 [00:56<00:06,  1.77it/s][A
+ 90%|█████████ | 90/100 [00:57<00:05,  1.81it/s][A
+ 91%|█████████ | 91/100 [00:57<00:05,  1.78it/s][A
+ 92%|█████████▏| 92/100 [00:58<00:04,  1.81it/s][A
+ 93%|█████████▎| 93/100 [00:58<00:03,  1.78it/s][A
+ 94%|█████████▍| 94/100 [00:59<00:03,  1.70it/s][A
+ 95%|█████████▌| 95/100 [00:59<00:02,  1.75it/s][A
+ 96%|█████████▌| 96/100 [01:00<00:02,  1.80it/s][A
+ 97%|█████████▋| 97/100 [01:00<00:01,  1.83it/s][A
+ 98%|█████████▊| 98/100 [01:01<00:01,  1.80it/s][A
+ 99%|█████████▉| 99/100 [01:02<00:00,  1.77it/s][A
+100%|██████████| 100/100 [01:02<00:00,  1.81it/s][A100%|██████████| 100/100 [01:02<00:00,  1.60it/s]
+ 62%|██████▎   | 200/320 [02:04<01:14,  1.60it/s]
+  0%|          | 0/100 [00:00<?, ?it/s][A
+  1%|          | 1/100 [00:00<00:51,  1.94it/s][A
+  2%|▏         | 2/100 [00:01<00:54,  1.81it/s][A
+  3%|▎         | 3/100 [00:01<00:52,  1.86it/s][A
+  4%|▍         | 4/100 [00:02<00:52,  1.84it/s][A
+  5%|▌         | 5/100 [00:02<00:50,  1.88it/s][A
+  6%|▌         | 6/100 [00:03<00:51,  1.83it/s][A
+  7%|▋         | 7/100 [00:03<00:50,  1.84it/s][A
+  8%|▊         | 8/100 [00:04<00:49,  1.87it/s][A
+  9%|▉         | 9/100 [00:04<00:48,  1.89it/s][A
+ 10%|█         | 10/100 [00:05<00:47,  1.88it/s][A
+ 11%|█         | 11/100 [00:05<00:48,  1.83it/s][A
+ 12%|█▏        | 12/100 [00:06<00:49,  1.78it/s][A
+ 13%|█▎        | 13/100 [00:07<00:49,  1.76it/s][A
+ 14%|█▍        | 14/100 [00:07<00:48,  1.79it/s][A
+ 15%|█▌        | 15/100 [00:08<00:46,  1.82it/s][A
+ 16%|█▌        | 16/100 [00:08<00:45,  1.84it/s][A
+ 17%|█▋        | 17/100 [00:09<00:45,  1.83it/s][A
+ 18%|█▊        | 18/100 [00:09<00:44,  1.86it/s][A
+ 19%|█▉        | 19/100 [00:10<00:43,  1.86it/s][A
+ 20%|██        | 20/100 [00:10<00:42,  1.89it/s][A
+ 21%|██        | 21/100 [00:11<00:41,  1.91it/s][A
+ 22%|██▏       | 22/100 [00:11<00:40,  1.92it/s][A
+ 23%|██▎       | 23/100 [00:12<00:41,  1.88it/s][A
+ 24%|██▍       | 24/100 [00:12<00:41,  1.84it/s][A
+ 25%|██▌       | 25/100 [00:13<00:41,  1.79it/s][A
+ 26%|██▌       | 26/100 [00:14<00:42,  1.75it/s][A
+ 27%|██▋       | 27/100 [00:14<00:41,  1.77it/s][A
+ 28%|██▊       | 28/100 [00:15<00:40,  1.78it/s][A
+ 29%|██▉       | 29/100 [00:15<00:39,  1.79it/s][A
+ 30%|███       | 30/100 [00:16<00:38,  1.81it/s][A
+ 31%|███       | 31/100 [00:16<00:37,  1.86it/s][A
+ 32%|███▏      | 32/100 [00:17<00:36,  1.85it/s][A
+ 33%|███▎      | 33/100 [00:18<00:37,  1.80it/s][A
+ 34%|███▍      | 34/100 [00:18<00:37,  1.77it/s][A
+ 35%|███▌      | 35/100 [00:19<00:35,  1.82it/s][A
+ 36%|███▌      | 36/100 [00:19<00:36,  1.77it/s][A
+ 37%|███▋      | 37/100 [00:20<00:35,  1.80it/s][A
+ 38%|███▊      | 38/100 [00:20<00:34,  1.82it/s][A
+ 39%|███▉      | 39/100 [00:21<00:32,  1.85it/s][A
+ 40%|████      | 40/100 [00:21<00:33,  1.80it/s][A
+ 41%|████      | 41/100 [00:22<00:32,  1.81it/s][A
+ 42%|████▏     | 42/100 [00:22<00:31,  1.81it/s][A
+ 43%|████▎     | 43/100 [00:23<00:31,  1.78it/s][A
+ 44%|████▍     | 44/100 [00:24<00:30,  1.81it/s][A
+ 45%|████▌     | 45/100 [00:24<00:29,  1.84it/s][A
+ 46%|████▌     | 46/100 [00:25<00:29,  1.83it/s][A
+ 47%|████▋     | 47/100 [00:25<00:29,  1.79it/s][A
+ 48%|████▊     | 48/100 [00:26<00:28,  1.80it/s][A
+ 49%|████▉     | 49/100 [00:26<00:28,  1.78it/s][A
+ 50%|█████     | 50/100 [00:27<00:28,  1.75it/s][A
+ 51%|█████     | 51/100 [00:28<00:28,  1.75it/s][A
+ 52%|█████▏    | 52/100 [00:28<00:27,  1.74it/s][A
+ 53%|█████▎    | 53/100 [00:29<00:26,  1.74it/s][A
+ 54%|█████▍    | 54/100 [00:29<00:25,  1.79it/s][A
+ 55%|█████▌    | 55/100 [00:30<00:25,  1.76it/s][A
+ 56%|█████▌    | 56/100 [00:30<00:24,  1.79it/s][A
+ 57%|█████▋    | 57/100 [00:31<00:23,  1.80it/s][A
+ 58%|█████▊    | 58/100 [00:31<00:22,  1.83it/s][A
+ 59%|█████▉    | 59/100 [00:32<00:22,  1.78it/s][A
+ 60%|██████    | 60/100 [00:33<00:22,  1.77it/s][A
+ 61%|██████    | 61/100 [00:33<00:22,  1.70it/s][A
+ 62%|██████▏   | 62/100 [00:34<00:22,  1.71it/s][A
+ 63%|██████▎   | 63/100 [00:35<00:22,  1.64it/s][A
+ 64%|██████▍   | 64/100 [00:35<00:21,  1.64it/s][A
+ 65%|██████▌   | 65/100 [00:36<00:21,  1.63it/s][A
+ 66%|██████▌   | 66/100 [00:36<00:19,  1.71it/s][A
+ 67%|██████▋   | 67/100 [00:37<00:18,  1.77it/s][A
+ 68%|██████▊   | 68/100 [00:37<00:18,  1.74it/s][A
+ 69%|██████▉   | 69/100 [00:38<00:17,  1.74it/s][A
+ 70%|███████   | 70/100 [00:39<00:18,  1.66it/s][A
+ 71%|███████   | 71/100 [00:39<00:17,  1.67it/s][A
+ 72%|███████▏  | 72/100 [00:40<00:16,  1.72it/s][A
+ 73%|███████▎  | 73/100 [00:40<00:15,  1.72it/s][A
+ 74%|███████▍  | 74/100 [00:41<00:15,  1.69it/s][A
+ 75%|███████▌  | 75/100 [00:42<00:14,  1.69it/s][A
+ 76%|███████▌  | 76/100 [00:42<00:14,  1.66it/s][A
+ 77%|███████▋  | 77/100 [00:43<00:13,  1.66it/s][A
+ 78%|███████▊  | 78/100 [00:43<00:13,  1.67it/s][A
+ 79%|███████▉  | 79/100 [00:44<00:12,  1.74it/s][A
+ 80%|████████  | 80/100 [00:44<00:11,  1.72it/s][A
+ 81%|████████  | 81/100 [00:45<00:11,  1.71it/s][A
+ 82%|████████▏ | 82/100 [00:46<00:10,  1.71it/s][A
+ 83%|████████▎ | 83/100 [00:46<00:10,  1.65it/s][A
+ 84%|████████▍ | 84/100 [00:47<00:09,  1.62it/s][A
+ 85%|████████▌ | 85/100 [00:48<00:09,  1.61it/s][A
+ 86%|████████▌ | 86/100 [00:48<00:08,  1.68it/s][A
+ 87%|████████▋ | 87/100 [00:49<00:07,  1.69it/s][A
+ 88%|████████▊ | 88/100 [00:49<00:07,  1.69it/s][A
+ 89%|████████▉ | 89/100 [00:50<00:06,  1.76it/s][A
+ 90%|█████████ | 90/100 [00:50<00:05,  1.80it/s][A
+ 91%|█████████ | 91/100 [00:51<00:05,  1.78it/s][A
+ 92%|█████████▏| 92/100 [00:51<00:04,  1.79it/s][A
+ 93%|█████████▎| 93/100 [00:52<00:03,  1.76it/s][A
+ 94%|█████████▍| 94/100 [00:53<00:03,  1.79it/s][A
+ 95%|█████████▌| 95/100 [00:53<00:02,  1.78it/s][A
+ 96%|█████████▌| 96/100 [00:54<00:02,  1.83it/s][A
+ 97%|█████████▋| 97/100 [00:54<00:01,  1.84it/s][A
+ 98%|█████████▊| 98/100 [00:55<00:01,  1.85it/s][A
+ 99%|█████████▉| 99/100 [00:55<00:00,  1.88it/s][A
+100%|██████████| 100/100 [00:56<00:00,  1.89it/s][A100%|██████████| 100/100 [00:56<00:00,  1.78it/s]
+ 94%|█████████▍| 300/320 [03:00<00:11,  1.68it/s]
+  0%|          | 0/20 [00:00<?, ?it/s][A
+  5%|▌         | 1/20 [00:00<00:11,  1.69it/s][A
+ 10%|█         | 2/20 [00:01<00:10,  1.70it/s][A
+ 15%|█▌        | 3/20 [00:01<00:10,  1.66it/s][A
+ 20%|██        | 4/20 [00:02<00:09,  1.68it/s][A
+ 25%|██▌       | 5/20 [00:02<00:08,  1.69it/s][A
+ 30%|███       | 6/20 [00:03<00:08,  1.74it/s][A
+ 35%|███▌      | 7/20 [00:04<00:07,  1.76it/s][A
+ 40%|████      | 8/20 [00:04<00:06,  1.81it/s][A
+ 45%|████▌     | 9/20 [00:05<00:06,  1.83it/s][A
+ 50%|█████     | 10/20 [00:05<00:05,  1.86it/s][A
+ 55%|█████▌    | 11/20 [00:06<00:04,  1.82it/s][A
+ 60%|██████    | 12/20 [00:06<00:04,  1.78it/s][A
+ 65%|██████▌   | 13/20 [00:07<00:03,  1.80it/s][A
+ 70%|███████   | 14/20 [00:07<00:03,  1.77it/s][A
+ 75%|███████▌  | 15/20 [00:08<00:02,  1.80it/s][A
+ 80%|████████  | 16/20 [00:09<00:02,  1.77it/s][A
+ 85%|████████▌ | 17/20 [00:09<00:01,  1.76it/s][A
+ 90%|█████████ | 18/20 [00:10<00:01,  1.77it/s][A
+ 95%|█████████▌| 19/20 [00:10<00:00,  1.80it/s][A
+100%|██████████| 20/20 [00:11<00:00,  1.77it/s][A100%|██████████| 20/20 [00:11<00:00,  1.77it/s]
+100%|██████████| 320/320 [03:12<00:00,  1.69it/s]100%|██████████| 320/320 [03:12<00:00,  1.67it/s]
+[INFO:swift] The inference results have been saved to result_path: `/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_parts/stage1_query1_train_10000_10320.jsonl`.
+[INFO:swift] End time of running main: 2026-07-21 08:58:15.329042
+{'num_prompt_tokens': 383360, 'num_generated_tokens': 3747, 'num_samples': 320, 'runtime': 192.1035340009994, 'samples/s': 1.6657684183901336, 'tokens/s': 19.505107074086972}

@@ -61,9 +61,22 @@ NUM_GENERATIONS="${NUM_GENERATIONS:-8}"
 GRPO_BETA="${GRPO_BETA:-0.1}"
 MAX_COMPLETION_LENGTH="${MAX_COMPLETION_LENGTH:-768}"
 MAX_LENGTH="${MAX_LENGTH:-512}"
+MAX_PIXELS="${MAX_PIXELS:-}"
 PER_DEVICE_TRAIN_BATCH_SIZE="${PER_DEVICE_TRAIN_BATCH_SIZE:-8}"
+PER_DEVICE_EVAL_BATCH_SIZE="${PER_DEVICE_EVAL_BATCH_SIZE:-${PER_DEVICE_TRAIN_BATCH_SIZE}}"
 GRADIENT_ACCUMULATION_STEPS="${GRADIENT_ACCUMULATION_STEPS:-1}"
+GRADIENT_CHECKPOINTING="${GRADIENT_CHECKPOINTING:-false}"
 DEEPSPEED="${DEEPSPEED:-zero2}"
+LEARNING_RATE="${LEARNING_RATE:-1e-5}"
+WEIGHT_DECAY="${WEIGHT_DECAY:-0.1}"
+WARMUP_RATIO="${WARMUP_RATIO:-0.05}"
+LOGGING_STEPS="${LOGGING_STEPS:-20}"
+SAVE_STEPS="${SAVE_STEPS:-100}"
+EVAL_STEPS="${EVAL_STEPS:-100}"
+EVAL_STRATEGY="${EVAL_STRATEGY:-steps}"
+SAVE_TOTAL_LIMIT="${SAVE_TOTAL_LIMIT:-10}"
+DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-4}"
+DATASET_NUM_PROC="${DATASET_NUM_PROC:-4}"
 INTERSPEECH_DEBUG_REWARD="${INTERSPEECH_DEBUG_REWARD:-0}"
 INTERSPEECH_DEBUG_SAMPLES="${INTERSPEECH_DEBUG_SAMPLES:-8}"
 INTERSPEECH_LOG_EVERY_STEPS="${INTERSPEECH_LOG_EVERY_STEPS:-1}"
@@ -102,6 +115,11 @@ echo "[run] GRPO2_GT_PREBUILT=${GRPO2_GT_PREBUILT}"
 echo "[run] GRPO2_PRED_PREBUILT=${GRPO2_PRED_PREBUILT}"
 echo "[run] PHASE_A_RESUME_CHECKPOINT=${PHASE_A_RESUME_CHECKPOINT:-<none>}"
 echo "[run] PHASE_B_RESUME_CHECKPOINT=${PHASE_B_RESUME_CHECKPOINT:-<none>}"
+echo "[run] NUM_GENERATIONS=${NUM_GENERATIONS} INTERSPEECH_GROUP_SIZE=${INTERSPEECH_GROUP_SIZE}"
+echo "[run] MAX_LENGTH=${MAX_LENGTH} MAX_COMPLETION_LENGTH=${MAX_COMPLETION_LENGTH} MAX_PIXELS=${MAX_PIXELS:-<default>}"
+echo "[run] PER_DEVICE_TRAIN_BATCH_SIZE=${PER_DEVICE_TRAIN_BATCH_SIZE} PER_DEVICE_EVAL_BATCH_SIZE=${PER_DEVICE_EVAL_BATCH_SIZE} GRADIENT_ACCUMULATION_STEPS=${GRADIENT_ACCUMULATION_STEPS}"
+echo "[run] DEEPSPEED=${DEEPSPEED} USE_VLLM=${USE_VLLM} GRADIENT_CHECKPOINTING=${GRADIENT_CHECKPOINTING}"
+echo "[run] EVAL_STRATEGY=${EVAL_STRATEGY} EVAL_STEPS=${EVAL_STEPS} SAVE_STEPS=${SAVE_STEPS}"
 
 get_latest_output_checkpoint() {
   local search_root="$1"
@@ -121,16 +139,28 @@ if [[ "${DEEPSPEED}" != "none" && -n "${DEEPSPEED}" ]]; then
   DEEPSPEED_ARGS=(--deepspeed "${DEEPSPEED}")
 fi
 
+MAX_PIXELS_ARGS=()
+if [[ -n "${MAX_PIXELS}" ]]; then
+  MAX_PIXELS_ARGS=(--max_pixels "${MAX_PIXELS}")
+fi
+
+VLLM_ARGS=()
+if [[ "${USE_VLLM}" == "true" || "${USE_VLLM}" == "1" ]]; then
+  VLLM_ARGS=(
+    --vllm_mode "${VLLM_MODE}"
+    --vllm_tensor_parallel_size "${VLLM_TP}"
+    --vllm_gpu_memory_utilization "${VLLM_GPU_MEMORY_UTILIZATION}"
+    --sleep_level "${SLEEP_LEVEL}"
+  )
+fi
+
 COMMON_ARGS=(
   --rlhf_type grpo
   --system "${SYSTEM_PROMPT}"
   --external_plugins "${TRAINING_ROOT}/plugins/interspeech_rewards.py"
   --reward_funcs external_interspeech_p2
   --use_vllm "${USE_VLLM}"
-  --vllm_mode "${VLLM_MODE}"
-  --vllm_tensor_parallel_size "${VLLM_TP}"
-  --vllm_gpu_memory_utilization "${VLLM_GPU_MEMORY_UTILIZATION}"
-  --sleep_level "${SLEEP_LEVEL}"
+  "${VLLM_ARGS[@]}"
   --beta "${GRPO_BETA}"
   --num_generations "${NUM_GENERATIONS}"
   --temperature 0.9
@@ -144,17 +174,20 @@ COMMON_ARGS=(
   --torch_dtype bfloat16
   --max_completion_length "${MAX_COMPLETION_LENGTH}"
   --max_length "${MAX_LENGTH}"
+  "${MAX_PIXELS_ARGS[@]}"
   --per_device_train_batch_size "${PER_DEVICE_TRAIN_BATCH_SIZE}"
+  --per_device_eval_batch_size "${PER_DEVICE_EVAL_BATCH_SIZE}"
   --gradient_accumulation_steps "${GRADIENT_ACCUMULATION_STEPS}"
-  --learning_rate 1e-5
-  --weight_decay 0.1
-  --warmup_ratio 0.05
+  --gradient_checkpointing "${GRADIENT_CHECKPOINTING}"
+  --learning_rate "${LEARNING_RATE}"
+  --weight_decay "${WEIGHT_DECAY}"
+  --warmup_ratio "${WARMUP_RATIO}"
   --lr_scheduler_type cosine
-  --logging_steps 20
-  --save_steps 100
-  --save_total_limit 10
-  --dataloader_num_workers 4
-  --dataset_num_proc 4
+  --logging_steps "${LOGGING_STEPS}"
+  --save_steps "${SAVE_STEPS}"
+  --save_total_limit "${SAVE_TOTAL_LIMIT}"
+  --dataloader_num_workers "${DATALOADER_NUM_WORKERS}"
+  --dataset_num_proc "${DATASET_NUM_PROC}"
   "${DEEPSPEED_ARGS[@]}"
   --report_to tensorboard
   --log_completions true
@@ -294,8 +327,8 @@ swift rlhf \
   --model "${PHASE_B_MODEL}" \
   --dataset "${GRPO2_GT_JSON_SWIFT}" \
   --val_dataset "${GRPO2_GT_VAL_JSON_SWIFT}" \
-  --eval_strategy steps \
-  --eval_steps 100 \
+  --eval_strategy "${EVAL_STRATEGY}" \
+  --eval_steps "${EVAL_STEPS}" \
   --output_dir "${PHASE_B_OUTPUT_DIR}" \
   "${PHASE_B_RESUME_ARGS[@]}" \
   --num_train_epochs "${PHASE_B_EPOCHS}" \

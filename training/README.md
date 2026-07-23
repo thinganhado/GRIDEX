@@ -186,12 +186,16 @@ For each valid predicted triplet `[p1, p2, p3]`, the Phase-A builder looks up `(
 MODEL_ID=Qwen/Qwen2.5-VL-3B-Instruct \
 bash training/scripts/03_stage2_sft_query2.sh
 
+# Balanced single-RTX-5090 profile (effective batch remains 64):
+MODEL_ID=/home/gridex/models/Qwen2.5-VL-3B-Instruct \
+bash training/scripts/run_rtx5090.sh sft2
+
 ADAPTER_PATH=/path/to/sft2_query2/checkpoint-N \
 MODEL_ID=Qwen/Qwen2.5-VL-3B-Instruct \
 bash training/scripts/03b_merge_sft2_lora.sh
 ```
 
-SFT-2 is initialized independently from the same base model as SFT-1, matching the reported setup. Defaults are bf16, LLM LoRA 32/64, batch/accumulation 4/8, 2 epochs, learning rate `5e-5`, warmup ratio `0.03`, maximum length 768, and maximum pixels 524288. The vision tower and aligner remain frozen while the LLM adapter learns the position-aligned structured tuple schema. Query 2 defines `P` as `{consonant, vowel, none}`; `none` is used when no phone is aligned. SFT-2 trains only on `_LA_T_` and evaluates on the separate `_LA_D_` file.
+SFT-2 is initialized independently from the same base model as SFT-1, matching the reported setup. Defaults are bf16, LLM LoRA 32/64, batch/accumulation 4/8, 2 epochs, learning rate `5e-5`, warmup ratio `0.03`, maximum length 1408, and maximum pixels 524288. The 1408-token limit is intentional: an audit of the Q2 data at this image resolution found 1,154-1,308 tokens per example, so the former 768-token limit discarded or truncated supervised examples. The vision tower and aligner remain frozen while the LLM adapter learns the position-aligned structured tuple schema. Query 2 defines `P` as `{consonant, vowel, none}`; `none` is used when no phone is aligned. SFT-2 trains only on `_LA_T_` and evaluates on the separate `_LA_D_` file. The RTX 5090 wrapper uses train/eval micro-batches 2/2, accumulation 32, no activation checkpointing, and epoch-level validation/checkpointing; the measured one-step peak was 28.16 GiB on a 32 GiB card.
 
 ## 8. GRPO-2 curriculum
 

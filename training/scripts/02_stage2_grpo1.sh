@@ -25,9 +25,12 @@ TORCH_DTYPE="${TORCH_DTYPE:-bfloat16}"
 SLEEP_LEVEL="${SLEEP_LEVEL:-1}"
 GRPO_BETA="${GRPO_BETA:-0.01}"
 NUM_GENERATIONS="${NUM_GENERATIONS:-8}"
+NUM_GENERATIONS_EVAL="${NUM_GENERATIONS_EVAL:-${NUM_GENERATIONS}}"
 MAX_COMPLETION_LENGTH="${MAX_COMPLETION_LENGTH:-128}"
 MAX_LENGTH="${MAX_LENGTH:-512}"
+MAX_PIXELS="${MAX_PIXELS:-524288}"
 PER_DEVICE_TRAIN_BATCH_SIZE="${PER_DEVICE_TRAIN_BATCH_SIZE:-8}"
+PER_DEVICE_EVAL_BATCH_SIZE="${PER_DEVICE_EVAL_BATCH_SIZE:-${PER_DEVICE_TRAIN_BATCH_SIZE}}"
 GRADIENT_ACCUMULATION_STEPS="${GRADIENT_ACCUMULATION_STEPS:-1}"
 DEEPSPEED="${DEEPSPEED:-zero2}"
 DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-16}"
@@ -122,7 +125,6 @@ mkdir -p "${CACHE_ROOT}/triton" "${CACHE_ROOT}/torch_extensions" "${CACHE_ROOT}/
 export TRITON_CACHE_DIR="${CACHE_ROOT}/triton"
 export TORCH_EXTENSIONS_DIR="${CACHE_ROOT}/torch_extensions"
 export HF_HOME="${CACHE_ROOT}/hf"
-export TRANSFORMERS_CACHE="${HF_HOME}/transformers"
 export HUGGINGFACE_HUB_CACHE="${HF_HOME}/hub"
 export HF_DATASETS_CACHE="${CACHE_ROOT}/datasets"
 export DATASETS_CACHE="${CACHE_ROOT}/datasets"
@@ -154,6 +156,16 @@ if [[ "${DEEPSPEED}" != "none" && -n "${DEEPSPEED}" ]]; then
   DEEPSPEED_ARGS=(--deepspeed "${DEEPSPEED}")
 fi
 
+VLLM_ARGS=(--use_vllm "${USE_VLLM}")
+if [[ "${USE_VLLM,,}" == "true" || "${USE_VLLM}" == "1" ]]; then
+  VLLM_ARGS+=(
+    --vllm_mode "${VLLM_MODE}"
+    --vllm_tensor_parallel_size "${VLLM_TP}"
+    --vllm_gpu_memory_utilization "${VLLM_GPU_MEMORY_UTILIZATION}"
+    --sleep_level "${SLEEP_LEVEL}"
+  )
+fi
+
 # ===== Train GRPO-1 =====
 NPROC_PER_NODE="${NPROC_PER_NODE}" \
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
@@ -166,13 +178,10 @@ swift rlhf \
   --system "${SYSTEM_PROMPT}" \
   --external_plugins "${TRAINING_ROOT}/plugins/interspeech_rewards.py" \
   --reward_funcs external_interspeech_p1 \
-  --use_vllm "${USE_VLLM}" \
-  --vllm_mode "${VLLM_MODE}" \
-  --vllm_tensor_parallel_size "${VLLM_TP}" \
-  --vllm_gpu_memory_utilization "${VLLM_GPU_MEMORY_UTILIZATION}" \
-  --sleep_level "${SLEEP_LEVEL}" \
+  "${VLLM_ARGS[@]}" \
   --beta "${GRPO_BETA}" \
   --num_generations "${NUM_GENERATIONS}" \
+  --num_generations_eval "${NUM_GENERATIONS_EVAL}" \
   --temperature "${TEMPERATURE}" \
   --top_p "${TOP_P}" \
   --tuner_type lora \
@@ -187,7 +196,9 @@ swift rlhf \
   --max_steps -1 \
   --max_completion_length "${MAX_COMPLETION_LENGTH}" \
   --max_length "${MAX_LENGTH}" \
+  --max_pixels "${MAX_PIXELS}" \
   --per_device_train_batch_size "${PER_DEVICE_TRAIN_BATCH_SIZE}" \
+  --per_device_eval_batch_size "${PER_DEVICE_EVAL_BATCH_SIZE}" \
   --gradient_accumulation_steps "${GRADIENT_ACCUMULATION_STEPS}" \
   --learning_rate 1e-5 \
   --weight_decay 0.1 \

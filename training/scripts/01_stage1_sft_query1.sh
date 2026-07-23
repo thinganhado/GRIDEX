@@ -8,6 +8,7 @@ MODEL_ID="${MODEL_ID:-Qwen/Qwen2.5-VL-3B-Instruct}"
 SFT_JSON_SWIFT="${SFT_JSON_SWIFT:-${DATA_ROOT}/processed/stage1_query1_train_swift.json}"
 SFT_VAL_JSON_SWIFT="${SFT_VAL_JSON_SWIFT:-${DATA_ROOT}/processed/stage1_query1_val_swift.json}"
 EVAL_MAX_SAMPLES="${EVAL_MAX_SAMPLES:-}"
+TRAIN_MAX_SAMPLES="${TRAIN_MAX_SAMPLES:-}"
 OUTPUT_DIR="${OUTPUT_DIR:-${OUTPUT_ROOT}/sft1_query1}"
 SYSTEM_PROMPT="As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs."
 SAVE_STEPS="${SAVE_STEPS:-200}"
@@ -15,14 +16,18 @@ MAX_LENGTH="${MAX_LENGTH:-768}"
 MAX_PIXELS="${MAX_PIXELS:-524288}"
 DISABLE_EVAL="${DISABLE_EVAL:-0}"
 NUM_TRAIN_EPOCHS="${NUM_TRAIN_EPOCHS:-3}"
+MAX_STEPS="${MAX_STEPS:--1}"
 PER_DEVICE_TRAIN_BATCH_SIZE="${PER_DEVICE_TRAIN_BATCH_SIZE:-10}"
+PER_DEVICE_EVAL_BATCH_SIZE="${PER_DEVICE_EVAL_BATCH_SIZE:-1}"
 GRADIENT_ACCUMULATION_STEPS="${GRADIENT_ACCUMULATION_STEPS:-1}"
 TORCH_DTYPE="${TORCH_DTYPE:-bfloat16}"
+GRADIENT_CHECKPOINTING="${GRADIENT_CHECKPOINTING:-true}"
 LEARNING_RATE="${LEARNING_RATE:-1e-4}"
 WEIGHT_DECAY="${WEIGHT_DECAY:-0.1}"
 WARMUP_RATIO="${WARMUP_RATIO:-0.03}"
 DATALOADER_NUM_WORKERS="${DATALOADER_NUM_WORKERS:-16}"
 DATASET_NUM_PROC="${DATASET_NUM_PROC:-8}"
+LOGGING_STEPS="${LOGGING_STEPS:-100}"
 DEEPSPEED="${DEEPSPEED:-zero2}"
 TMPDIR_BASE="${TMPDIR_BASE:-/tmp/${USER:-user}_mswift_q1}"
 SFT_DEBUG_GT="${SFT_DEBUG_GT:-1}"
@@ -59,6 +64,7 @@ allowed = [
     "SFT_JSON_SWIFT",
     "SFT_VAL_JSON_SWIFT",
     "EVAL_MAX_SAMPLES",
+    "TRAIN_MAX_SAMPLES",
     "OUTPUT_DIR",
     "OUTPUT_DIR_BASE",
     "RESUME_SEARCH_DIR",
@@ -67,15 +73,19 @@ allowed = [
     "SAVE_STEPS",
     "MAX_LENGTH",
     "NUM_TRAIN_EPOCHS",
+    "MAX_STEPS",
     "DISABLE_EVAL",
     "PER_DEVICE_TRAIN_BATCH_SIZE",
+    "PER_DEVICE_EVAL_BATCH_SIZE",
     "GRADIENT_ACCUMULATION_STEPS",
     "TORCH_DTYPE",
+    "GRADIENT_CHECKPOINTING",
     "LEARNING_RATE",
     "WEIGHT_DECAY",
     "WARMUP_RATIO",
     "DATALOADER_NUM_WORKERS",
     "DATASET_NUM_PROC",
+    "LOGGING_STEPS",
     "AUTO_RESUME",
 ]
 for k in allowed:
@@ -100,7 +110,6 @@ mkdir -p "${CACHE_ROOT}/triton" "${CACHE_ROOT}/torch_extensions" "${CACHE_ROOT}/
 export TRITON_CACHE_DIR="${CACHE_ROOT}/triton"
 export TORCH_EXTENSIONS_DIR="${CACHE_ROOT}/torch_extensions"
 export HF_HOME="${CACHE_ROOT}/hf"
-export TRANSFORMERS_CACHE="${HF_HOME}/transformers"
 export HUGGINGFACE_HUB_CACHE="${HF_HOME}/hub"
 export HF_DATASETS_CACHE="${CACHE_ROOT}/datasets"
 export DATASETS_CACHE="${CACHE_ROOT}/datasets"
@@ -217,6 +226,10 @@ else
   echo "AUTO_RESUME=0; starting fresh."
 fi
 
+TRAIN_DATASET="${SFT_JSON_SWIFT}"
+if [[ -n "${TRAIN_MAX_SAMPLES}" ]]; then
+  TRAIN_DATASET="${TRAIN_DATASET}#${TRAIN_MAX_SAMPLES}"
+fi
 VAL_DATASET="${SFT_VAL_JSON_SWIFT}"
 if [[ -n "${EVAL_MAX_SAMPLES}" ]]; then
   VAL_DATASET="${VAL_DATASET}#${EVAL_MAX_SAMPLES}"
@@ -243,11 +256,12 @@ NPROC_PER_NODE="${NPROC_PER_NODE}" \
 CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
 swift sft \
   --model "${MODEL_ID}" \
-  --dataset "${SFT_JSON_SWIFT}" \
+  --dataset "${TRAIN_DATASET}" \
   "${VAL_DATASET_ARGS[@]}" \
   --system "${SYSTEM_PROMPT}" \
   --tuner_type lora \
   --torch_dtype "${TORCH_DTYPE}" \
+  --gradient_checkpointing "${GRADIENT_CHECKPOINTING}" \
   --lora_rank 8 \
   --lora_alpha 32 \
   --lora_dropout 0.05 \
@@ -256,7 +270,9 @@ swift sft \
   --freeze_vit true \
   --freeze_aligner true \
   --num_train_epochs "${NUM_TRAIN_EPOCHS}" \
+  --max_steps "${MAX_STEPS}" \
   --per_device_train_batch_size "${PER_DEVICE_TRAIN_BATCH_SIZE}" \
+  --per_device_eval_batch_size "${PER_DEVICE_EVAL_BATCH_SIZE}" \
   --gradient_accumulation_steps "${GRADIENT_ACCUMULATION_STEPS}" \
   --max_length "${MAX_LENGTH}" \
   --learning_rate "${LEARNING_RATE}" \
@@ -266,7 +282,7 @@ swift sft \
   "${EVAL_ARGS[@]}" \
   --max_pixels "${MAX_PIXELS}" \
   "${DEEPSPEED_ARGS[@]}" \
-  --logging_steps 100 \
+  --logging_steps "${LOGGING_STEPS}" \
   --save_steps "${SAVE_STEPS}" \
   --save_total_limit 5 \
   --dataloader_num_workers "${DATALOADER_NUM_WORKERS}" \
