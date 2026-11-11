@@ -1,540 +1,0 @@
-Tue Jul 21 07:09:32 +07 2026
-run sh: `/home/gridex/.venvs/gridex/bin/python /home/gridex/src/ms-swift-d9010/swift/cli/infer.py --model /home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged --infer_backend vllm --val_dataset /mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/stage1_query1_train_swift.json --val_dataset_shuffle false --result_path /mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_raw_predictions.jsonl --system As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs. --max_length 24576 --temperature 0.8 --top_p 0.8 --max_new_tokens 128 --vllm_gpu_memory_utilization 0.9 --vllm_max_model_len 24576`
-[INFO:swift] Successfully registered `/home/gridex/src/ms-swift-d9010/swift/dataset/data/dataset_info.json`.
-[INFO:swift] Successfully loaded /home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged/args.json.
-[INFO:swift] Successfully imported external_plugins: ['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'].
-[INFO:swift] rank: -1, local_rank: -1, world_size: 1, local_world_size: 1
-`torch_dtype` is deprecated! Use `dtype` instead!
-[WARNING:swift] Please install the package: `pip install "decord" -U`.
-[INFO:swift] Because len(args.val_dataset) > 0, setting split_dataset_ratio: 0.0
-[INFO:swift] Setting args.eval_human: False
-[INFO:swift] Setting args.lazy_tokenize: True
-[INFO:swift] args: InferArguments(use_ray=False, ray_exp_name=None, device_groups=None, model='/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged', model_type='qwen2_5_vl', model_revision=None, task_type='causal_lm', torch_dtype=torch.bfloat16, attn_impl=None, experts_impl=None, new_special_tokens=[], num_labels=None, problem_type=None, rope_scaling=None, device_map=None, max_memory={}, max_model_len=None, local_repo_path=None, init_strategy=None, template='qwen2_5_vl', system='As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs.', max_length=24576, truncation_strategy='left', max_pixels=None, agent_template=None, norm_bbox=None, use_chat_template=True, padding_side='right', padding_free=False, loss_scale='default', sequence_parallel_size=1, template_backend='swift', response_prefix=None, enable_thinking=None, add_non_thinking_prefix=True, dataset=[], val_dataset=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/stage1_query1_train_swift.json'], cached_dataset=[], cached_val_dataset=[], split_dataset_ratio=0.0, data_seed=42, dataset_num_proc=1, load_from_cache_file=False, dataset_shuffle=True, val_dataset_shuffle=False, streaming=False, interleave_prob=None, stopping_strategy='first_exhausted', shuffle_buffer_size=1000, download_mode='reuse_dataset_if_exists', columns={}, strict=False, remove_unused_columns=True, model_name=None, model_author=None, custom_dataset_info=[], quant_method=None, quant_bits=None, hqq_axis=None, bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_quant_type='nf4', bnb_4bit_use_double_quant=True, bnb_4bit_quant_storage=None, max_new_tokens=128, temperature=0.8, top_k=None, top_p=0.8, repetition_penalty=None, num_beams=1, stream=False, stop_words=[], logprobs=False, top_logprobs=None, structured_outputs_regex=None, tuner_backend='peft', tuner_type='lora', train_type=None, adapters=[], external_plugins=['/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/training/plugins/interspeech_rewards.py'], custom_register_path=[], seed=42, model_kwargs={}, load_args=True, load_data_args=False, packing=False, packing_length=None, packing_num_proc=1, lazy_tokenize=True, use_hf=False, hub_token=None, ddp_timeout=18000000, ddp_backend=None, ignore_args_error=False, use_swift_lora=False, vllm_gpu_memory_utilization=0.9, vllm_tensor_parallel_size=1, vllm_pipeline_parallel_size=1, vllm_enable_expert_parallel=False, vllm_max_num_seqs=256, vllm_max_model_len=24576, vllm_disable_custom_all_reduce=True, vllm_enforce_eager=False, vllm_limit_mm_per_prompt=None, vllm_max_lora_rank=16, vllm_enable_prefix_caching=None, vllm_use_async_engine=False, vllm_quantization=None, vllm_reasoning_parser=None, vllm_disable_cascade_attn=False, vllm_mm_processor_cache_gb=None, vllm_speculative_config=None, vllm_engine_kwargs={}, vllm_data_parallel_size=1, sglang_tp_size=1, sglang_pp_size=1, sglang_dp_size=1, sglang_ep_size=1, sglang_enable_ep_moe=False, sglang_mem_fraction_static=None, sglang_context_length=None, sglang_disable_cuda_graph=False, sglang_quantization=None, sglang_kv_cache_dtype='auto', sglang_enable_dp_attention=False, sglang_disable_custom_all_reduce=True, sglang_speculative_algorithm=None, sglang_speculative_num_steps=None, sglang_speculative_eagle_topk=None, sglang_speculative_num_draft_tokens=None, lmdeploy_tp=1, lmdeploy_session_len=None, lmdeploy_cache_max_entry_count=0.8, lmdeploy_quant_policy=0, lmdeploy_vision_batch_size=1, merge_lora=False, safe_serialization=True, max_shard_size='5GB', infer_backend='vllm', result_path='/mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_raw_predictions.jsonl', write_batch_size=1000, metric=None, max_batch_size=1, val_dataset_sample=None, reranker_use_activation=True)
-[INFO:swift] Global seed set to 42
-[WARNING:swift] Please install the package: `pip install "decord" -U`.
-[INFO:swift] model_kwargs: {'device_map': 'cuda:0', 'dtype': torch.bfloat16}
-The image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To continue using the slow processor, instantiate this class with `use_fast=False`. Note that this behavior will be extended to all models in a future release.
-The tokenizer you are loading from '/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
-[INFO:swift] Setting max_ratio: 200. You can adjust this hyperparameter through the environment variable: `MAX_RATIO`.
-[INFO:swift] Setting frame_factor: 2. You can adjust this hyperparameter through the environment variable: `FRAME_FACTOR`.
-[INFO:swift] Setting fps: 2.0. You can adjust this hyperparameter through the environment variable: `FPS`.
-[INFO:swift] Setting fps_min_frames: 4. You can adjust this hyperparameter through the environment variable: `FPS_MIN_FRAMES`.
-[INFO:swift] Setting fps_max_frames: 768. You can adjust this hyperparameter through the environment variable: `FPS_MAX_FRAMES`.
-[INFO:swift] Setting image_max_token_num: 16384. You can adjust this hyperparameter through the environment variable: `IMAGE_MAX_TOKEN_NUM`.
-[INFO:swift] Setting image_min_token_num: 4. You can adjust this hyperparameter through the environment variable: `IMAGE_MIN_TOKEN_NUM`.
-[INFO:swift] Setting spatial_merge_size: 2. You can adjust this hyperparameter through the environment variable: `SPATIAL_MERGE_SIZE`.
-[INFO:swift] Setting video_max_token_num: 768. You can adjust this hyperparameter through the environment variable: `VIDEO_MAX_TOKEN_NUM`.
-[INFO:swift] Setting video_min_token_num: 128. You can adjust this hyperparameter through the environment variable: `VIDEO_MIN_TOKEN_NUM`.
-[INFO:swift] default_system: 'As an expert in deepfake speech spectrogram forensics, you can detect regions containing deepfake artifacts by analysing spectrogram segments. Return only the JSON array of your three chosen region IDs.'
-[INFO:swift] max_length: 24576
-[INFO:swift] response_prefix: ''
-[INFO:swift] agent_template: hermes
-[INFO:swift] norm_bbox: none
-[INFO:swift] Setting ROOT_IMAGE_DIR: None. You can adjust this hyperparameter through the environment variable: `ROOT_IMAGE_DIR`.
-[INFO:swift] Setting QWENVL_BBOX_FORMAT: legacy. You can adjust this hyperparameter through the environment variable: `QWENVL_BBOX_FORMAT`.
-[INFO:swift] Successfully loaded /home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged/args.json.
-[INFO:swift] Setting model_type: qwen2_5_vl
-[INFO:swift] Setting torch_dtype: torch.bfloat16
-[WARNING:swift] Please install the package: `pip install "decord" -U`.
-[INFO:swift] Setting max_model_len: 24576
-The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
-INFO 07-21 07:09:40 [model.py:514] Resolved architecture: Qwen2_5_VLForConditionalGeneration
-INFO 07-21 07:09:40 [model.py:1661] Using max model len 24576
-INFO 07-21 07:09:40 [scheduler.py:230] Chunked prefill is enabled with max_num_batched_tokens=2048.
-WARNING 07-21 07:09:40 [interface.py:465] Using 'pin_memory=False' as WSL is detected. This may slow down the performance.
-[INFO:swift] Successfully registered `/home/gridex/src/ms-swift-d9010/swift/dataset/data/dataset_info.json`.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:45 [core.py:93] Initializing a V1 LLM engine (v0.13.0) with config: model='/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged', speculative_config=None, tokenizer='/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=24576, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=True, quantization=None, enforce_eager=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False), seed=42, served_model_name=/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'splitting_ops': ['vllm::unified_attention', 'vllm::unified_attention_with_output', 'vllm::unified_mla_attention', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::gdn_attention_core', 'vllm::kda_attention', 'vllm::sparse_attn_indexer'], 'compile_mm_encoder': False, 'compile_sizes': [], 'compile_ranges_split_points': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 2, 4, 8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96, 104, 112, 120, 128, 136, 144, 152, 160, 168, 176, 184, 192, 200, 208, 216, 224, 232, 240, 248, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False}, 'max_cudagraph_capture_size': 512, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False}, 'local_cache_dir': None}
-[0;36m(EngineCore_DP0 pid=430839)[0;0m The tokenizer you are loading from '/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:46 [parallel_state.py:1203] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://172.19.83.88:41137 backend=nccl
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:46 [parallel_state.py:1411] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank 0
-[0;36m(EngineCore_DP0 pid=430839)[0;0m WARNING 07-21 07:09:46 [interface.py:465] Using 'pin_memory=False' as WSL is detected. This may slow down the performance.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m The image processor of type `Qwen2VLImageProcessor` is now loaded as a fast processor by default, even if the model checkpoint was saved with a slow processor. This is a breaking change and may produce slightly different outputs. To continue using the slow processor, instantiate this class with `use_fast=False`. Note that this behavior will be extended to all models in a future release.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m The tokenizer you are loading from '/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m The tokenizer you are loading from '/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:48 [gpu_model_runner.py:3562] Starting to load model /home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged...
-[0;36m(EngineCore_DP0 pid=430839)[0;0m /home/gridex/.venvs/gridex/lib/python3.11/site-packages/tvm_ffi/_optional_torch_c_dlpack.py:181: UserWarning: Failed to JIT torch c dlpack extension, EnvTensorAllocator will not be enabled.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m We recommend installing via `pip install torch-c-dlpack-ext`
-[0;36m(EngineCore_DP0 pid=430839)[0;0m   warnings.warn(
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:50 [mm_encoder_attention.py:104] Using AttentionBackendEnum.FLASH_ATTN for MMEncoderAttention.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:50 [cuda.py:351] Using FLASH_ATTN attention backend out of potential backends: ('FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION')
-[0;36m(EngineCore_DP0 pid=430839)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/2 [00:00<?, ?it/s]
-[0;36m(EngineCore_DP0 pid=430839)[0;0m Loading safetensors checkpoint shards:  50% Completed | 1/2 [00:00<00:00,  1.05it/s]
-[0;36m(EngineCore_DP0 pid=430839)[0;0m Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:02<00:00,  1.16s/it]
-[0;36m(EngineCore_DP0 pid=430839)[0;0m Loading safetensors checkpoint shards: 100% Completed | 2/2 [00:02<00:00,  1.13s/it]
-[0;36m(EngineCore_DP0 pid=430839)[0;0m 
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:52 [default_loader.py:308] Loading weights took 2.27 seconds
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:52 [gpu_model_runner.py:3659] Model loading took 7.1556 GiB memory and 3.534206 seconds
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:53 [gpu_model_runner.py:4446] Encoder cache will be initialized with a budget of 16384 tokens, and profiled with 1 image items of the maximum feature size.
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:58 [backends.py:643] Using cache directory: /home/gridex/.cache/vllm/torch_compile_cache/8e656e4d88/rank_0_0/backbone for vLLM's torch.compile
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:09:58 [backends.py:703] Dynamo bytecode transform time: 3.52 s
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:10:03 [backends.py:261] Cache the graph of compile range (1, 2048) for later use
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:10:04 [backends.py:278] Compiling a graph for compile range (1, 2048) takes 1.33 s
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:10:04 [monitor.py:34] torch.compile takes 4.85 s in total
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:10:04 [gpu_worker.py:375] Available KV cache memory: 19.01 GiB
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:10:05 [kv_cache_utils.py:1291] GPU KV cache size: 553,664 tokens
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:10:05 [kv_cache_utils.py:1296] Maximum concurrency for 24,576 tokens per request: 22.53x
-[0;36m(EngineCore_DP0 pid=430839)[0;0m Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/51 [00:00<?, ?it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   4%|▍         | 2/51 [00:00<00:02, 19.00it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  10%|▉         | 5/51 [00:00<00:02, 22.08it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  16%|█▌        | 8/51 [00:00<00:01, 22.80it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  22%|██▏       | 11/51 [00:00<00:01, 24.10it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  27%|██▋       | 14/51 [00:00<00:01, 24.83it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  33%|███▎      | 17/51 [00:00<00:01, 25.44it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  39%|███▉      | 20/51 [00:00<00:01, 26.12it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  45%|████▌     | 23/51 [00:00<00:01, 26.60it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  51%|█████     | 26/51 [00:01<00:00, 26.52it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  57%|█████▋    | 29/51 [00:01<00:00, 26.15it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  63%|██████▎   | 32/51 [00:01<00:00, 24.58it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  69%|██████▊   | 35/51 [00:01<00:00, 25.37it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  75%|███████▍  | 38/51 [00:01<00:00, 26.00it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  80%|████████  | 41/51 [00:01<00:00, 26.86it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  86%|████████▋ | 44/51 [00:01<00:00, 27.61it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  92%|█████████▏| 47/51 [00:01<00:00, 28.20it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):  98%|█████████▊| 50/51 [00:01<00:00, 28.60it/s]Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 51/51 [00:01<00:00, 25.89it/s]
-[0;36m(EngineCore_DP0 pid=430839)[0;0m Capturing CUDA graphs (decode, FULL):   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graphs (decode, FULL):   3%|▎         | 1/35 [01:08<39:03, 68.91s/it]Capturing CUDA graphs (decode, FULL):  14%|█▍        | 5/35 [01:09<05:08, 10.29s/it]Capturing CUDA graphs (decode, FULL):  26%|██▌       | 9/35 [01:09<02:01,  4.66s/it]Capturing CUDA graphs (decode, FULL):  37%|███▋      | 13/35 [01:09<00:57,  2.63s/it]Capturing CUDA graphs (decode, FULL):  49%|████▊     | 17/35 [01:09<00:29,  1.62s/it]Capturing CUDA graphs (decode, FULL):  60%|██████    | 21/35 [01:09<00:14,  1.06s/it]Capturing CUDA graphs (decode, FULL):  71%|███████▏  | 25/35 [01:09<00:07,  1.41it/s]Capturing CUDA graphs (decode, FULL):  83%|████████▎ | 29/35 [01:09<00:02,  2.05it/s]Capturing CUDA graphs (decode, FULL):  94%|█████████▍| 33/35 [01:09<00:00,  2.93it/s]Capturing CUDA graphs (decode, FULL): 100%|██████████| 35/35 [01:09<00:00,  2.00s/it]
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:11:17 [gpu_model_runner.py:4587] Graph capturing finished in 72 secs, took 0.39 GiB
-[0;36m(EngineCore_DP0 pid=430839)[0;0m INFO 07-21 07:11:17 [core.py:259] init engine (profile, create kv cache, warmup model) took 85.04 seconds
-WARNING 07-21 07:11:18 [sampling_params.py:317] temperature 1e-06 is less than 0.01, which may cause numerical errors nan or inf in tensors. We have maxed it out to 0.01.
-[INFO:swift] Start time of running main: 2026-07-21 07:11:18.382279
-[INFO:swift] swift.__version__: 4.0.0.dev0
-[INFO:swift] request_config: RequestConfig(max_tokens=128, temperature=0.8, top_k=None, top_p=0.8, repetition_penalty=None, num_beams=1, stop=[], seed=None, stream=False, logprobs=False, top_logprobs=None, n=1, best_of=None, presence_penalty=0.0, frequency_penalty=0.0, length_penalty=1.0, return_details=False, structured_outputs_regex=None)
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 10320 examples [00:00, 99711.63 examples/s]Generating train split: 10320 examples [00:00, 99224.54 examples/s]
-Map:   0%|          | 0/10320 [00:00<?, ? examples/s]Map: 100%|██████████| 10320/10320 [00:00<00:00, 909754.67 examples/s]
-Map:   0%|          | 0/10320 [00:00<?, ? examples/s]Map:  58%|█████▊    | 6000/10320 [00:00<00:00, 49879.34 examples/s]Map: 100%|██████████| 10320/10320 [00:00<00:00, 25375.35 examples/s]
-[INFO:swift] val_dataset: Dataset({
-    features: ['messages'],
-    num_rows: 10320
-})
-[INFO:swift] args.result_path: /mnt/c/Users/Admin/Documents/GitHub/GRIDEX/data/processed/q1_grpo1_raw_predictions.jsonl
-  0%|          | 0/10320 [00:00<?, ?it/s]The tokenizer you are loading from '/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
-The tokenizer you are loading from '/home/gridex/training_outputs/grpo1/grpo1_q1_5090_safe_v2/v0-20260717-140034/checkpoint-200-merged' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
-
-  0%|          | 0/1000 [00:00<?, ?it/s][A
-  0%|          | 1/1000 [00:24<6:52:39, 24.78s/it][A
-  0%|          | 3/1000 [00:25<1:48:46,  6.55s/it][A
-  0%|          | 4/1000 [00:25<1:11:44,  4.32s/it][A
-  1%|          | 6/1000 [00:25<36:41,  2.21s/it]  [A
-  1%|          | 8/1000 [00:25<21:58,  1.33s/it][A
-  1%|          | 10/1000 [00:25<14:16,  1.16it/s][A
-  1%|          | 12/1000 [00:25<09:38,  1.71it/s][A
-  1%|▏         | 14/1000 [00:26<06:52,  2.39it/s][A
-  2%|▏         | 16/1000 [00:26<05:05,  3.22it/s][A
-  2%|▏         | 18/1000 [00:26<03:54,  4.19it/s][A
-  2%|▏         | 20/1000 [00:26<02:59,  5.47it/s][A
-  2%|▏         | 22/1000 [00:26<02:53,  5.64it/s][A
-  2%|▏         | 24/1000 [00:26<02:24,  6.74it/s][A
-  3%|▎         | 27/1000 [00:27<02:04,  7.84it/s][A
-  3%|▎         | 29/1000 [00:27<01:51,  8.71it/s][A
-  3%|▎         | 31/1000 [00:27<01:42,  9.46it/s][A
-  3%|▎         | 34/1000 [00:27<01:23, 11.53it/s][A
-  4%|▎         | 36/1000 [00:27<01:16, 12.54it/s][A
-  4%|▍         | 38/1000 [00:28<01:38,  9.77it/s][A
-  4%|▍         | 40/1000 [00:28<01:32, 10.34it/s][A
-  4%|▍         | 42/1000 [00:28<01:22, 11.63it/s][A
-  4%|▍         | 44/1000 [00:28<01:43,  9.21it/s][A
-  5%|▍         | 47/1000 [00:28<01:23, 11.40it/s][A
-  5%|▍         | 49/1000 [00:29<01:36,  9.82it/s][A
-  5%|▌         | 51/1000 [00:29<01:31, 10.38it/s][A
-  5%|▌         | 54/1000 [00:29<01:16, 12.36it/s][A
-  6%|▌         | 56/1000 [00:29<01:10, 13.31it/s][A
-  6%|▌         | 58/1000 [00:29<01:12, 13.01it/s][A
-  6%|▌         | 60/1000 [00:30<01:13, 12.78it/s][A
-  6%|▌         | 62/1000 [00:30<01:30, 10.36it/s][A
-  6%|▋         | 64/1000 [00:30<01:26, 10.86it/s][A
-  7%|▋         | 66/1000 [00:30<01:22, 11.28it/s][A
-  7%|▋         | 69/1000 [00:30<01:10, 13.21it/s][A
-  7%|▋         | 71/1000 [00:31<01:26, 10.74it/s][A
-  7%|▋         | 73/1000 [00:31<01:23, 11.14it/s][A
-  8%|▊         | 75/1000 [00:31<01:20, 11.47it/s][A
-  8%|▊         | 77/1000 [00:31<01:18, 11.69it/s][A
-  8%|▊         | 79/1000 [00:31<01:11, 12.84it/s][A
-  8%|▊         | 82/1000 [00:31<01:22, 11.13it/s][A
-  8%|▊         | 84/1000 [00:32<01:20, 11.45it/s][A
-  9%|▊         | 86/1000 [00:32<01:12, 12.57it/s][A
-  9%|▉         | 88/1000 [00:32<01:13, 12.46it/s][A
-  9%|▉         | 90/1000 [00:32<01:13, 12.42it/s][A
-  9%|▉         | 92/1000 [00:32<01:29, 10.16it/s][A
- 10%|▉         | 95/1000 [00:33<01:13, 12.23it/s][A
- 10%|▉         | 98/1000 [00:33<01:22, 10.95it/s][A
- 10%|█         | 100/1000 [00:33<01:33,  9.61it/s][A
- 10%|█         | 103/1000 [00:33<01:17, 11.52it/s][A
- 11%|█         | 106/1000 [00:33<01:08, 13.13it/s][A
- 11%|█         | 108/1000 [00:34<01:09, 12.92it/s][A
- 11%|█         | 110/1000 [00:34<01:04, 13.77it/s][A
- 11%|█         | 112/1000 [00:34<01:25, 10.33it/s][A
- 12%|█▏        | 115/1000 [00:34<01:11, 12.30it/s][A
- 12%|█▏        | 117/1000 [00:34<01:06, 13.25it/s][A
- 12%|█▏        | 119/1000 [00:35<01:27, 10.07it/s][A
- 12%|█▏        | 121/1000 [00:35<01:23, 10.57it/s][A
- 12%|█▏        | 123/1000 [00:35<01:14, 11.83it/s][A
- 13%|█▎        | 126/1000 [00:35<01:03, 13.67it/s][A
- 13%|█▎        | 128/1000 [00:35<01:24, 10.28it/s][A
- 13%|█▎        | 132/1000 [00:36<01:14, 11.65it/s][A
- 13%|█▎        | 134/1000 [00:36<01:13, 11.74it/s][A
- 14%|█▎        | 136/1000 [00:36<01:13, 11.83it/s][A
- 14%|█▍        | 138/1000 [00:36<01:12, 11.89it/s][A
- 14%|█▍        | 140/1000 [00:36<01:06, 12.95it/s][A
- 14%|█▍        | 142/1000 [00:37<01:07, 12.76it/s][A
- 14%|█▍        | 144/1000 [00:37<01:08, 12.57it/s][A
- 15%|█▍        | 146/1000 [00:37<01:23, 10.20it/s][A
- 15%|█▍        | 148/1000 [00:37<01:40,  8.47it/s][A
- 15%|█▌        | 151/1000 [00:37<01:19, 10.64it/s][A
- 16%|█▌        | 155/1000 [00:38<01:11, 11.89it/s][A
- 16%|█▌        | 157/1000 [00:38<01:10, 11.97it/s][A
- 16%|█▌        | 159/1000 [00:38<01:22, 10.23it/s][A
- 16%|█▌        | 162/1000 [00:38<01:09, 12.09it/s][A
- 16%|█▋        | 164/1000 [00:39<01:26,  9.68it/s][A
- 17%|█▋        | 168/1000 [00:39<01:04, 12.89it/s][A
- 17%|█▋        | 170/1000 [00:39<01:00, 13.64it/s][A
- 17%|█▋        | 172/1000 [00:39<01:02, 13.19it/s][A
- 17%|█▋        | 174/1000 [00:39<01:21, 10.08it/s][A
- 18%|█▊        | 176/1000 [00:40<01:12, 11.32it/s][A
- 18%|█▊        | 178/1000 [00:40<01:11, 11.55it/s][A
- 18%|█▊        | 182/1000 [00:40<01:20, 10.18it/s][A
- 18%|█▊        | 185/1000 [00:40<01:08, 11.85it/s][A
- 19%|█▊        | 187/1000 [00:41<01:07, 11.99it/s][A
- 19%|█▉        | 189/1000 [00:41<01:07, 12.03it/s][A
- 19%|█▉        | 191/1000 [00:41<01:02, 13.01it/s][A
- 19%|█▉        | 193/1000 [00:41<01:02, 12.83it/s][A
- 20%|█▉        | 195/1000 [00:41<01:22,  9.74it/s][A
- 20%|█▉        | 197/1000 [00:42<01:31,  8.79it/s][A
- 20%|██        | 200/1000 [00:42<01:12, 10.98it/s][A
- 20%|██        | 202/1000 [00:42<01:10, 11.30it/s][A
- 20%|██        | 204/1000 [00:42<01:09, 11.48it/s][A
- 21%|██        | 206/1000 [00:42<01:02, 12.61it/s][A
- 21%|██        | 208/1000 [00:43<01:22,  9.60it/s][A
- 21%|██        | 211/1000 [00:43<01:07, 11.75it/s][A
- 21%|██▏       | 213/1000 [00:43<01:01, 12.78it/s][A
- 22%|██▏       | 215/1000 [00:43<01:02, 12.62it/s][A
- 22%|██▏       | 217/1000 [00:43<01:02, 12.46it/s][A
- 22%|██▏       | 220/1000 [00:43<00:55, 14.14it/s][A
- 22%|██▏       | 222/1000 [00:43<00:52, 14.77it/s][A
- 22%|██▏       | 224/1000 [00:44<01:13, 10.56it/s][A
- 23%|██▎       | 226/1000 [00:44<01:10, 10.95it/s][A
- 23%|██▎       | 228/1000 [00:44<01:08, 11.25it/s][A
- 23%|██▎       | 230/1000 [00:44<01:20,  9.61it/s][A
- 23%|██▎       | 232/1000 [00:45<01:15, 10.23it/s][A
- 24%|██▎       | 235/1000 [00:45<01:02, 12.30it/s][A
- 24%|██▎       | 237/1000 [00:45<00:57, 13.29it/s][A
- 24%|██▍       | 239/1000 [00:45<00:58, 12.93it/s][A
- 24%|██▍       | 241/1000 [00:45<00:59, 12.79it/s][A
- 24%|██▍       | 243/1000 [00:45<01:00, 12.59it/s][A
- 24%|██▍       | 245/1000 [00:45<00:55, 13.61it/s][A
- 25%|██▍       | 247/1000 [00:46<01:15, 10.00it/s][A
- 25%|██▍       | 249/1000 [00:46<01:11, 10.53it/s][A
- 25%|██▌       | 251/1000 [00:46<01:21,  9.19it/s][A
- 25%|██▌       | 254/1000 [00:46<01:05, 11.34it/s][A
- 26%|██▌       | 256/1000 [00:47<01:04, 11.59it/s][A
- 26%|██▌       | 258/1000 [00:47<01:15,  9.82it/s][A
- 26%|██▌       | 260/1000 [00:47<01:11, 10.37it/s][A
- 26%|██▋       | 263/1000 [00:47<00:59, 12.39it/s][A
- 26%|██▋       | 265/1000 [00:47<01:11, 10.32it/s][A
- 27%|██▋       | 269/1000 [00:48<00:53, 13.70it/s][A
- 27%|██▋       | 271/1000 [00:48<01:09, 10.55it/s][A
- 27%|██▋       | 273/1000 [00:48<01:02, 11.66it/s][A
- 28%|██▊       | 276/1000 [00:48<00:53, 13.41it/s][A
- 28%|██▊       | 278/1000 [00:49<01:10, 10.31it/s][A
- 28%|██▊       | 280/1000 [00:49<01:02, 11.51it/s][A
- 28%|██▊       | 282/1000 [00:49<01:01, 11.63it/s][A
- 28%|██▊       | 285/1000 [00:49<00:53, 13.40it/s][A
- 29%|██▊       | 287/1000 [00:49<00:54, 13.03it/s][A
- 29%|██▉       | 289/1000 [00:49<00:51, 13.88it/s][A
- 29%|██▉       | 291/1000 [00:50<01:08, 10.30it/s][A
- 29%|██▉       | 293/1000 [00:50<01:05, 10.74it/s][A
- 30%|██▉       | 295/1000 [00:50<01:03, 11.13it/s][A
- 30%|██▉       | 297/1000 [00:50<00:56, 12.37it/s][A
- 30%|██▉       | 299/1000 [00:50<01:14,  9.46it/s][A
- 30%|███       | 301/1000 [00:51<01:09, 10.12it/s][A
- 30%|███       | 303/1000 [00:51<01:00, 11.50it/s][A
- 30%|███       | 305/1000 [00:51<00:59, 11.70it/s][A
- 31%|███       | 307/1000 [00:51<01:15,  9.13it/s][A
- 31%|███       | 310/1000 [00:51<00:56, 12.16it/s][A
- 31%|███       | 312/1000 [00:51<00:56, 12.16it/s][A
- 31%|███▏      | 314/1000 [00:52<00:56, 12.16it/s][A
- 32%|███▏      | 316/1000 [00:52<00:56, 12.12it/s][A
- 32%|███▏      | 318/1000 [00:52<01:07, 10.03it/s][A
- 32%|███▏      | 321/1000 [00:52<01:10,  9.62it/s][A
- 32%|███▎      | 325/1000 [00:53<00:52, 12.92it/s][A
- 33%|███▎      | 327/1000 [00:53<00:49, 13.66it/s][A
- 33%|███▎      | 329/1000 [00:53<00:50, 13.27it/s][A
- 33%|███▎      | 331/1000 [00:53<00:51, 12.99it/s][A
- 33%|███▎      | 333/1000 [00:53<01:02, 10.60it/s][A
- 34%|███▎      | 335/1000 [00:54<01:15,  8.78it/s][A
- 34%|███▎      | 337/1000 [00:54<01:09,  9.58it/s][A
- 34%|███▍      | 339/1000 [00:54<01:00, 10.96it/s][A
- 34%|███▍      | 341/1000 [00:54<00:58, 11.26it/s][A
- 34%|███▍      | 343/1000 [00:54<00:57, 11.51it/s][A
- 34%|███▍      | 345/1000 [00:54<00:56, 11.69it/s][A
- 35%|███▍      | 347/1000 [00:55<01:07,  9.74it/s][A
- 35%|███▌      | 350/1000 [00:55<00:54, 11.88it/s][A
- 35%|███▌      | 352/1000 [00:55<00:54, 11.99it/s][A
- 35%|███▌      | 354/1000 [00:55<00:54, 11.96it/s][A
- 36%|███▌      | 357/1000 [00:55<00:43, 14.88it/s][A
- 36%|███▌      | 359/1000 [00:55<00:45, 14.11it/s][A
- 36%|███▌      | 361/1000 [00:56<01:01, 10.37it/s][A
- 36%|███▋      | 363/1000 [00:56<00:54, 11.62it/s][A
- 36%|███▋      | 365/1000 [00:56<00:54, 11.76it/s][A
- 37%|███▋      | 369/1000 [00:56<00:52, 11.91it/s][A
- 37%|███▋      | 371/1000 [00:57<00:48, 12.85it/s][A
- 37%|███▋      | 373/1000 [00:57<00:49, 12.74it/s][A
- 38%|███▊      | 375/1000 [00:57<00:49, 12.64it/s][A
- 38%|███▊      | 377/1000 [00:57<00:59, 10.41it/s][A
- 38%|███▊      | 379/1000 [00:57<00:57, 10.82it/s][A
- 38%|███▊      | 381/1000 [00:58<01:10,  8.80it/s][A
- 38%|███▊      | 384/1000 [00:58<00:52, 11.72it/s][A
- 39%|███▊      | 386/1000 [00:58<00:51, 11.83it/s][A
- 39%|███▉      | 388/1000 [00:58<00:51, 11.91it/s][A
- 39%|███▉      | 390/1000 [00:58<00:51, 11.96it/s][A
- 39%|███▉      | 392/1000 [00:58<00:50, 11.98it/s][A
- 39%|███▉      | 394/1000 [00:59<00:46, 13.11it/s][A
- 40%|███▉      | 396/1000 [00:59<00:47, 12.81it/s][A
- 40%|███▉      | 398/1000 [00:59<01:12,  8.27it/s][A
- 40%|████      | 401/1000 [00:59<00:57, 10.47it/s][A
- 40%|████      | 404/1000 [00:59<00:48, 12.34it/s][A
- 41%|████      | 406/1000 [01:00<00:57, 10.39it/s][A
- 41%|████      | 409/1000 [01:00<00:48, 12.22it/s][A
- 41%|████      | 412/1000 [01:00<00:42, 13.70it/s][A
- 41%|████▏     | 414/1000 [01:00<00:52, 11.15it/s][A
- 42%|████▏     | 416/1000 [01:01<00:51, 11.44it/s][A
- 42%|████▏     | 418/1000 [01:01<01:02,  9.29it/s][A
- 42%|████▏     | 421/1000 [01:01<00:51, 11.32it/s][A
- 42%|████▏     | 424/1000 [01:01<00:41, 13.97it/s][A
- 43%|████▎     | 426/1000 [01:01<00:42, 13.50it/s][A
- 43%|████▎     | 428/1000 [01:02<00:56, 10.20it/s][A
- 43%|████▎     | 430/1000 [01:02<00:49, 11.45it/s][A
- 43%|████▎     | 432/1000 [01:02<00:48, 11.66it/s][A
- 43%|████▎     | 434/1000 [01:02<00:48, 11.79it/s][A
- 44%|████▎     | 436/1000 [01:02<00:47, 11.88it/s][A
- 44%|████▍     | 438/1000 [01:03<00:56,  9.88it/s][A
- 44%|████▍     | 440/1000 [01:03<00:53, 10.48it/s][A
- 44%|████▍     | 442/1000 [01:03<00:51, 10.89it/s][A
- 44%|████▍     | 444/1000 [01:03<00:59,  9.36it/s][A
- 45%|████▍     | 447/1000 [01:03<00:47, 11.63it/s][A
- 45%|████▌     | 450/1000 [01:03<00:41, 13.34it/s][A
- 45%|████▌     | 453/1000 [01:04<00:44, 12.31it/s][A
- 46%|████▌     | 455/1000 [01:04<00:44, 12.24it/s][A
- 46%|████▌     | 457/1000 [01:04<00:44, 12.21it/s][A
- 46%|████▌     | 459/1000 [01:04<00:44, 12.21it/s][A
- 46%|████▌     | 461/1000 [01:05<00:53, 10.16it/s][A
- 46%|████▋     | 463/1000 [01:05<00:50, 10.65it/s][A
- 46%|████▋     | 465/1000 [01:05<00:48, 11.07it/s][A
- 47%|████▋     | 467/1000 [01:05<00:43, 12.32it/s][A
- 47%|████▋     | 469/1000 [01:05<00:43, 12.29it/s][A
- 47%|████▋     | 471/1000 [01:05<00:42, 12.33it/s][A
- 47%|████▋     | 473/1000 [01:05<00:42, 12.32it/s][A
- 48%|████▊     | 475/1000 [01:06<00:51, 10.10it/s][A
- 48%|████▊     | 477/1000 [01:06<00:49, 10.67it/s][A
- 48%|████▊     | 479/1000 [01:06<00:46, 11.10it/s][A
- 48%|████▊     | 481/1000 [01:06<00:41, 12.37it/s][A
- 48%|████▊     | 483/1000 [01:06<00:41, 12.33it/s][A
- 48%|████▊     | 485/1000 [01:07<00:42, 12.25it/s][A
- 49%|████▊     | 487/1000 [01:07<00:42, 12.20it/s][A
- 49%|████▉     | 489/1000 [01:07<00:51, 10.01it/s][A
- 49%|████▉     | 492/1000 [01:07<00:52,  9.68it/s][A
- 49%|████▉     | 494/1000 [01:07<00:49, 10.30it/s][A
- 50%|████▉     | 497/1000 [01:08<00:38, 13.18it/s][A
- 50%|████▉     | 499/1000 [01:08<00:38, 12.94it/s][A
- 50%|█████     | 501/1000 [01:08<00:39, 12.74it/s][A
- 50%|█████     | 503/1000 [01:08<00:39, 12.53it/s][A
- 50%|█████     | 505/1000 [01:08<00:36, 13.55it/s][A
- 51%|█████     | 507/1000 [01:08<00:37, 13.22it/s][A
- 51%|█████     | 509/1000 [01:09<00:49,  9.86it/s][A
- 51%|█████     | 511/1000 [01:09<00:55,  8.84it/s][A
- 51%|█████▏    | 514/1000 [01:09<00:44, 11.03it/s][A
- 52%|█████▏    | 516/1000 [01:09<00:42, 11.27it/s][A
- 52%|█████▏    | 520/1000 [01:10<00:38, 12.37it/s][A
- 52%|█████▏    | 522/1000 [01:10<00:38, 12.31it/s][A
- 52%|█████▏    | 524/1000 [01:10<00:48,  9.76it/s][A
- 53%|█████▎    | 529/1000 [01:10<00:30, 15.39it/s][A
- 53%|█████▎    | 532/1000 [01:11<00:43, 10.70it/s][A
- 53%|█████▎    | 534/1000 [01:11<00:40, 11.64it/s][A
- 54%|█████▎    | 536/1000 [01:11<00:39, 11.75it/s][A
- 54%|█████▍    | 538/1000 [01:11<00:38, 11.85it/s][A
- 54%|█████▍    | 540/1000 [01:11<00:38, 11.89it/s][A
- 54%|█████▍    | 542/1000 [01:11<00:35, 12.95it/s][A
- 54%|█████▍    | 544/1000 [01:12<00:35, 12.67it/s][A
- 55%|█████▍    | 546/1000 [01:12<00:46,  9.69it/s][A
- 55%|█████▍    | 548/1000 [01:12<00:43, 10.30it/s][A
- 55%|█████▌    | 550/1000 [01:12<00:38, 11.66it/s][A
- 55%|█████▌    | 552/1000 [01:12<00:48,  9.21it/s][A
- 55%|█████▌    | 554/1000 [01:13<00:44,  9.93it/s][A
- 56%|█████▌    | 556/1000 [01:13<00:39, 11.32it/s][A
- 56%|█████▌    | 558/1000 [01:13<00:38, 11.54it/s][A
- 56%|█████▌    | 560/1000 [01:13<00:37, 11.74it/s][A
- 56%|█████▌    | 562/1000 [01:13<00:36, 11.85it/s][A
- 56%|█████▋    | 564/1000 [01:14<00:44,  9.83it/s][A
- 57%|█████▋    | 567/1000 [01:14<00:36, 12.01it/s][A
- 57%|█████▋    | 570/1000 [01:14<00:31, 13.70it/s][A
- 57%|█████▋    | 572/1000 [01:14<00:38, 11.07it/s][A
- 57%|█████▋    | 574/1000 [01:14<00:37, 11.32it/s][A
- 58%|█████▊    | 576/1000 [01:14<00:36, 11.55it/s][A
- 58%|█████▊    | 578/1000 [01:15<00:33, 12.70it/s][A
- 58%|█████▊    | 580/1000 [01:15<00:33, 12.53it/s][A
- 58%|█████▊    | 583/1000 [01:15<00:29, 14.21it/s][A
- 58%|█████▊    | 585/1000 [01:15<00:30, 13.60it/s][A
- 59%|█████▊    | 587/1000 [01:15<00:38, 10.85it/s][A
- 59%|█████▉    | 589/1000 [01:16<00:36, 11.19it/s][A
- 59%|█████▉    | 591/1000 [01:16<00:45,  9.05it/s][A
- 59%|█████▉    | 593/1000 [01:16<00:38, 10.45it/s][A
- 60%|█████▉    | 595/1000 [01:16<00:37, 10.92it/s][A
- 60%|█████▉    | 597/1000 [01:16<00:35, 11.24it/s][A
- 60%|██████    | 600/1000 [01:17<00:36, 11.03it/s][A
- 60%|██████    | 602/1000 [01:17<00:35, 11.34it/s][A
- 60%|██████    | 604/1000 [01:17<00:34, 11.54it/s][A
- 61%|██████    | 606/1000 [01:17<00:33, 11.75it/s][A
- 61%|██████    | 608/1000 [01:17<00:39,  9.87it/s][A
- 61%|██████    | 611/1000 [01:18<00:32, 11.98it/s][A
- 61%|██████▏   | 614/1000 [01:18<00:28, 13.61it/s][A
- 62%|██████▏   | 616/1000 [01:18<00:29, 13.19it/s][A
- 62%|██████▏   | 618/1000 [01:18<00:35, 10.74it/s][A
- 62%|██████▏   | 620/1000 [01:18<00:34, 11.14it/s][A
- 62%|██████▏   | 622/1000 [01:18<00:33, 11.43it/s][A
- 62%|██████▏   | 624/1000 [01:19<00:29, 12.60it/s][A
- 63%|██████▎   | 626/1000 [01:19<00:29, 12.54it/s][A
- 63%|██████▎   | 628/1000 [01:19<00:38,  9.58it/s][A
- 63%|██████▎   | 630/1000 [01:19<00:33, 10.98it/s][A
- 63%|██████▎   | 632/1000 [01:19<00:32, 11.26it/s][A
- 63%|██████▎   | 634/1000 [01:20<00:31, 11.50it/s][A
- 64%|██████▎   | 636/1000 [01:20<00:31, 11.68it/s][A
- 64%|██████▍   | 638/1000 [01:20<00:28, 12.87it/s][A
- 64%|██████▍   | 640/1000 [01:20<00:28, 12.68it/s][A
- 64%|██████▍   | 642/1000 [01:20<00:28, 12.56it/s][A
- 64%|██████▍   | 644/1000 [01:20<00:28, 12.47it/s][A
- 65%|██████▍   | 646/1000 [01:21<00:34, 10.20it/s][A
- 65%|██████▍   | 648/1000 [01:21<00:32, 10.75it/s][A
- 65%|██████▌   | 651/1000 [01:21<00:27, 12.80it/s][A
- 65%|██████▌   | 653/1000 [01:21<00:27, 12.59it/s][A
- 66%|██████▌   | 655/1000 [01:21<00:33, 10.40it/s][A
- 66%|██████▌   | 657/1000 [01:22<00:31, 10.83it/s][A
- 66%|██████▌   | 659/1000 [01:22<00:30, 11.18it/s][A
- 66%|██████▌   | 662/1000 [01:22<00:23, 14.25it/s][A
- 66%|██████▋   | 664/1000 [01:22<00:24, 13.61it/s][A
- 67%|██████▋   | 666/1000 [01:22<00:25, 13.15it/s][A
- 67%|██████▋   | 668/1000 [01:22<00:25, 12.87it/s][A
- 67%|██████▋   | 670/1000 [01:23<00:31, 10.39it/s][A
- 67%|██████▋   | 672/1000 [01:23<00:30, 10.82it/s][A
- 67%|██████▋   | 674/1000 [01:23<00:29, 11.20it/s][A
- 68%|██████▊   | 676/1000 [01:23<00:26, 12.45it/s][A
- 68%|██████▊   | 678/1000 [01:23<00:33,  9.53it/s][A
- 68%|██████▊   | 681/1000 [01:24<00:27, 11.71it/s][A
- 68%|██████▊   | 684/1000 [01:24<00:23, 13.43it/s][A
- 69%|██████▊   | 686/1000 [01:24<00:35,  8.90it/s][A
- 69%|██████▉   | 688/1000 [01:24<00:32,  9.59it/s][A
- 69%|██████▉   | 690/1000 [01:24<00:28, 10.90it/s][A
- 69%|██████▉   | 693/1000 [01:25<00:23, 12.82it/s][A
- 70%|██████▉   | 695/1000 [01:25<00:24, 12.59it/s][A
- 70%|██████▉   | 697/1000 [01:25<00:29, 10.40it/s][A
- 70%|███████   | 700/1000 [01:25<00:24, 12.43it/s][A
- 70%|███████   | 702/1000 [01:26<00:30,  9.79it/s][A
- 70%|███████   | 705/1000 [01:26<00:23, 12.56it/s][A
- 71%|███████   | 707/1000 [01:26<00:29,  9.88it/s][A
- 71%|███████   | 711/1000 [01:26<00:22, 13.13it/s][A
- 71%|███████▏  | 713/1000 [01:26<00:26, 10.95it/s][A
- 72%|███████▏  | 715/1000 [01:27<00:25, 11.19it/s][A
- 72%|███████▏  | 717/1000 [01:27<00:24, 11.42it/s][A
- 72%|███████▏  | 719/1000 [01:27<00:24, 11.57it/s][A
- 72%|███████▏  | 721/1000 [01:27<00:21, 12.71it/s][A
- 72%|███████▏  | 723/1000 [01:27<00:22, 12.50it/s][A
- 72%|███████▎  | 725/1000 [01:27<00:22, 12.41it/s][A
- 73%|███████▎  | 727/1000 [01:28<00:22, 12.34it/s][A
- 73%|███████▎  | 729/1000 [01:28<00:26, 10.12it/s][A
- 73%|███████▎  | 732/1000 [01:28<00:21, 12.28it/s][A
- 73%|███████▎  | 734/1000 [01:28<00:25, 10.26it/s][A
- 74%|███████▎  | 736/1000 [01:28<00:24, 10.70it/s][A
- 74%|███████▍  | 738/1000 [01:29<00:23, 11.11it/s][A
- 74%|███████▍  | 741/1000 [01:29<00:19, 13.06it/s][A
- 74%|███████▍  | 743/1000 [01:29<00:24, 10.66it/s][A
- 75%|███████▍  | 746/1000 [01:29<00:20, 12.50it/s][A
- 75%|███████▍  | 748/1000 [01:30<00:25,  9.81it/s][A
- 75%|███████▌  | 750/1000 [01:30<00:22, 11.06it/s][A
- 75%|███████▌  | 754/1000 [01:30<00:16, 14.55it/s][A
- 76%|███████▌  | 756/1000 [01:30<00:22, 10.91it/s][A
- 76%|███████▌  | 758/1000 [01:30<00:20, 11.98it/s][A
- 76%|███████▌  | 760/1000 [01:31<00:25,  9.50it/s][A
- 76%|███████▋  | 763/1000 [01:31<00:20, 11.47it/s][A
- 77%|███████▋  | 766/1000 [01:31<00:16, 14.12it/s][A
- 77%|███████▋  | 768/1000 [01:31<00:17, 13.57it/s][A
- 77%|███████▋  | 770/1000 [01:31<00:17, 13.18it/s][A
- 77%|███████▋  | 772/1000 [01:31<00:17, 12.88it/s][A
- 77%|███████▋  | 774/1000 [01:31<00:16, 13.83it/s][A
- 78%|███████▊  | 776/1000 [01:32<00:22, 10.15it/s][A
- 78%|███████▊  | 778/1000 [01:32<00:26,  8.53it/s][A
- 78%|███████▊  | 781/1000 [01:32<00:19, 11.45it/s][A
- 78%|███████▊  | 784/1000 [01:32<00:16, 13.22it/s][A
- 79%|███████▊  | 786/1000 [01:33<00:16, 12.94it/s][A
- 79%|███████▉  | 788/1000 [01:33<00:19, 10.64it/s][A
- 79%|███████▉  | 790/1000 [01:33<00:19, 11.04it/s][A
- 79%|███████▉  | 792/1000 [01:33<00:18, 11.34it/s][A
- 80%|███████▉  | 795/1000 [01:33<00:15, 13.31it/s][A
- 80%|███████▉  | 797/1000 [01:33<00:14, 14.14it/s][A
- 80%|███████▉  | 799/1000 [01:34<00:19, 10.37it/s][A
- 80%|████████  | 802/1000 [01:34<00:16, 12.36it/s][A
- 80%|████████  | 804/1000 [01:34<00:18, 10.35it/s][A
- 81%|████████  | 806/1000 [01:34<00:17, 10.79it/s][A
- 81%|████████  | 808/1000 [01:35<00:21,  8.90it/s][A
- 81%|████████  | 810/1000 [01:35<00:18, 10.30it/s][A
- 81%|████████  | 812/1000 [01:35<00:17, 10.79it/s][A
- 81%|████████▏ | 814/1000 [01:35<00:16, 11.16it/s][A
- 82%|████████▏ | 816/1000 [01:35<00:16, 11.46it/s][A
- 82%|████████▏ | 818/1000 [01:35<00:14, 12.67it/s][A
- 82%|████████▏ | 820/1000 [01:36<00:14, 12.46it/s][A
- 82%|████████▏ | 822/1000 [01:36<00:18,  9.46it/s][A
- 82%|████████▎ | 825/1000 [01:36<00:13, 12.54it/s][A
- 83%|████████▎ | 827/1000 [01:36<00:13, 12.42it/s][A
- 83%|████████▎ | 829/1000 [01:36<00:13, 12.28it/s][A
- 83%|████████▎ | 831/1000 [01:37<00:13, 12.24it/s][A
- 83%|████████▎ | 834/1000 [01:37<00:14, 11.56it/s][A
- 84%|████████▎ | 836/1000 [01:37<00:14, 11.71it/s][A
- 84%|████████▍ | 838/1000 [01:37<00:13, 11.84it/s][A
- 84%|████████▍ | 840/1000 [01:37<00:13, 11.91it/s][A
- 84%|████████▍ | 842/1000 [01:37<00:12, 13.05it/s][A
- 84%|████████▍ | 844/1000 [01:38<00:15,  9.83it/s][A
- 85%|████████▍ | 846/1000 [01:38<00:14, 10.42it/s][A
- 85%|████████▍ | 848/1000 [01:38<00:12, 11.76it/s][A
- 85%|████████▌ | 850/1000 [01:38<00:12, 11.88it/s][A
- 85%|████████▌ | 852/1000 [01:38<00:12, 11.94it/s][A
- 85%|████████▌ | 854/1000 [01:39<00:12, 11.96it/s][A
- 86%|████████▌ | 856/1000 [01:39<00:11, 13.09it/s][A
- 86%|████████▌ | 858/1000 [01:39<00:11, 12.74it/s][A
- 86%|████████▌ | 860/1000 [01:39<00:11, 12.61it/s][A
- 86%|████████▌ | 862/1000 [01:39<00:11, 12.42it/s][A
- 86%|████████▋ | 864/1000 [01:40<00:16,  8.13it/s][A
- 87%|████████▋ | 867/1000 [01:40<00:12, 10.35it/s][A
- 87%|████████▋ | 869/1000 [01:40<00:12, 10.79it/s][A
- 87%|████████▋ | 871/1000 [01:40<00:10, 12.01it/s][A
- 87%|████████▋ | 873/1000 [01:40<00:10, 12.10it/s][A
- 88%|████████▊ | 875/1000 [01:40<00:10, 12.11it/s][A
- 88%|████████▊ | 877/1000 [01:41<00:10, 12.10it/s][A
- 88%|████████▊ | 879/1000 [01:41<00:12,  9.99it/s][A
- 88%|████████▊ | 881/1000 [01:41<00:11, 10.52it/s][A
- 88%|████████▊ | 883/1000 [01:41<00:12,  9.16it/s][A
- 89%|████████▊ | 886/1000 [01:41<00:10, 11.36it/s][A
- 89%|████████▉ | 888/1000 [01:42<00:09, 11.66it/s][A
- 89%|████████▉ | 890/1000 [01:42<00:09, 11.78it/s][A
- 89%|████████▉ | 892/1000 [01:42<00:08, 12.91it/s][A
- 90%|████████▉ | 895/1000 [01:42<00:07, 14.49it/s][A
- 90%|████████▉ | 897/1000 [01:42<00:09, 10.60it/s][A
- 90%|████████▉ | 899/1000 [01:43<00:08, 11.81it/s][A
- 90%|█████████ | 901/1000 [01:43<00:08, 11.92it/s][A
- 90%|█████████ | 903/1000 [01:43<00:08, 11.99it/s][A
- 90%|█████████ | 905/1000 [01:43<00:07, 12.02it/s][A
- 91%|█████████ | 907/1000 [01:43<00:07, 12.03it/s][A
- 91%|█████████ | 909/1000 [01:43<00:09,  9.95it/s][A
- 91%|█████████ | 911/1000 [01:44<00:08, 10.50it/s][A
- 91%|█████████▏| 913/1000 [01:44<00:07, 10.94it/s][A
- 92%|█████████▏| 915/1000 [01:44<00:06, 12.24it/s][A
- 92%|█████████▏| 917/1000 [01:44<00:06, 12.24it/s][A
- 92%|█████████▏| 919/1000 [01:44<00:06, 12.15it/s][A
- 92%|█████████▏| 921/1000 [01:45<00:07, 10.00it/s][A
- 92%|█████████▏| 924/1000 [01:45<00:06, 12.18it/s][A
- 93%|█████████▎| 926/1000 [01:45<00:06, 12.26it/s][A
- 93%|█████████▎| 928/1000 [01:45<00:05, 12.24it/s][A
- 93%|█████████▎| 930/1000 [01:45<00:06, 10.14it/s][A
- 93%|█████████▎| 932/1000 [01:45<00:06, 10.68it/s][A
- 93%|█████████▎| 934/1000 [01:46<00:05, 11.09it/s][A
- 94%|█████████▎| 936/1000 [01:46<00:06,  9.50it/s][A
- 94%|█████████▍| 940/1000 [01:46<00:04, 13.23it/s][A
- 94%|█████████▍| 943/1000 [01:46<00:04, 11.51it/s][A
- 94%|█████████▍| 945/1000 [01:47<00:04, 12.46it/s][A
- 95%|█████████▍| 947/1000 [01:47<00:05,  9.87it/s][A
- 95%|█████████▌| 950/1000 [01:47<00:04, 11.79it/s][A
- 95%|█████████▌| 952/1000 [01:47<00:03, 12.78it/s][A
- 95%|█████████▌| 954/1000 [01:47<00:03, 12.65it/s][A
- 96%|█████████▌| 956/1000 [01:47<00:03, 12.54it/s][A
- 96%|█████████▌| 958/1000 [01:48<00:03, 12.40it/s][A
- 96%|█████████▌| 961/1000 [01:48<00:02, 15.36it/s][A
- 96%|█████████▋| 963/1000 [01:48<00:04,  8.85it/s][A
- 96%|█████████▋| 965/1000 [01:48<00:03,  9.54it/s][A
- 97%|█████████▋| 967/1000 [01:49<00:03, 10.87it/s][A
- 97%|█████████▋| 969/1000 [01:49<00:02, 11.22it/s][A
- 97%|█████████▋| 971/1000 [01:49<00:02, 11.47it/s][A
- 97%|█████████▋| 973/1000 [01:49<00:02, 11.68it/s][A
- 98%|█████████▊| 975/1000 [01:49<00:01, 12.86it/s][A
- 98%|█████████▊| 977/1000 [01:49<00:01, 12.67it/s][A
- 98%|█████████▊| 979/1000 [01:49<00:01, 12.42it/s][A
- 98%|█████████▊| 985/1000 [01:50<00:00, 21.32it/s][A
-100%|█████████▉| 998/1000 [01:50<00:00, 44.85it/s][A100%|██████████| 1000/1000 [01:50<00:00,  9.07it/s]
- 10%|▉         | 1000/10320 [02:11<20:29,  7.58it/s]
